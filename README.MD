@@ -16,6 +16,15 @@ The most complex data stored and processed by the client is arguably the world a
 
 There exists many renderers that appear to recreate a faithful copy of the original client's rendering output, so the information available should be enough to interpret the original world without visible deficits.
 
+|  Extension | Interpretation  | Contents |
+|---|---|---|
+| GND  | Ground Tile Mesh  | Map geometry (polygons), texture references, lightmap data |
+| GAT | Ground Altitude Data | Terrain altitude (height and flag for walkable tiles) |
+| RSW  | World Resources | Map structure (models/objects to render on top of the terrain)
+
+Note:
+Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entry when I do.
+
 ### Sprites (2D Actors)
 
 All characters, monsters, and NPCs are displayed as 2D sprites with various animations consisting of multiple images for different directions (usually mirrored, so only half of the possible directions have unique representations).
@@ -51,3 +60,7 @@ Finally, something easy! These are just regular WAV or MP3 files, respectively, 
 ### Interface files
 
 They are regular images (bitmaps). Nothing to be said about them, other than that the Korean/ASCII filenames don't translate well and can end up as garbled text on most systems.
+
+## Sources
+
+* [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com/file-format/gnd): Link is now defunct, but can be accessed via Wayback Machine/Internet Archive
