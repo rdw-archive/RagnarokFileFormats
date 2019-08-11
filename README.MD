@@ -63,4 +63,4 @@ They are regular images (bitmaps). Nothing to be said about them, other than tha
 
 ## Sources
 
-* [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com/file-format/gnd): Link is now defunct, but can be accessed via Wayback Machine/Internet Archive
+* [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via Wayback Machine/Internet Archive
