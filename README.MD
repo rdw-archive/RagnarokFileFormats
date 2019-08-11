@@ -59,7 +59,7 @@ Finally, something easy! These are just regular WAV or MP3 files, respectively, 
 
 ### Interface files
 
-They are regular images (bitmaps). Nothing to be said about them, other than that the Korean/ASCII filenames don't translate well and can end up as garbled text on most systems.
+They are regular images (bitmaps). Nothing to be said about them, other than that the Korean/Unicode filenames don't normally translate properly on non-Korean Windows systems and therefore can end up as gibberish.
 
 ## Sources
 
