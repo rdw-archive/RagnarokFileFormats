@@ -1,8 +1,8 @@
 # Gound Altitude Data
 
-GAT files contain two types of information primarily: The altitude of each given tile, and the type of each tile. The latter is used to determine whether or not a given tile is walkable or can be sniped through by actors in the game world, which is only somewhat related to its altitude  (too high = can't snipe nor walk over it, I guess?).
+GAT files contain two types of information primarily: The altitude data for each tile of a map, and the block type. The latter is used to determine whether or not a given tile is walkable or can be sniped through by actors in the game world, which is only somewhat related to its altitude  (too high = can't snipe nor walk over it, I guess?).
 
-All integers are little-endian.
+All numbers are stored as [little-endian](https://en.wikipedia.org/wiki/Endianness), which means that the individual bytes have to be reversed before interpreting the binary data as a number.
 
 ## Layout
 
@@ -14,8 +14,6 @@ This is the structure of each GAT file as far as I was able to determine:
 | Width | 6 | 4 Bytes | int | The horizontal dimensions of the map (maximum X coordinates) |
 | Height | 10 | 4 Bytes | int | The vertical dimensions of the map (maximum Y coordinates) |
 | Tiles | 14+ | 20 Bytes | struct | The given size is per tile (see below for details about the layout) |
-|  |  |  |  |
-|  |  |  |  |
 
 ## Tile Data
 
