@@ -14,15 +14,15 @@ For more info about the technical details, please see the respective file type's
 
 First we shall determine the dimensions (size) of the given map, and the general layout in terms of walkable tiles. This is by far the easiest part, although there are a select few things to keep in mind later on.
 
-Opening a GAT file reveals the following binary data, here represented as hexadecimal strings:
+Opening a GAT file reveals the following binary data, here represented as hexadecimal numbers and regular strings:
 
 ![Binary data contained in a GAT file](https://i.imgur.com/ULz9RNF.png)
 
-At first we see the GAT header (green border), then the map dimensions given in number of tiles (red), and then the individual tile data entries (blue). Since there are a LOT of tiles in each map, but the format is always identical, I've only drawn a border around the first set here.
+At the beginning we recognize the GAT header (green border), then the map dimensions given in number of tiles (red), and then the individual tile data entries (blue). Since there are a LOT of tiles in each map, but the format is always identical, I've only drawn a border around the first set here.
 
-The header is a fixed string ``GRAT\001\002`` and exactly as it should be, so the RO Client will assume the file contains valid altitude data.
+The header is a fixed string ``GRAT\001\002`` and exactly as it should be, so the RO Client will assume the file contains valid altitude data. The last two bytes, ``01 02``, are probably a version number of sorts, but at least for GAT files there only appears to be a single version from what I've seen. For other file formats we need to be a bit more careful, as some come in different versions and may contain additional data fields in the more recent ones, but we shall worry about that when we get there.
 
-The map dimensions are identical, which is typical since the map outline is usually square. This doesn't mean the walkable map area (as experienced ingame) is square, just that the underlying structure is.
+The map dimensions are identical, which is common (though by no means required). This doesn't mean the walkable map area (as experienced ingame) is square, just that the underlying structure is.
 
 Since the numbers are stored in little-endian, we need to reverse the byte order before interpreting the numbers as binary/hexadecimal data. Therefore, the bytes ``18 01 00 00 `` are reversed to ``00 00 01 18`` and can then be interpreted as 32-bit unsigned integers. This is fairly straight-forward (see [converting hexadecimal numbers to the decimal system](https://teachcomputerscience.com/converting-hexadecimal-to-decimal/)) and the result is the decimal number ``280``.
 
@@ -32,7 +32,7 @@ A bit more complex is determining the properties of a given tile. Let's take the
 
 The format here is a bit tricky, since the numbers are stored as single-precision floating points (see [this calculator](https://www.h-schmidt.net/FloatConverter/IEEE754.html)). Because they're also little endian, we have to reverse the byte order once more, and the bytes ``00 00 20 42`` become ``42 20 00 00 ``. This is the decimal value ``40.0``, meaning that the tile is at an altitude (height) of 40.
 
-Now only the type is left, and since we haven't determined the map's water height yet (see below) we will simply note that the bytes ``00 00 00 01`` (again, reversed) will trivially convert to the decimal number ``1``. Apparently, the tile is a basic block that is either walkable (if underwater) or not walkable (if ground level). The latter will most likely be true for a tile at the very edge of the map, but we'll see when we get there!
+Now only the type is left, and since we haven't determined the map's water height yet (see below) we will simply note that the bytes ``00 00 00 01`` (again, reversed) will trivially convert to the decimal number ``1``. Apparently, the tile is a basic block that is either walkable (if underwater) or not walkable (if ground level). The latter will most likely be true for a tile at the very edge of the map, but we'll see about that when we get there!
 
 ## RSW
 
