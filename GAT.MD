@@ -10,10 +10,15 @@ This is the structure of each GAT file as far as I was able to determine:
 
 | Field | Offset | Size | Type | Description and notes |
 |:---:|:---:|:---:|:---:|:---:|
-| Header | 0 | 6 Bytes | int | "GRAT.." as an ASCII-encoded string |
+| Header | 0 | 4 Bytes | int | "GRAT" as an ASCII-encoded string |
+| Version | 4 | 2 Bytes | binary | Versioning information (needs to be investigated further) |
 | Width | 6 | 4 Bytes | int | The horizontal dimensions of the map (maximum X coordinates) |
 | Height | 10 | 4 Bytes | int | The vertical dimensions of the map (maximum Y coordinates) |
 | Tiles | 14+ | 20 Bytes | struct | The given size is per tile (see below for details about the layout) |
+
+The version is most likely two numbers (major, minor) stored directly as binary data. The version ``\001\002`` would indicate something like ``1.2``, which is an inofficial notation I've seen some very old third-party tools use.
+
+For now, I can't say whether the GAT file type has multiple versions and if there are different field definitions for them. I'll update this when I know more, but for the time being it appears as though just one version (1.2) is used in the modern RO client.
 
 ## Tile Data
 
