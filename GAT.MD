@@ -41,7 +41,7 @@ The last field might just be a part of the previous block, which means the Block
 
 ## Block Types
 
-There are several types that determine whether characters can walk over the tile, or snipe through it using ranged attacks and spells. Unfortunately the interpretation of the type isn't straight-forward, as it differs depending on whether or not the tile is considered "underwater".
+There are several types that determine whether units can walk over the tile, or snipe through it using ranged attacks and spells. Unfortunately the interpretation of the type isn't straight-forward, as it differs depending on whether or not the tile is considered "underwater".
 
 	Assumption: A tile is considered "underwater" if the (entire?) block is below the water level that was defined in the RSW file referring to the same map. I'd expect that the highest corner altitude must be below this level for the tile to count as being below water level, but I haven't confirmed this (yet).
 
@@ -65,7 +65,7 @@ The main difference between both types is that the default value of zero will ca
 
 The interpretation for ground tiles is mostly known:
 
-| Value | Walkable | Snipable | Interpretation
+| Value | Walkable | Snipable | Interpretation |
 |:---:|:---:|:---:|:---:|:---:|
 | 0 | YES | ? | Regular walkable block |
 | 1 | NO | ? | Regular non-walkable block |
@@ -82,7 +82,7 @@ I'd assume that walkable tiles are always considered snipable, and non-walkable 
 
 Interpreting underwater tiles is a bit less obvious, but also mostly understood:
 
-| Value | Walkable | Snipable | Interpretation
+| Value | Walkable | Snipable | Interpretation |
 |:---:|:---:|:---:|:---:|:---:|
 | 0 | NO | ? | Not walkable |
 | 1 | YES | ? | Walkable |
@@ -99,11 +99,12 @@ All offsets for the header are given in bytes from the start of the file. The of
 
 Since the header size is fixed but the tile data is not, only the first tile will start at the basic offset. When calculating offsets for subsequent tiles, one needs to account for the size of all previous tile data that came before it and add it to the fixed offset
 
-The header itself must be an ASCII-encoded representation of the string ``GRAT\001\002`` (meaning the hexadecimal bytes ``47 52 41 54 01 02``) in order to be considered valid by the client. This information is otherwise useless and can safely be discarded when working with the files outside of the game, but must be re-added if the goal is to create a map file that the client will read.
+The header itself must be an ASCII-encoded representation of the string ``GRAT`` followed by a binary version number such as ``\001\002`` (meaning the hexadecimal bytes ``47 52 41 54`` and then `` 01 02``) in order to be considered valid by the client. This information is otherwise useless and can safely be discarded when working with the files outside of the game, but must be re-added if the goal is to create a map file that the client will read.
 
 ## TODO
 
 * What about the different versions?
 * Any way to determine what the unknown fields are used for?
-* Tile order? Presumably they start at (0,0) and proceed in direction of the x axis?
+* Tile order? Presumably they start at (0,0) and proceed in direction of the x axis? (linearised to improve cache locality)
 * What is the unit of the altitude? RoBrowser multiplies the float value by 0.2, but I've no idea why
+* Why is the process to determine the isUnderwater property so weird?
