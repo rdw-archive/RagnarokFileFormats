@@ -26,11 +26,13 @@ Each entry represents a block (tile) of the given map, and is structured as foll
 | Altitude | 8 | 4 | float | Altitude at the top left corner, i.e., at (0, Y) relative coordinates |
 | Altitude | 12 | 4 | float | Altitude at the top right corner, i.e., at (X, Y) relative coordinates |
 | Block Type | 16 | 1 | byte | Used to determine walkable/snipable properties (see explanation below) |
-| Unknown | 17 | 3 | int | (I haven't found any information about this field whatsoever) |
+| Unknown | 17 | 3 | int | This might either be unused or part of the previous entry, which would make it int instead of byte
 
 The corners of each tile are adjusted via the altitude parameters to realise many different slope variations.
 
-I believe zero represents the engine's minimum height value (not the ground level as perceived ingame). There may also be some issues if setting them to negative values, or values that are too high for the client to render, but this needs further testing.
+I believe zero represents the engine's minimum height value (and not necessarily the ground level as perceived ingame). There may also be some issues if setting them to negative values, or values that are too high for the client to render, but this needs further testing.
+
+The last field might just be a part of the previous block, which means the Block Type would be stored as a regular int (4 bytes). I haven't yet compared all the map data to see if there is any actual data stored here, so for now this theory is mere conjecture.
 
 ## Block Types
 
