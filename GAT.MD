@@ -31,7 +31,7 @@ Each entry represents a block (tile) of the given map, and is structured as foll
 | Altitude | 8 | 4 | float | Altitude at the top left corner, i.e., at (0, Y) relative coordinates |
 | Altitude | 12 | 4 | float | Altitude at the top right corner, i.e., at (X, Y) relative coordinates |
 | Block Type | 16 | 1 | byte | Used to determine walkable/snipable properties (see explanation below) |
-| Unknown | 17 | 3 | int | This might either be unused or part of the previous entry, which would make it int instead of byte
+| Unknown | 17 | 3 | int | This might either be unused or part of the previous entry, which would make it int instead of byte |
 
 The corners of each tile are adjusted via the altitude parameters to realise many different slope variations.
 
@@ -66,7 +66,7 @@ The main difference between both types is that the default value of zero will ca
 The interpretation for ground tiles is mostly known:
 
 | Value | Walkable | Snipable | Interpretation |
-|:---:|:---:|:---:|:---:|:---:|
+|:---:|:---:|:---:|:---:|
 | 0 | YES | ? | Regular walkable block |
 | 1 | NO | ? | Regular non-walkable block |
 | 2 | NO | NO | Non-walkable water (not snipable) |
@@ -83,7 +83,7 @@ I'd assume that walkable tiles are always considered snipable, and non-walkable 
 Interpreting underwater tiles is a bit less obvious, but also mostly understood:
 
 | Value | Walkable | Snipable | Interpretation |
-|:---:|:---:|:---:|:---:|:---:|
+|:---:|:---:|:---:|:---:|
 | 0 | NO | ? | Not walkable |
 | 1 | YES | ? | Walkable |
 | 2 | NO | NO | Not walkable (and not snipable) |
