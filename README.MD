@@ -14,7 +14,7 @@ Obvious disclaimer: I don't claim ownership of any findings and results of the h
 
 The most complex data stored and processed by the client is arguably the world and environment data. There exist several files that work together to create a representation of the world (maps) and its parameters, which however are not perfectly understood at this time.
 
-There exists many renderers that appear to recreate a faithful copy of the original client's rendering output, so the information available should be enough to interpret the original world without visible deficits.
+There exist several third-party programs that appear to recreate a faithful copy of the original client's rendering output, so the information available should be enough to interpret the original world without visible deficits.
 
 |  Extension | Interpretation  | Contents |
 |---|---|---|
@@ -23,7 +23,7 @@ There exists many renderers that appear to recreate a faithful copy of the origi
 | RSW  | World Resources | Map structure (models/objects to render on top of the terrain)
 
 Note:
-Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entry when I do.
+Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entries when I do.
 
 ### Sprites (2D Actors)
 
