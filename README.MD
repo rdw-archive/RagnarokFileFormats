@@ -12,7 +12,7 @@ Obvious disclaimer: I don't claim ownership of any findings and results of the h
 
 ### World Data (Map files)
 
-The most complex data stored and processed by the client is arguably the world and environment data. There exist several files that work together to create a representation of the world (maps) and its parameters, which however are not perfectly understood at this time.
+The most complex data stored and processed by the client is arguably the world and environment data. There are several files that are combined to create a representation of the world (maps) and its parameters, which however are not perfectly understood at this time.
 
 There exist several third-party programs that appear to recreate a faithful copy of the original client's rendering output, so the information available should be enough to interpret the original world without visible deficits.
 
@@ -60,6 +60,8 @@ Finally, something easy! These are just regular WAV or MP3 files, respectively, 
 ### Interface files
 
 They are regular images (bitmaps). Nothing to be said about them, other than that the Korean/Unicode filenames don't normally translate properly on non-Korean Windows systems and therefore can end up as gibberish.
+
+Only 256 colours are supported and the first palette index is use as transparent background colour. Usually this is the oldschool "pink" with RGB code (``#FF00FF``).
 
 ## Sources
 
