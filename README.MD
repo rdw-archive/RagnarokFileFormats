@@ -31,6 +31,12 @@ All characters, monsters, and NPCs are displayed as 2D sprites with various anim
 
 These may be embedded in collection files that contain additional information, such as sound effects and animations, but technically they're all just simple image files that will be played as individual frames in a predefined order.
 
+|  Extension | Interpretation  | Contents |
+|---|---|---|
+| SPR  | Spritesheet | Sprite images as bitmaps, metadata and the palette (colours used) |
+| ACT | Animation Collection | Keyframes, animation details, and possibly sound effects to be played |
+
+
 Some collection files contain additional sprites, such as shadows (?) or overlay effects, but I haven't been able to find out more about how they are used exactly.
 
 ### Models (3D Objects and Actors)
