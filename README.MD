@@ -66,3 +66,11 @@ Only 256 colours are supported and the first palette index is use as transparent
 ## Sources
 
 * [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via the Wayback Machine/Internet Archive
+* http://mist.in/gratia/ro/spr/ActFileFormatFix.html
+* http://mist.in/gratia/ro/spr/SprFileFormat.html
+* https://rathena.org/board
+* HerculesWS
+* RoBrowser (dysfunctional)
+* Various open-source client implementation attempts (all of which are now abandoned)
+* OpenKore wiki
+* http://openkore.com/index.php/Field_file_format
