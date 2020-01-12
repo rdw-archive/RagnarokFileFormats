@@ -19,8 +19,8 @@ There exist several third-party programs that appear to recreate a faithful copy
 |  Extension | Interpretation  | Contents |
 |---|---|---|
 | GND  | Ground Tile Mesh  | Map geometry (polygons), texture references, lightmap data |
-| GAT | Ground Altitude Data | Terrain altitude (height and flag for walkable tiles) |
-| RSW  | World Resources | Map structure (models/objects to render on top of the terrain)
+| GAT | Ground Altitude and Terrain | Terrain altitude and type (ground, cliff, water) |
+| RSW  | Resources and Water | Map structure (models/objects to render on top of the terrain)
 
 Note:
 Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entries when I do.
@@ -75,8 +75,19 @@ Only 256 colours are supported and the first palette index is use as transparent
 * http://mist.in/gratia/ro/spr/ActFileFormatFix.html
 * http://mist.in/gratia/ro/spr/SprFileFormat.html
 * https://rathena.org/board
-* HerculesWS
-* RoBrowser (dysfunctional)
+* [The Hercules source code](https://github.com/HerculesWS/Hercules)
+* [Vincent Thibault's RoBrowser](https://github.com/vthibault/roBrowser)
+* [Gratia Huang's website](http://mist.in/gratia/ro/)
+* Borf's BrowEdit
 * Various open-source client implementation attempts (all of which are now abandoned)
-* OpenKore wiki
-* http://openkore.com/index.php/Field_file_format
+* [VCS's OpenKore wiki on field types](http://openkore.com/index.php/Field_file_format)
+*
+
+## Tools
+
+Not all tools are equally useful, but you might be interested in seeing how they work with the various file formats if your desire is to learn more about them.
+
+* GATWalker
+* GNDEdit
+* BrowEdit
+* ROMAPCONV9
