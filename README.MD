@@ -25,11 +25,13 @@ There exist several third-party programs that appear to recreate a faithful copy
 Note:
 Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entries when I do.
 
+Update: Many of the older versions are virtually unused, being remnants from the early days of RO development. In all cases, newer versions added new features, which is especially important for the 3D models contained in RSW files. Others seem to barely change anything, like GND 1.6/1.7 and its lightmap data.
+
 ### Sprites (2D Actors)
 
-All characters, monsters, and NPCs are displayed as 2D sprites with various animations consisting of multiple images for different directions (usually mirrored, so only half of the possible directions have unique representations).
+All characters, monsters, and NPCs are displayed as 2D sprites with various animations consisting of multiple images for different view angles, separating a full circle into just eight basic directions. Which direction should be used is determined by the client based on the camera position, i.e. the angle between the camera and the monster's position, and the assumed direction it is currently facing (I think). The latter is probably derived from its movement pattern, since I didn't find any serverside code that would manage this.
 
-These may be embedded in collection files that contain additional information, such as sound effects and animations, but technically they're all just simple image files that will be played as individual frames in a predefined order.
+The information on how to display a given unit's ingame actions is embedded in special collection files that contain additional information, such as sound effects and animations, but technically they're all just simple image files that will be played as individual frames, consisting of one or several layers that can be stacked to display multiple sprites together, in a predefined order.
 
 |  Extension | Interpretation  | Contents |
 |---|---|---|
@@ -37,7 +39,7 @@ These may be embedded in collection files that contain additional information, s
 | ACT | Animation Collection | Keyframes, animation details, and possibly sound effects to be played |
 
 
-Some collection files contain additional sprites, such as shadows (?) or overlay effects, but I haven't been able to find out more about how they are used exactly.
+Some collection files contain additional sprites, such as shadows (?) or overlay effects, which are realized by adding them as layers to the animation sequence. See the respective file entries for additional details on how this is done.
 
 ### Models (3D Objects and Actors)
 
