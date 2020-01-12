@@ -69,20 +69,6 @@ They are regular images (bitmaps). Nothing to be said about them, other than tha
 
 Only 256 colours are supported and the first palette index is use as transparent background colour. Usually this is the oldschool "pink" with RGB code (``#FF00FF``).
 
-## Sources
-
-* [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via the Wayback Machine/Internet Archive
-* http://mist.in/gratia/ro/spr/ActFileFormatFix.html
-* http://mist.in/gratia/ro/spr/SprFileFormat.html
-* https://rathena.org/board
-* [The Hercules source code](https://github.com/HerculesWS/Hercules)
-* [Vincent Thibault's RoBrowser](https://github.com/vthibault/roBrowser)
-* [Gratia Huang's website](http://mist.in/gratia/ro/)
-* Borf's BrowEdit
-* Various open-source client implementation attempts (all of which are now abandoned)
-* [VCS's OpenKore wiki on field types](http://openkore.com/index.php/Field_file_format)
-*
-
 ## Tools
 
 Not all tools are equally useful, but you might be interested in seeing how they work with the various file formats if your desire is to learn more about them.
@@ -116,3 +102,12 @@ While I've no idea what happened there, the source code is once again available 
 So in a way, it is the ultimative tool to aid in understanding the file formats, or it would be if the source was more readily understandable and the things it does much better documented than is unfortunately the case.
 
 [Link @ GitHub](https://github.com/vthibault/roBrowser)
+
+## Sources
+
+* [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via the Wayback Machine/Internet Archive
+* [The Hercules source code](https://github.com/HerculesWS/Hercules)
+* [Vincent Thibault's RoBrowser](https://github.com/vthibault/roBrowser)
+* [Gratia Huang's website](http://mist.in/gratia/ro/)
+* Various open-source client implementation attempts
+* [VCS's OpenKore wiki on field types](http://openkore.com/index.php/Field_file_format)
