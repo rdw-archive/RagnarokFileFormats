@@ -9,6 +9,7 @@ For more info about the technical details, please see the respective file type's
 ## Tools
 
 * A hex editor of your choice: I used [HxD](https://mh-nexus.de/en/hxd/)
+* Basic heightmap generator: [Very basic version I created](https://github.com/SacredDuckwhale/RagnarokTools/)
 
 ## GAT: Altitude data and map dimensions
 
@@ -42,9 +43,20 @@ Instead I have generated the heightmap using a simple average calculation, which
 
 It's a bit blurry because the terrain is quite elated, but we can clearly see how it represents the hills and mountains that frame the scenery, while opening up at ground level so that players can travel north.
 
-
 Now only the block type is left, and since we haven't determined the map's water height yet (see below) we will simply note that the bytes ``00 00 00 01`` (again, reversed) will trivially convert to the decimal number ``1``. Apparently, the tile is a basic block that is either walkable (if underwater) or not walkable (if ground level). The latter will most likely be true for a tile at the very edge of the map, but we'll see about that when we get there!
+
+Ignoring the whole underwater/ground problem, it is possible to visualise the walkable tiles (excluding water) in a similar fashion:
+
+![https://i.imgur.com/G1ieer8.png](https://i.imgur.com/G1ieer8.png)
+
+The green area is a regular walkable block, and the black area represents ground tiles that are not walkable. While there are seven possible terrain types which make up the three categories (ground, cliff, water), this map only uses two of them. All this is still the same info extracted from the GAT file, which hopefully should be well-understood by this time.
+
+For a better view on the actual geometry and especially the water, we'll have to take a look at the remaining file types. I've uploaded a few more terrain maps here, and height maps here, but that's really all there is to the GAT file type.
 
 ## RSW
 
+TODO (Work in Progress)
+
 ## GND
+
+TODO (Work in Progress)
