@@ -16,11 +16,11 @@ The most complex data stored and processed by the client is arguably the world a
 
 There exist several third-party programs that appear to recreate a faithful copy of the original client's rendering output, so the information available should be enough to interpret the original world without visible deficits.
 
-|  Extension | Interpretation  | Contents |
-|---|---|---|
-| GND  | Ground Tile Mesh  | Map geometry (polygons), texture references, lightmap data |
-| GAT | Ground Altitude and Terrain | Terrain altitude and type (ground, cliff, water) |
-| RSW  | Resources and Water | Map structure (models/objects to render on top of the terrain)
+| Extension | Interpretation              | Contents                                                       |
+| --------- | --------------------------- | -------------------------------------------------------------- |
+| GND       | Ground Tile Mesh            | Map geometry (polygons), texture references, lightmap data     |
+| GAT       | Ground Altitude and Terrain | Terrain altitude and type (ground, cliff, water)               |
+| RSW       | Resources and Water         | Map structure (models/objects to render on top of the terrain) |
 
 Note:
 Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entries when I do.
@@ -33,10 +33,10 @@ All characters, monsters, and NPCs are displayed as 2D sprites with various anim
 
 The information on how to display a given unit's ingame actions is embedded in special collection files that contain additional information, such as sound effects and animations, but technically they're all just simple image files that will be played as individual frames, consisting of one or several layers that can be stacked to display multiple sprites together, in a predefined order.
 
-|  Extension | Interpretation  | Contents |
-|---|---|---|
-| SPR  | Spritesheet | Sprite images as bitmaps, metadata and the palette (colours used) |
-| ACT | Animation Collection | Keyframes, animation details, and possibly sound effects to be played |
+| Extension | Interpretation       | Contents                                                              |
+| --------- | -------------------- | --------------------------------------------------------------------- |
+| SPR       | Spritesheet          | Sprite images as bitmaps, metadata and the palette (colours used)     |
+| ACT       | Animation Collection | Keyframes, animation details, and possibly sound effects to be played |
 
 
 Some collection files contain additional sprites, such as shadows (?) or overlay effects, which are realized by adding them as layers to the animation sequence. See the respective file entries for additional details on how this is done.
