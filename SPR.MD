@@ -43,8 +43,6 @@ This simply means that all "runs" of multiple zero bytes in the indexed-color fr
 
 Since its almost guaranteed that many "runs" of the same color appear in the transparent background and rarely, if ever, in the actual sprites, applying RLE to the remaining data wouldn't be helpful in reducing the file size (in fact, it would make it larger as each one-byte indexed-color pixel would be replaced by *two* bytes).
 
-Likewise, applying this to the RGBA frames would be utterly pointless, considering that the same color already used for transparency would take up four times as much space (four-byte RGBA value vs. one-byte palette index) and be similarly invisible.
-
 ## Layout
 
 The file structure differs slightly with the file version, as newer versions added more features. Please consult the tables below for a detailed specification.
