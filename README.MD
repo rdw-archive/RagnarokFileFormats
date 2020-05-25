@@ -69,7 +69,9 @@ Finally, something easy! These are just regular WAV or MP3 files, respectively, 
 
 They are regular images (bitmaps). Nothing to be said about them, other than that the Korean/Unicode filenames don't normally translate properly on non-Korean Windows systems and therefore can end up as gibberish.
 
-Only 256 colours are supported and the first palette index is use as transparent background colour. Usually this is the oldschool "pink" with RGB code (``#FF00FF``).
+Only 256 colours are supported and the first palette index is use as transparent background colour. Usually this is the oldschool "pink" with RGB code (``#FF00FF``), though similar colours can also be occur:
+
+> It's safe to clear anything with red and blue > 0xf0 and green < 0x10
 
 ## Tools
 
@@ -113,6 +115,12 @@ Very similar to RoBrowser, though less complete but slightly easier to understan
 [Link @ GitHub](https://github.com/GodLesZ/rangarok-js)
 
 [Backup fork @ GitHub](https://github.com/SacredDuckwhale/rangarok-js)
+
+## Notes
+
+All numbers found in RO's binary formats are stored as [little-endian](https://en.wikipedia.org/wiki/Endianness), which means that the individual bytes have to be "reversed" before interpreting the binary data as a number.
+
+The coordinate axes for most (all?) vectors found in the game files appear to be "upside down", i.e., the Y-axis (height) is *negative* when referring to *positive* values, as if rotated by 180 degree. See [Concepts/WorldSpace](Concepts/WorldSpace.md) for more details.
 
 ## Sources
 
