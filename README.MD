@@ -105,12 +105,22 @@ So in a way, it is the ultimative tool to aid in understanding the file formats,
 
 [Link @ GitHub](https://github.com/vthibault/roBrowser)
 
+
+### curiosity's RagnarokJS Browser client
+
+Very similar to RoBrowser, though less complete but slightly easier to understand. It's not really documented either, unfortunately, so you'll have to do a lot of digging either way.
+
+[Link @ GitHub](https://github.com/GodLesZ/rangarok-js)
+
+[Backup fork @ GitHub](https://github.com/SacredDuckwhale/rangarok-js)
+
 ## Sources
 
 * [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via Wayback Machine
 * [Rick Sarvas' essay on early-day map editing problems](http://www.neatocool.com/Projects/Ragnarok/Map_Editors_Text/): Similarly defunct, use wayback machine
 * [The Hercules source code](https://github.com/HerculesWS/Hercules): Only deals with GAT files really
 * [Vincent Thibault's RoBrowser](https://github.com/vthibault/roBrowser): ALL the file types in one place, but poorly documented
+* [curiosity's ragnarok-js](https://github.com/GodLesZ/rangarok-js): Not sure if this is the repository, but I haven't found anything that looked "official"
 * [Gratia Huang's website](http://mist.in/gratia/ro/): ACT/SPR details, requires Google Translate and manual conversion to Unicode
-* Various open-source client implementation attempts: Comparing the different approaches helped me
+* [FlavioJS's notes](https://github.com/flaviojs/eathena-devel-FlavioJS/tree/master/client/file_formats), which were very helpful to understand the various differences introduced in later versions of many file types
 * [VCS's OpenKore wiki on field types](http://openkore.com/index.php/Field_file_format): Some more details on GAT terrain types, although sorely lacking
