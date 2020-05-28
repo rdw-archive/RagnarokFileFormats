@@ -47,7 +47,9 @@ Since its almost guaranteed that many "runs" of the same color appear in the tra
 
 ## Layout
 
-The file structure differs slightly with the file version, as newer versions added more features. Please consult the tables below for a detailed specification.
+The file structure differs slightly with each file version, as newer versions added more features. Please consult the tables below for a detailed specification.
+
+It appears that the header encodes the version in reverse, i.e. ``53 50 01 02`` reads as ``SP 1.2`` but it's actually version 2.1 and not 1.2.
 
 ### Version 1.0
 
