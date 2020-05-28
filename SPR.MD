@@ -74,6 +74,8 @@ Rather than using the "system palette" (see above), a 256-color palette consisti
 |   Indexed Bitmaps   |    6+    | variable | struct |  The size depends on the frame count and number of pixels  |
 |       Palette       | EOF-1024 | variable | struct |     Listed in order ABGR, defines the CLUT (see above)     |
 
+I have yet to see this version myself, so I can't confirm these details.
+
 ### Version 2.0
 
 This version introduces images with transparency, which are included as separate RGBA frames defining each pixel and no longer refer to the palette.
@@ -87,6 +89,8 @@ This version introduces images with transparency, which are included as separate
 |   Indexed Bitmaps   |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
 |    RGBA Bitmaps     |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
 |       Palette       | EOF-1024 | variable | struct |     Listed in order ABGR, defines the CLUT (see above)     |
+
+I have yet to see this version myself, so I can't confirm these details.
 
 ### Version 2.1
 
