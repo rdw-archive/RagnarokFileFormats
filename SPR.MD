@@ -108,14 +108,18 @@ Similar to version 2.0, but now the background color (palette color with index 0
 
 ## Tools
 
-There are a variety of tools available to parse SPR files and obtain the image in its raw form:
+There are a variety of tools available to parse SPR files and obtain the image data in its raw form:
 
 * Tokei's GRF Viewer: Allows opening of SPR/ACT even from the GRF. More importantly, it has great visualization for sprites and animations
 * actOR2: Oldschool executable tool that allows editing SPR (and the associated ACT) files
 * SprViewer: Minimalist oldschool executable that extracts SPR data, but doesn't support ACT
-* RagnarokSPR (JS): A plugin I wrote to extract the binary data, for educational purposes
+* RagnarokSPR: A plugin I wrote to extract the binary data, for educational purposes. Only runs in your browser, though
 
-After converting the binary data back to the original (bitmap) form, any image editing software can be used to modify them.
+After converting the binary data back to the original (bitmap) form, any image editing software can be used to modify them. If your goal is to create spritesheets, there's a few options that should work well enough:
+
+* TexturePacker: By far the most-feature rich and easy-to-use offline tool, but it's very limited in its free edition.
+* Bitmap.js: Very basic image processing utilities that I created to automate spritesheet creation. It's not exactly fancy, but it's free!
+* Bitmap.lua: Even more basic offline tool I wrote before the JavaScript/browser version. It doesn't require anything but the executable and of course it's also provided free of charge.
 
 ## TODO
 
