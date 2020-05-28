@@ -16,7 +16,7 @@ In order to understand the SPR file format, some familiarity with the following 
 
 * [RGB](https://en.wikipedia.org/wiki/RGB_color_model) and [alpha channels](https://en.wikipedia.org/wiki/Alpha_compositing): A standard way to define colors and transparency
 * Sprite sheets (see [Texture Atlas](https://en.wikipedia.org/wiki/Texture_atlas)): A straightforward method to combine textures in a reversible way
-* [Palettes](https://en.wikipedia.org/wiki/Palette_(computing)) and [indexed colors](https://en.wikipedia.org/wiki/Indexed_color): By using a predefined lookup table, less space is used to store the pixel data
+* [Palettes](https://en.wikipedia.org/wiki/Palette_(computing)), [bitmaps](https://en.wikipedia.org/wiki/BMP_file_format), and [indexed colors](https://en.wikipedia.org/wiki/Indexed_color): By using a lookup table, less space is used to store pixels
 * [Run-length encoding](https://en.wikipedia.org/wiki/Run-length_encoding): This basic lossless compression algorithm serves to reduce the image's file size
 
 ## Frames
