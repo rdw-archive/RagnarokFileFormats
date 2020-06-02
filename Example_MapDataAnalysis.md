@@ -9,7 +9,8 @@ For more info about the technical details, please see the respective file type's
 ## Tools
 
 * A hex editor of your choice: I used [HxD](https://mh-nexus.de/en/hxd/)
-* Basic heightmap generator: [Very basic version I created](https://github.com/SacredDuckwhale/RagnarokTools/)
+* Basic heightmap generator: [WIP - All of my tools will eventually be located here](https://github.com/SacredDuckwhale/RagnarokTools/)
+* GNDedit to verify our results (see Tools section of README.MD)
 
 ## GAT: Altitude data and map dimensions
 
