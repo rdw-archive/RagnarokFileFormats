@@ -54,5 +54,5 @@ Again they massively saved on file size by providing only one color, which is ap
 
 This concept is known as vertex colors and it works by submitting additional information for a given point in 3D space that is then used by the hardware/GPU software to color it differently. It was widely used in older games where dynamic lighting wasn't feasible due to technical limitations, and it can have a significant effect for barely any effort at all:
 
-In [this basic rendition of pay_dun00](](https://i.imgur.com/HWrzkEE.png)) you can see just the textured terrain with vertex colors applied (lightmaps, models, etc. are not displayed). They're the "blotches" on the ground, which blend in with the rest of the scene after all other effects are applied and give the terrain far more variety.
+In [this basic rendition of pay_dun00](https://i.imgur.com/HWrzkEE.png) you can see just the textured terrain with vertex colors applied (lightmaps, models, etc. are not displayed). They're the "blotches" on the ground, which blend in with the rest of the scene after all other effects are applied and give the terrain far more variety.
 
