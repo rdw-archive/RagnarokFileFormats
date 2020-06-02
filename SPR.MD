@@ -25,7 +25,7 @@ Each frame simply defines the pixel data, width, and height of a bitmap. The way
 
 **Indexed** frames use the color palette that is appended at the end of the file, with each pixel index referring to one of the 256 colors instead of the a RGB(A) value that represents the pixel color (and opacity).
 
-**RGB** frames instead define the pixels as RGBA values. Transparency is only supported starting from version 2.0, with previous versions ignoring the alpha value. These frames always appear after the indexed color images (if any exist)and it is common to see very few to none of those, which is probably due to them taking up more space and only being required for transparency effects.
+**RGB** frames instead define the pixels as RGBA values. Transparency is only supported starting from version 2.0, with previous versions ignoring the alpha value. These frames always appear after the indexed color images (if any exist) and it is common to see very few to none of those, which is probably due to them taking up more space and only being required for transparency effects.
 
 ## Palettes
 
@@ -39,7 +39,7 @@ Disclaimer: Since I haven't seen this version used anywhere, I can't guarantee t
 
 In the later versions, indexed-color pixels that represent the invisible background are compressed using Run-Length Encoding (see above). This doesn't apply to the RGBA frames, however, which are not compressed.
 
-This simply means that all "runs" of multiple (more than two) zero bytes in the indexed-color frames are replaced with ``00 00 ??`` where ``??`` is the number of zeroes replaced (two zero bytes result in ``00``, i.e., a single zero byte). Decompressing then simply removes ``??`` and replaces it with the respective number of zero bytes again.
+This simply means that all "runs" of multiple (more than two) zero bytes in the indexed-color frames are replaced with ``00 ??`` where ``??`` is the number of zeroes replaced (two zero bytes result in ``00``, i.e., a single zero byte). Decompressing then simply removes ``??`` and replaces it with the respective number of zero bytes again.
 
 Since its almost guaranteed that many "runs" of the same color appear in the transparent background and rarely, if ever, in the actual sprites, applying RLE to the remaining data wouldn't be helpful in reducing the file size (in fact, it would make it larger as each one-byte indexed-color pixel would be replaced by *two* bytes).
 
