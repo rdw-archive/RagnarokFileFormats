@@ -24,7 +24,7 @@ As far as textures are concerned, a texture appears to fit on a single tile if i
 
 ### Surfaces
 
-**Surfaces** are the visible areas containing tiles. The entirety of the map's geometry is made out of surfaces, which can be textured or "invisible" and each surface contains exactly two tiles.
+**Surfaces** are the visible areas containing tiles. The entirety of the map's geometry is made out of surfaces, which can be textured or "invisible" and each surface contains exactly four tiles (two in each dimension).
 
 This is mostly of relevance for texturing, since texture slices usually are 64 pixels wide, so larger surfaces that appear seamless in the game are frequently pieced together by individual surfaces to give the appearance of a continuous textured plane (and they're indeed rendered similarly). Unfortunately this can cause problems if texture coordinates aren't applied correctly (and sometimes even if they are), which is why there are visible "gaps" in the terrain that can be seen at the right camera angle and distance.
 
