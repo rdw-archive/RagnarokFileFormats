@@ -223,9 +223,9 @@ Calculating the transformation from 2D to 3D space for any two given anchor poin
 we have to do the following:
 
 1. Invert the ``Y`` axis (here labelled ``V`` axis, since we're working in 2D space)
-2. Translate the pixel coordinates into world coordinates, by mapping it to whatever scaling factor is used. This factor is given in pixels per world unit, which I *think* might be 32 (purely based on the size of the tile selector image, ``grid.tga``)
+2. Translate the pixel coordinates of all the added offsets (body minus head plus displacement, as picture above) into world coordinates, by mapping it to whatever scaling factor is used. This factor is given in pixels per world unit, which I *think* might be 32 (purely based on the size of the tile selector image, ``grid.tga``)
 3. Find the origin of the unit represented by the sprite, in 3D world coordinates (XYZ)
-4. Calculate the translation of those two dimensions (UV) in 3D space (XYZ), according to the formulae given in the picture above,. This usually involves projecting the two UV unit bases ``(1, 0, 0)`` and ``(0, 1, 0)`` to 3D via the camera's view matrix and then scaling them by the amount calculated from all the offsets, in step 2, resulting in the sprite plane's actual 3D transformation that will be perceived as "moving on the UV axis" by the viewer
+4. Calculate the translation of those two dimensions (UV) in 3D space (XYZ), according to the formulae given in the picture above. This usually involves projecting the two UV unit bases ``(1, 0, 0)`` and ``(0, 1, 0)`` to 3D via the camera's view matrix and then scaling them by the amount calculated from all the offsets, in step 2, resulting in the sprite plane's actual 3D transformation that will be perceived as "moving on the UV axis" by the viewer
 5. Translate the origin to the so-calculated anchor point, by simply adding the two
 
 Since this is somewhat complicated, I'll omit further details, but you can contact me or look at the code I wrote if you need to understand the algorithm better.
@@ -237,3 +237,5 @@ There's one more stumbling block, and it's the fact that player characters in RO
 Most notably, you can type /doridori to change your character's look direction, and SHIFT-clicking in the correct pose will alter it without affecting the face direction. Only the STANDING and SITTING poses support look directions, and if you SHIFT-CLICK in any other pose your character will simply change its face direction.
 
 Generally, a player's look direction is equal to its face direction unless manually changed by the above. If interpreted in angles, the look direction consists of three points on a semi-circle (180 degree field of view) representing LEFT, FORWARD, and RIGHT, but face directions are defined by eight points in a full circle (360 degree), with increments of 45 degree and usually sprites having only 2 poses per side which are mirrored and change in increments of 90 degree.
+
+The solution is to fixate the frame index to 0 (looking forward) used by the head sprite if a unit is currently STANDING or SITTING, and to set it to the look direction (1 or 2 for left and right, respectively) otherwise.
