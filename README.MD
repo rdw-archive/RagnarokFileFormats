@@ -66,7 +66,7 @@ Since the format for these appears to be custom or vastly outdated, I haven't fo
 
 ### Effects (Animations)
 
-It should be said that there are MANY effects that were hardcoded into the client itself (sigh). Unfortunately, I was unable to find out much more about this, but it appears to be limited to simpler effects such as particles flying. All the complex animations are provided as separate files, which are mostly understood by now.
+It should be said that there are MANY effects that were hardcoded into the client itself (sigh). Unfortunately, I was unable to find out much more about this, but it appears to be limited to effects involving 3D components, such as particles and geometric primitive shapes. Purely sprite-based animations are provided as separate files, which are mostly understood by now.
 
 Simpler effects also seem to be created by manually animating 2D sprites, so that often only a BMP or TGA image file exists and no compiled (binary) animation file that can be used directly. This ties in with how many effects are hardcoded in the client... and it could potentially make recreating them a challenging task.
 
