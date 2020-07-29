@@ -18,6 +18,10 @@ While information from the SPR file is used to generate the actual bitmaps (imag
 
 Therefore the easiest way to think about ACT files is to simply consider them animation metadata, defining what images to display when and for how long for any given action. For static objects the only action then would be "idle", which means they aren't animated at all.
 
+## Status
+
+Mostly complete
+
 ## Prerequisites
 
 In order to understand the ACT file format, some familiarity with the following concepts is required:
