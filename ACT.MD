@@ -22,6 +22,14 @@ Therefore the easiest way to think about ACT files is to simply consider them an
 
 Mostly complete
 
+## Open Questions
+
+* Incomplete information on anchor points (they have an unknown field containing seemingly random data, not sure if it's actually used though)
+* Are there more anchor points than one (players) or zero (creatures)? I've only seen these two, where the one existing anchor point refers to the body and is used to align the head, weapon, shield, headgear sprites.
+* Are the inconsistent frame timings ignored by the client? If they aren't overridden, visible glitches occur, so presumably they just messed up the data for some frames (e.g., compare the [timings for rogue_female.act](ACT_InconsistentFrameTimings.png ) )
+
+I've been able to render sprite animations correctly, so I figured it'll do for now.
+
 ## Prerequisites
 
 In order to understand the ACT file format, some familiarity with the following concepts is required:
