@@ -8,6 +8,12 @@ Hopefully having it all collected in a git repository will allow the information
 
 Obvious disclaimer: I don't claim ownership of any findings and results of the hard work that others have put into analysing these file formats. Sometimes it's impossible to say who originally discovered the various details due to the passage of time and obscure references I had to consult, but I'll list my sources as best as possible.
 
+## Status
+
+I've analysed and created tools to work with most of the common file formats by now. However, there are many unknowns and smaller details that may still need clearing up in order to understand the formats perfectly. Often these are likely just oddities stemming from the fact that Ragnarok Online uses the old Arcturus engine, so they might not be required to process the files and render their contents correctly.
+
+Newer (post-Renewal) changes may not be reflected accurately in this specification. This is because I only have a 2008 version of the client available, with incomplete debug information no less, and most third-party implementations are also quite ancient.
+
 ## File Types Overview
 
 ### World Data (Map files)
