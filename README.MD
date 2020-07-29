@@ -45,8 +45,9 @@ The information on how to display a given unit's ingame actions is embedded in s
 
 | Extension | Interpretation       | Contents                                                              |
 | --------- | -------------------- | --------------------------------------------------------------------- |
-| SPR       | Spritesheet          | Sprite images as bitmaps, metadata and the palette (colours used)     |
+| SPR       | Spritesheet          | Sprite images as bitmaps, metadata and possibly a RGB palette (colours used)     |
 | ACT       | Animation Collection | Keyframes, animation details, and possibly sound effects to be played |
+| IMF       | Interface Management File (?) | Information required to render sprites correctly on the UI (2D) layer? (seems obsolete)|
 
 
 Some collection files contain additional sprites, such as shadows (?) or overlay effects, which are realized by adding them as layers to the animation sequence. See the respective file entries for additional details on how this is done.
@@ -57,11 +58,23 @@ Very few 3D models have been used for actual monsters, and the formats are somew
 
 Since the format for these appears to be custom or vastly outdated, I haven't found any standard tools to edit them, but people have written software to at least display the models and render them as part of a given map.
 
+| Extension | Interpretation       | Contents                                                              |
+| --------- | -------------------- | --------------------------------------------------------------------- |
+| RSM       | Spritesheet          | Sprite images as bitmaps, metadata and the palette (colours used)     |
+| GR2       | GRANNY2 | 3D models stored in an ancient format once used by the [Granny3D](https://radgametools.com/granny3d) framework |
+| RSX       | ?| Arcturus 3D model format? (doesn't appear to be used anymore) |
+
 ### Effects (Animations)
 
 It should be said that there are MANY effects that were hardcoded into the client itself (sigh). Unfortunately, I was unable to find out much more about this, but it appears to be limited to simpler effects such as particles flying. All the complex animations are provided as separate files, which are mostly understood by now.
 
 Simpler effects also seem to be created by manually animating 2D sprites, so that often only a BMP or TGA image file exists and no compiled (binary) animation file that can be used directly. This ties in with how many effects are hardcoded in the client... and it could potentially make recreating them a challenging task.
+
+| Extension | Interpretation       | Contents                                                              |
+| --------- | -------------------- | --------------------------------------------------------------------- |
+| STR       | ? | Compiled (binary) effects format |
+| EZV       | ? | Raw (text-based) effect format?|
+
 
 ### Script files (Lua and LUB)
 
