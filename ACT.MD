@@ -109,6 +109,14 @@ A layer is essentially the metadata defining each individual sprite instance, an
 
 The information contained tells the client what part of the spritesheet to display, how to scale or position it, tint or mirror it, and may even rotate the image. It's probably easiest to see for yourself how they work using Tokei's GRF Editor or ActEditor.
 
+### Invalid (unused) layers
+
+It can be observed that some sprites seem to contain "empty" layers, which might be leftovers from an earlier version of the game, or were left in there for some other reason. These layers reference sprites with index ``-1``. These are presumably skipped by the client and not rendered, nor animated, in any way.
+
+Example: [ACT_EmptyLayersExample.png](Images/ACT_EmptyLayersExample.png)
+
+In the head sprite for male characters, the first layer appears to be an invisible copy of the second. I've not found any information as to the purpose of this, but it doesn't appear to be relevant to rendering the sprites correctly.
+
 ## Sound Effects
 
 As mentioned above, playing multiple sound effects in a row will cut off those already playing. This means that idle frames are needed to play sounds without animations if a longer sound is desired and there aren't enough frames otherwise.
