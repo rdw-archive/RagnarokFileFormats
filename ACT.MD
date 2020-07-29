@@ -166,12 +166,74 @@ Apparently, there are only two sprite types defined in each ACT, and they seemin
 
 This is where the fun begins! As you may be aware, character sprites consist of different parts, like head, headgear, body, weapon, shield, cart, and they're all different sprites and therefore stored in different ACT/SPR files.
 
-How the client stitches these together is very much akin to Frankenstein's monstrosity, and there are layering issues to be considered, too. The weapon sprites, for example, must be drawn behind or before the body based on the character's direction.
+How the client stitches these together is very much akin to Frankenstein's monstrosity, and there are layering issues to be considered, too.
 
-According to various sources, there exists offsets in some ACT files that allow the client to correct these attachment's positions, but I haven't researched this further.
+### Draw Layers
+
+The weapon sprites, for example, must be drawn behind or before the body based on the character's direction. The draw order should be something like this (WIP):
+
+	RENDERER_SHADOW_SPRITE_DRAW_LAYER = 0
+	RENDERER_BODY_SPRITE_DRAW_LAYER = 1
+	RENDERER_HEAD_SPRITE_DRAW_LAYER = 2
+	RENDERER_HEADGEAR_BOTTOM_SPRITE_DRAW_LAYER = 3
+	RENDERER_HEADGEAR_MID_SPRITE_DRAW_LAYER = 4
+	RENDERER_HEADGEAR_TOP_SPRITE_DRAW_LAYER = 5
+
+In this example, higher draw layers will be drawn over lower ones, just as you'd expect. I've verified this for body, head and shadow sprites only but I presume it to be mostly correct.
+
+**TODO: Verify that these work for equipment, also**
+
+**TODO: What about 2D and 3D effects, the combat log (text plane)?**
+
+These layers also interact with the game world, and avoiding clipping issues is in fact very difficult (or even impossible), depending on the camera's position. I assume this is why they fixated the camera angles, as you can clearly see the sprites being warped when modifiying it beyond what they originally intended.
+
+**TODO: Screenshot and more details, approaches to circumventing it (override shader, forced draw layer priorization, possibly others?)**
+
+### Anchor Points
+
+ACT files for player characters, as well as those for equipment worn by players, contain special information used to anchor sprites of arbitrary sizes together so that they fit perfectly. This is the needle and thread of the stitched abomination they created and it truly was a pain to get right, but it's of crucial importance.
+
+Monster sprites and items don't appear to be containing anchor points, though I've not done an exhaustive search to be sure.
 
 The exact calculation is clearly convoluted, and I only found one source giving more details on this. I have translated the picture they gave here from the Chinese original, with a little help from a friendly Redditor:
 
 ![](Images/coordinatesCorrectionEN.png)
 
-Note that the Y axis is as usually inverted, so the offsets must be interpreted accordingly. Since I still haven't implemented the sprite attachments myself, so I can't give more details on how accurate the calculations are at this time. (**TODO: Update this part once sprite rendering is fully understood**)
+#### Example: Visualization of Anchor Points
+
+In order to really understand this concept, it's probably easiest to just see it in action. As an example, I made a [(very short) visualization video](Videos/ACT_AnchorPointsVisualization.mkv).
+
+In it you will see three anchor points, represented by the three squares positioned with their center directly on the anchor point that is implied by the offsets stored in the ACT file.
+
+The blue one is the sprite's origin, meaning the center of the tile where the unit itself is positioned in the game world. It's the same for both body and head because both are part of the same unit. If you ignore anchor points completely, this is also where the center of the body and the head itself would be rendered, but then the head, equipment etc. will of course look very wrong.
+
+The interesting parts are magenta and yellow: The yellow square is the body's anchor point, as defined in its ACT file, while the magenta one is taken from the head's ACT file. The head sprite is placed exactly in between those two and relocated at every frame, which gives the illusion of both parts being one sprite as they're moving in unison.
+
+You can hopefully see that the center of the head (which is its position in 2D and 3D coordinates) is the point in between the two squares, calculated by simply subtracting them and obtaining the mathematical displacement. Coincidentally (or not), this is exactly what the image above explained, albeit in a more realistic environment.
+
+You can additionally see an arrow depicting the direction the unit is facing in, and the red cube is simply a bounding box placed on the tile the unit is located at, though these aren't immediately relevant to the understanding of anchor points.
+
+#### Calculations
+
+Calculating the transformation from 2D to 3D space for any two given anchor points is a little tricky. For example, taking the frame's anchor point (for the head sprite ``1_male.act``) defined by
+
+    offsetU = 2
+	offsetV = -23
+
+we have to do the following:
+
+1. Invert the ``Y`` axis (here labelled ``V`` axis, since we're working in 2D space)
+2. Translate the pixel coordinates into world coordinates, by mapping it to whatever scaling factor is used. This factor is given in pixels per world unit, which I *think* might be 32 (purely based on the size of the tile selector image, ``grid.tga``)
+3. Find the origin of the unit represented by the sprite, in 3D world coordinates (XYZ)
+4. Calculate the translation of those two dimensions (UV) in 3D space (XYZ), according to the formulae given in the picture above,. This usually involves projecting the two UV unit bases ``(1, 0, 0)`` and ``(0, 1, 0)`` to 3D via the camera's view matrix and then scaling them by the amount calculated from all the offsets, in step 2, resulting in the sprite plane's actual 3D transformation that will be perceived as "moving on the UV axis" by the viewer
+5. Translate the origin to the so-calculated anchor point, by simply adding the two
+
+Since this is somewhat complicated, I'll omit further details, but you can contact me or look at the code I wrote if you need to understand the algorithm better.
+
+#### /doridori and "look directions"
+
+There's one more stumbling block, and it's the fact that player characters in RO can not only have a "face direction"(as visualized by the arrow in the above video), but also a "look direction". This is the direction that the character's *head** is "looking" in, and it doesn't affect the actual face direction, which DOES have implications in the game world, like Backstab not being able to be used on targets that are facing towards you.
+
+Most notably, you can type /doridori to change your character's look direction, and SHIFT-clicking in the correct pose will alter it without affecting the face direction. Only the STANDING and SITTING poses support look directions, and if you SHIFT-CLICK in any other pose your character will simply change its face direction.
+
+Generally, a player's look direction is equal to its face direction unless manually changed by the above. If interpreted in angles, the look direction consists of three points on a semi-circle (180 degree field of view) representing LEFT, FORWARD, and RIGHT, but face directions are defined by eight points in a full circle (360 degree), with increments of 45 degree and usually sprites having only 2 poses per side which are mirrored and change in increments of 90 degree.
