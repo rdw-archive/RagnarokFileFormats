@@ -14,6 +14,10 @@ I've analysed and created tools to work with most of the common file formats by 
 
 Newer (post-Renewal) changes may not be reflected accurately in this specification. This is because I only have a 2008 version of the client available, with incomplete debug information no less, and most third-party implementations are also quite ancient.
 
+## Contributing
+
+Please open an issue or contact me directly via Discord (RDW#9823) if you can contribute in any way! Hopefully, with some help from the community most of unknowns might be eliminated eventually.
+
 ## File Types Overview
 
 ### World Data (Map files)
