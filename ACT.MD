@@ -25,8 +25,8 @@ Mostly complete
 ## Open Questions
 
 * Incomplete information on anchor points (they have an unknown field containing seemingly random data, not sure if it's actually used though)
-* Are there more anchor points than one (players) or zero (creatures)? I've only seen these two, where the one existing anchor point refers to the body and is used to align the head, weapon, shield, headgear sprites.
-* Are the inconsistent frame timings ignored by the client? If they aren't overridden, visible glitches occur, so presumably they just messed up the data for some frames (e.g., compare the [timings for rogue_female.act](ACT_InconsistentFrameTimings.png ) )
+* Are there more anchor points than one (players) or zero (creatures)? I've only seen these two, where the one existing anchor point refers to the body and is used to align the head, weapon, shield, headgear sprites. *Update: The file ``kagerou_male.act`` defines two anchor points, but they're both storing the exact same values. What is the point of this? Are there others? Can we safely ignore them?*
+* Are the inconsistent frame timings ignored by the client? If they aren't overridden, visible glitches occur, so presumably they just messed up the data for some frames (e.g., compare the [timings for rogue_female.act](ACT_InconsistentFrameTimings.png ) ). *Update: I was able to render animations without these glitches by simply forcing all anchored sprites (i.e., head, weapon etc.) to always synchronize themselves with the current frame of the anchor (body sprite) before they're rendered in the scene. So the additional frames are simply skipped and unequal frame timings are ignored?*
 
 I've been able to render sprite animations correctly, so I figured it'll do for now.
 
