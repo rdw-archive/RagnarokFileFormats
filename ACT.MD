@@ -239,3 +239,5 @@ Most notably, you can type /doridori to change your character's look direction, 
 Generally, a player's look direction is equal to its face direction unless manually changed by the above. If interpreted in angles, the look direction consists of three points on a semi-circle (180 degree field of view) representing LEFT, FORWARD, and RIGHT, but face directions are defined by eight points in a full circle (360 degree), with increments of 45 degree and usually sprites having only 2 poses per side which are mirrored and change in increments of 90 degree.
 
 The solution is to fixate the frame index to 0 (looking forward) used by the head sprite if a unit is currently STANDING or SITTING, and to set it to the look direction (1 or 2 for left and right, respectively) otherwise.
+
+*Update: This only works if the animation pose consists of 3 frames. I've now found some headgears that are animated with 27 frames, where 9 frames are used per look direction rather than just one. This means that the calculation will be more complex and needs to take into account the maximum frame index, dividing it by three (the number of look directions), or so I believe.*
