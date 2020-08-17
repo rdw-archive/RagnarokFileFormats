@@ -10,15 +10,23 @@ Obvious disclaimer: I don't claim ownership of any findings and results of the h
 
 ## Status
 
-I've analysed and created tools to work with most of the common file formats by now. However, there are many unknowns and smaller details that may still need clearing up in order to understand the formats perfectly. Often these are likely just oddities stemming from the fact that Ragnarok Online uses the old Arcturus engine, so they might not be required to process the files and render their contents correctly.
+I've analysed and created tools to work with most of the common file formats by now. However, there are many unknowns and smaller details that may still need clearing up in order to understand the formats perfectly.
 
-Newer (post-Renewal) changes may not be reflected accurately in this specification. This is because I only have a 2008 version of the client available, with incomplete debug information no less, and most third-party implementations are also quite ancient.
+Often these are likely to be just oddities stemming from the fact that Ragnarok Online uses the old Arcturus engine, so they might not be required to process the files and render their contents correctly.
+
+Newer (post-Renewal) changes may not be reflected in this specification, though I expect to look into them more once the basics are covered.
 
 ## Contributing
 
-Please open an issue or contact me directly via Discord (RDW#9823) if you can contribute in any way! Hopefully, with some help from the community most of unknowns might be eliminated eventually.
+Please open an issue or contact me directly via Discord (RDW#9823) if you can contribute in any way! Hopefully, with some help from the community most of the unknowns can be eliminated eventually.
 
 ## File Types Overview
+
+All of the file types come in different versions, because *of course they do*. Usually, newer versions add more features while many of the older versions are virtually unused, being remnants from the early days of RO development and Gravity's previous project, [Arcturus: The Curse and Loss of Divinity](https://tcrf.net/Arcturus:_The_Curse_and_Loss_of_Divinity).
+
+They used a custom, in-house engine that was later extended to create Ragnarok Online. It's also most probably why RO's file formats and architecture seem pretty odd, by modern standards.
+
+However, since even the earliest RO clients don't support all of the legacy formats, they will be of limited interest. As existing tools aren't really compatible, researching them further isn't something I'm currently planning on.
 
 ### World Data (Map files)
 
@@ -28,29 +36,25 @@ There exist several third-party programs that appear to recreate a faithful copy
 
 | Extension | Interpretation              | Contents                                                       |
 | --------- | --------------------------- | -------------------------------------------------------------- |
-| GND       | Ground Tile Mesh            | Map geometry (polygons), texture references, lightmap data     |
-| GAT       | Ground Altitude and Terrain | Terrain altitude and type (ground, cliff, water)               |
-| RSW       | Resources and Water         | Map structure (models/objects to render on top of the terrain) |
-
-Note:
-Some (all?) of these file types seem to come in different versions, because *of course they do*. I haven't yet figured out the exact differences, but I'll update the respective entries when I do.
-
-Update: Many of the older versions are virtually unused, being remnants from the early days of RO development. In all cases, newer versions added new features, which is especially important for the 3D models contained in RSW files. Others seem to barely change anything, like GND 1.6/1.7 and its lightmap data.
+| GND       | Ground | Map geometry, texture references, lightmap data     |
+| GAT       | Altitude and Terrain | Terrain altitude and type (ground, cliff, water)               |
+| RSW       | World Resources | 3D objects, water, lights, audio sources, effect emitters |
 
 ### Sprites (2D Actors)
 
-All characters, monsters, and NPCs are displayed as 2D sprites with various animations consisting of multiple images for different view angles, separating a full circle into just eight basic directions. Which direction should be used is determined by the client based on the camera position, i.e. the angle between the camera and the monster's position, and the assumed direction it is currently facing (I think). The latter is probably derived from its movement pattern, since I didn't find any serverside code that would manage this.
+Most characters, monsters, and NPCs are displayed as 2D sprites with their various animations defined as "animation clips", which consist of multiple images. One clip exists for each of the different view angles, separating a full circle into just eight basic directions.
 
-The information on how to display a given unit's ingame actions is embedded in special collection files that contain additional information, such as sound effects and animations, but technically they're all just simple image files that will be played as individual frames, consisting of one or several layers that can be stacked to display multiple sprites together, in a predefined order.
+Which direction should be used is determined by the client based on the camera position, i.e. the angle between the camera and the monster's position, and the assumed direction it is currently facing (I think). The latter is probably derived from its movement pattern, since I didn't find any serverside code that would manage this.
+
+The information on how to display a given unit's ingame actions is embedded in special collection files that contain additional information, such as sound effects to be played as part of the animation.
+
+Animations are composed of simple image files that will be played as individual frames, consisting of one or several layers that can be stacked to display multiple sprites together, in a predefined order, and with various visual changes applied to them, like rotation, scaling, transparency, and coloring.
 
 | Extension | Interpretation       | Contents                                                              |
 | --------- | -------------------- | --------------------------------------------------------------------- |
-| SPR       | Spritesheet          | Sprite images as bitmaps, metadata and possibly a RGB palette (colours used)     |
-| ACT       | Animation Collection | Keyframes, animation details, and possibly sound effects to be played |
-| IMF       | Interface Management File (?) | Information required to render sprites correctly on the UI (2D) layer? (seems obsolete)|
-
-
-Some collection files contain additional sprites, such as shadows (?) or overlay effects, which are realized by adding them as layers to the animation sequence. See the respective file entries for additional details on how this is done.
+| SPR       | Spritesheet          | Sprite images as bitmaps or TGA, metadata and, optionally, an RGB palette     |
+| ACT       | Animation Collection | Keyframes, animation details, and, optionally, sound effects to be played |
+| IMF       | Interface Management File | Information used to render sprites on the UI (2D) layer (seems obsolete?)|
 
 ### Models (3D Objects and Actors)
 
@@ -60,29 +64,35 @@ Since the format for these appears to be custom or vastly outdated, I haven't fo
 
 | Extension | Interpretation       | Contents                                                              |
 | --------- | -------------------- | --------------------------------------------------------------------- |
-| RSM       | Spritesheet          | Sprite images as bitmaps, metadata and the palette (colours used)     |
+| RSM       | Model | 3D models used for objects (and sometimes units) in the game world    |
 | GR2       | GRANNY2 | 3D models stored in an ancient format once used by the [Granny3D](https://radgametools.com/granny3d) framework |
-| RSX       | ?| Arcturus 3D model format? (doesn't appear to be used anymore) |
+| RSX       | ?| Arcturus 3D model format? (doesn't appear to be used in RO) |
 
-### Effects (Animations)
+### Effects
 
-It should be said that there are MANY effects that were hardcoded into the client itself (sigh). Unfortunately, I was unable to find out much more about this, but it appears to be limited to effects involving 3D components, such as particles and geometric primitive shapes. Purely sprite-based animations are provided as separate files, which are mostly understood by now.
+Effects come in several varieties, all of which are processed separately. Some effects simply use the existing ACT/SPR formats, some use a separate compiled (binary) format, some are hardcoded into the client executable and in later versions particle effects can also be generated from settings stored in specific Lua files.
 
-Simpler effects also seem to be created by manually animating 2D sprites, so that often only a BMP or TGA image file exists and no compiled (binary) animation file that can be used directly. This ties in with how many effects are hardcoded in the client... and it could potentially make recreating them a challenging task.
+The hardcoded effects appear to be limited to effects involving 3D components, such as particles and geometric primitive shapes, though they will often use sprites and other textures as part of their animation. Purely sprite-based animations are provided as separate files, which are mostly understood by now.
+
+Particles are configured using the "effect tool" and only seem to be used in recent years, with individual configuration files defining effect emitters for a given map.
 
 | Extension | Interpretation       | Contents                                                              |
 | --------- | -------------------- | --------------------------------------------------------------------- |
 | STR       | ? | Compiled (binary) effects format |
-| EZV       | ? | Raw (text-based) effect format?|
+| EZV       | ? | Raw (text-based) effect format? |
 
-
-### Script files (Lua and LUB)
+### Script and configuration files
 
 Client-side data and Mercenary/Homunculus AI is written in the Lua programming language and embedded in the client itself, or sometimes as text-files with roughly-CSV-like structure (where fields are separated by hash tags).
 
 Lua files are human-readable text files and thus easily understood, even if the creators clearly didn't have readability in mind. LUB files are precompiled Lua files and can be somewhat reversed. This allows one to read much of them, though some information is still lost in the process.
 
 Thankfully, LUB files are only used in Post-Renewal clients (or so it seems), which means that all the classic files are perfectly readable. Converters exist to restore the original table structure from LUB files, though I cannot vouch for their correctness.
+
+| Extension | Interpretation       | Contents                                                              |
+| --------- | -------------------- | --------------------------------------------------------------------- |
+| LUA       | Lua source code | Lua script file |
+| LUB       | Lua bytecode | Precompiled Lua script |
 
 ### Audio files (Music and Sound Effects)
 
