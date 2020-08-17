@@ -14,6 +14,12 @@ The most modern file viewer I could find, which even supports map rendering! Unf
 
 [Link @ rathena.org](https://rathena.org/board/files/file/2766-grf-editor/)
 
+## Tokei's ACT Editor
+
+Uses GRF Editor, but provides a better interface for viewing animations. Also supports anchor points, despite not really explaining their use.
+
+[Link @ rathena.org](https://rathena.org/board/files/file/3304-act-editor/)
+
 ## Borf's BrowEdit
 
 It's a map editor, which allows you to edit maps. I don't think it's very stable and the UI is truly horrendous, but nevertheless there might be some situations where playing around with it can help you to understand the map structures better.
