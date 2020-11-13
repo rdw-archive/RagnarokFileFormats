@@ -96,7 +96,7 @@ I have yet to see this version myself, so I can't confirm these details.
 
 ### Version 2.1
 
-Similar to version 2.0, but now the background color (palette color with index 0) is compressed using RLE.
+Similar to version 2.0, but now all background pixels of the indexed-color bitmaps (i.e., those using the palette color with index 0) are compressed using RLE.
 
 |          Field           |  Offset  |   Size   |  Type  |                   Description and notes                    |
 | :----------------------: | :------: | :------: | :----: | :--------------------------------------------------------: |
