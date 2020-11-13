@@ -104,8 +104,8 @@ Similar to version 2.0, but now the background color (palette color with index 0
 |         Version          |    2     | 2 bytes  | binary |            Versioning information (Major.Minor)            |
 |   Indexed Frame Count    |    4     | 2 bytes  |  int   | The number of individual indexed-color images in the atlas |
 |     RGBA Frame Count     |    6     | 2 bytes  |  int   |     The number of individual RGBA images in the atlas      |
-|     Indexed Bitmaps      |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
-| RLE-Encoded RGBA Bitmaps |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
+|   RLE-Indexed Bitmaps    |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
+|    Encoded RGBA Bitmaps  |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
 |         Palette          | EOF-1024 | variable | struct |     Listed in order ABGR, defines the CLUT (see above)     |
 
 ## Tools
