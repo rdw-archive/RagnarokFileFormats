@@ -112,11 +112,11 @@ Similar to version 2.0, but now all background pixels of the indexed-color bitma
 
 There are a variety of tools available to parse SPR files and obtain the image data in its raw form:
 
-* Tokei's GRF Viewer: Allows opening of SPR/ACT even from the GRF. More importantly, it has great visualization for sprites and animations
-* actOR2: Oldschool executable tool that allows editing SPR (and the associated ACT) files
-* SprViewer: Minimalist oldschool executable that extracts SPR data, but doesn't support ACT
+* [Tokei's GRF Viewer](https://rathena.org/board/topic/77080-grf-grf-editor): Allows opening of SPR/ACT even from the GRF. More importantly, it has great visualization for sprites and animations
+* [actOR2](https://ratemyserver.net/index.php?page=download_tool): Oldschool executable tool that allows editing SPR (and the associated ACT) files
+* [SprViewer](https://ratemyserver.net/index.php?page=download_tool): Minimalist oldschool executable that extracts SPR data, but doesn't support ACT
 
 After converting the binary data back to the original (bitmap) form, any image editing software can be used to modify them. If your goal is to create spritesheets, there's a few options that should work well enough:
 
-* TexturePacker: By far the most-feature rich and easy-to-use offline tool, but it's very limited in its free edition.
 
+* [TexturePacker](https://www.codeandweb.com/texturepacker): By far the most-feature rich and easy-to-use offline tool, but it's very limited in its free edition.
