@@ -58,7 +58,7 @@ In its oldest and most primitive form, a SPR file includes only the very basics 
 |        Field        | Offset |   Size   |  Type  |                   Description and notes                    |
 | :-----------------: | :----: | :------: | :----: | :--------------------------------------------------------: |
 |       Header        |   0    | 2 bytes  |  char  |              "SP" as an ASCII-encoded string               |
-|       Version       |   2    | 2 bytes  | binary |            Versioning information (Major.Minor)            |
+|       Version       |   2    | 2 bytes  | binary |            Versioning information (Minor.Major)            |
 | Indexed Frame Count |   4    | 2 bytes  |  int   | The number of individual indexed-color images in the atlas |
 |       Bitmaps       |   6+   | variable | struct |  The size depends on the frame count and number of pixels  |
 
@@ -71,7 +71,7 @@ Rather than using the "system palette" (see above), a 256-color palette consisti
 |        Field        |  Offset  |   Size   |  Type  |                   Description and notes                    |
 | :-----------------: | :------: | :------: | :----: | :--------------------------------------------------------: |
 |       Header        |    0     | 2 bytes  |  char  |              "SP" as an ASCII-encoded string               |
-|       Version       |    2     | 2 bytes  | binary |            Versioning information (Major.Minor)            |
+|       Version       |    2     | 2 bytes  | binary |            Versioning information (Minor.Major)            |
 | Indexed Frame Count |    4     | 2 bytes  |  int   | The number of individual indexed-color images in the atlas |
 |   Indexed Bitmaps   |    6+    | variable | struct |  The size depends on the frame count and number of pixels  |
 |       Palette       | EOF-1024 | variable | struct |     Listed in order ABGR, defines the CLUT (see above)     |
@@ -85,7 +85,7 @@ This version introduces images with transparency, which are included as separate
 |        Field        |  Offset  |   Size   |  Type  |                   Description and notes                    |
 | :-----------------: | :------: | :------: | :----: | :--------------------------------------------------------: |
 |       Header        |    0     | 2 bytes  |  char  |              "SP" as an ASCII-encoded string               |
-|       Version       |    2     | 2 bytes  | binary |            Versioning information (Major.Minor)            |
+|       Version       |    2     | 2 bytes  | binary |            Versioning information (Minor.Major)            |
 | Indexed Frame Count |    4     | 2 bytes  |  int   | The number of individual indexed-color images in the atlas |
 |  RGBA Frame Count   |    6     | 2 bytes  |  int   |     The number of individual RGBA images in the atlas      |
 |   Indexed Bitmaps   |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
@@ -101,7 +101,7 @@ Similar to version 2.0, but now all background pixels of the indexed-color bitma
 |          Field           |  Offset  |   Size   |  Type  |                   Description and notes                    |
 | :----------------------: | :------: | :------: | :----: | :--------------------------------------------------------: |
 |          Header          |    0     | 2 bytes  |  char  |              "SP" as an ASCII-encoded string               |
-|         Version          |    2     | 2 bytes  | binary |            Versioning information (Major.Minor)            |
+|         Version          |    2     | 2 bytes  | binary |            Versioning information (Minor.Major)            |
 |   Indexed Frame Count    |    4     | 2 bytes  |  int   | The number of individual indexed-color images in the atlas |
 |     RGBA Frame Count     |    6     | 2 bytes  |  int   |     The number of individual RGBA images in the atlas      |
 |    RLE-Encoded Indexed Bitmaps      |    8+    | variable | struct |  The size depends on the frame count and number of pixels  |
