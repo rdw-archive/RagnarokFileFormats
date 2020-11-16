@@ -120,8 +120,3 @@ After converting the binary data back to the original (bitmap) form, any image e
 
 * TexturePacker: By far the most-feature rich and easy-to-use offline tool, but it's very limited in its free edition.
 
-## TODO
-
-* Add links to the tools used
-* Add links to the W32 system palette (RGB values)
-* Add example/screenshots
