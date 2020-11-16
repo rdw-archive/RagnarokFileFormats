@@ -23,7 +23,7 @@ In order to understand the SPR file format, some familiarity with the following 
 
 Each frame simply defines the pixel data, width, and height of a bitmap. The way these are defined differs, but at the end of the day the result is always an image that can be used to render a sprite in the game.
 
-**Indexed** frames use the color palette that is appended at the end of the file, with each pixel index referring to one of the 256 colors instead of the a RGB(A) value that represents the pixel color (and opacity).
+**Indexed** frames use the color palette that is appended at the end of the file, with each pixel index referring to one of the 256 colors instead of the a RGB(A) value that represents the pixel color (and opacity). Old versions appear to use a predefined "system palette" instead, though more information is needed on the subject.
 
 **RGB** frames instead define the pixels as RGBA values. Transparency is only supported starting from version 2.0, with previous versions ignoring the alpha value. These frames always appear after the indexed color images (if any exist) and it is common to see very few to none of those, which is probably due to them taking up more space and only being required for transparency effects.
 
