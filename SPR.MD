@@ -119,4 +119,4 @@ There are a variety of tools available to parse SPR files and obtain the image d
 After converting the binary data back to the original (bitmap) form, any image editing software can be used to modify them. If your goal is to create spritesheets, there's a few options that should work well enough:
 
 
-* [TexturePacker](https://www.codeandweb.com/texturepacker): By far the most-feature rich and easy-to-use offline tool, but it's very limited in its free edition.
+* [TexturePacker](https://www.codeandweb.com/texturepacker): By far the most-feature rich and easy-to-use offline tool, but it's very limited in its free edition.* There's also an online tool supporting the same format: https://www.codeandweb.com/free-sprite-sheet-packer
