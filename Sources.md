@@ -18,6 +18,7 @@ Most of them are incomplete, outdated, or plain wrong, but they were a good star
 * [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via Wayback Machine. Seems outdated and possibly wrong in many parts.
 * [Gratia Huang's website](http://mist.in/gratia/ro/): ACT/SPR details, requires Google Translate and manual conversion to Unicode. Surprisingly detailed, if a bit unclear at times.
 * [FlavioJS's notes](https://github.com/flaviojs/eathena-devel-FlavioJS/tree/master/client/file_formats), which were very helpful to understand the various differences introduced in later versions of many file types. I think there are some errors, but it's a start.
+* https://web.archive.org/web/20090911093940/http://www.open-ragnarok.org/cms/file-formats
 * [VCS's OpenKore wiki entry on field types](http://openkore.com/index.php/Field_file_format): Some more details on GAT terrain types, although sorely lacking in detail.
 
 ## Third-party client projects
