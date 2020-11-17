@@ -27,6 +27,10 @@ Seems like they can be chained = concatenated matrix multiplications (just basic
 
 Not the same kinds of keyframes as used by 2D animations, but rather "snapshots" that are then interpolated?
 
+> During disassembling original client from end of 2016 i found that all the info about rsm format that i had found is wrong. It seems that koreans removed position animation from 1.5. Okay, i written their behavior, but i still has extra 8 bytes at the end of file and i cannot figure out are they unused in original client or not. There's no extra bytes in 1.4 for example.
+
+Verify this? See Aesir source and compare the various implementations/do some testing?
+
 ## Transparency
 
 > I've used BrowEdit to compare my results and found an issue that was the same as in my project. Some models had wrong depth writing. Using the correct order, it is possible to render objects regardless of their transparency. You can try to open BrowEdit and compare dicastes01 with this image.

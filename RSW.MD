@@ -21,13 +21,17 @@ In order to understand the RSW file format, some familiarity with the following 
 * [Bounding Boxes](https://en.wikipedia.org/wiki/Minimum_bounding_box), which are often used for collision detection and [frustrum culling](https://en.wikipedia.org/wiki/Hidden-surface_determination)
 * [Scene Graphs](https://en.wikipedia.org/wiki/Scene_graph) and [Quad Trees](https://en.wikipedia.org/wiki/Quadtree), data structures used to represent the hierarchy of objects in a 3D scene and store the bounding boxes of objects (**TODO Relationship needs clarification?**)
 
-### Global Illumination and Dynamic Lighting
+## The Water Plane
+
+Water animation seems to have become more complex. Also, Renewal changes?
+
+## Global Illumination and Dynamic Lighting
 
 Only the ambient light source is rendered by the client, while the directional  light sources are ignored and instead "faked" via the GND file's lightmap texture? (pre-baked lightning)
 
 I'd assume that the scenes were lighted dynamically and the results then rendered to the lightmap texture. It's not clear why they chose to leave them in, though? **TODO: Research dynamic light sources**
 
-### Ambient and Directional light sources
+## Ambient and Directional light sources
 
 **TODO: Research type of the "ambient" light source. Is it ambient or actually directional?**
 
@@ -40,6 +44,22 @@ If lightmaps are disabled, the color values of the ambient light are multiplied 
 Do they use max (1.0) intensity? Clearly the RSW alpha is ignored, but what value DO they use? It's not in the ASB code
 
 **TODO: ASB Code could shed some light on this, modify/port so it can be shared?**
+
+> As far as I have tested, the lights in the RSW structure only affect objects, not the ground.
+
+There were some shenanigans with lightning. Can we determine the rules of which objects are affected, and how, for the individual light sources?
+
+## Object Types
+
+Objectxx
+
+Cylinderxx
+Boxx
+GeoSphereXX
+MeshXX
+SphereXX
+
+That should be all, no? What's the point of having a generic "Object" type?
 
 ### 3D Models
 
@@ -59,13 +79,49 @@ Example: Ghost "sprites" in Niffleheim
 
 **TODO: Compare RSW emitters to Lua-based ones?**
 
-### Frustum Culling and the Scene Graph
+## Frustum Culling and the Scene Graph
 
 Object hierarchy is stored in quadtree, but it's only present in version 2.1 and above?
 
 **TODO: What are they doing for earlier versions?**
 
+> BrowEdit: always use 586 as it has corrected quad tree calcs where 620 does not.
+
+What's the difference? Compare diffs?
+
+> However, the solution is pretty simple. The original client uses a quadtree to improve culling performance. Each model intersects or is within at least one quadtree node. If a model does not belong to a node, than it won't get rendered at all. Basically, those nodes are bounding boxes. The client gets all those boxes that are within the viewing frustum. Afterwards, the client checks which models belong to which quadtree node and renders them. The object in the screen does not belong to any node and therefore shall not be rendered.
+
+> If you don't use a quadtree (or octree, whatever), then there is another simple solution: All quadtree nodes are (or have to be) within the xz-coordinates of the ground bounding box. So if a model has a position that is not within this range, then just don't render it.
+
 Example: Amatsu Tree is culled (**TODO: Screenshots**)
+
+> Another cool effect that was left out was having static models between the camera and the player disappear so that they don't hide the player. I'm not sure if the models were planned to be completely or just partially hidden. This feature was more or less complete, but the approach used is maybe to simple so that it doesn't always work as intended. I also discovered a bug in the calculation of the bounding box used especially for this purpose. You can actually try out this feature by using NEMO patcher, as I found a relatively simple approach to enabling it. Just enable "Restore model culling" when patching your client.
+
+Investigate this?
+
+More quad tree stuff:
+
+>  The data associated with a leaf cell varies by application, but the leaf cell represents a "unit of interesting spatial information".
+
+Here it's the 3D objects/bounding boxes?
+
+> A tree-pyramid (T-pyramid) is a "complete" tree; every node of the T-pyramid has four child nodes except leaf nodes; all leaves are on the same level, the level that corresponds to individual pixels in the image. The data in a tree-pyramid can be stored compactly in an array as an implicit data structure similar to the way a complete binary tree can be stored compactly in an array.
+
+Just a serialized struct containing all the bounding boxes, then?
+
+> A region quadtree with a depth of n may be used to represent an image consisting of 2n × 2n pixels, where each pixel value is 0 or 1. The root node represents the entire image region. If the pixels in any region are not entirely 0s or 1s, it is subdivided. In this application, each leaf node represents a block of pixels that are all 0s or all 1s. Note the potential savings in terms of space when these trees are used for storing images; images often have many regions of considerable size that have the same colour value throughout. Rather than store a big 2-D array of every pixel in the image, a quadtree can capture the same information potentially many divisive levels higher than the pixel-resolution sized cells that we would otherwise require. The tree resolution and overall size is bounded by the pixel and image sizes.
+
+We don't actually need this using modern frameworks, which will handle culling etc. But perhaps it can be visualized (as an image) to more easily explain the feature?
+
+## Unused features
+
+> For instance the world resource format (RSW) contains strings pointing to scripts files, a feature not used in Ragnarok
+
+Dynamic lighting also goes here?
+
+## Camera restrictions
+
+> RSW table for indoor maps and implemented rotation range
 
 ### Layout
 
