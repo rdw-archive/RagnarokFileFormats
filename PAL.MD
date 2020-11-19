@@ -6,7 +6,7 @@ PAL files are simple color palettes used to share sets of related colors without
 
 ## Prerequisites
 
-In order to understand the STR file format, some familiarity with the following concepts is required:
+In order to understand the PAL file format, some familiarity with the following concepts is required:
 
 * [Color palettes](https://en.wikipedia.org/wiki/Palette_(computing)), a simple lookup table for RGB(A) colors
 
