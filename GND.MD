@@ -70,16 +70,19 @@ The geometry is then rendered by simply glueing all the tiles together, and wall
 
 ### The Normalizing Scale Factor
 
-For whatever reason, the terrain geometry is scaled down (by a factor of ``10``). This value is stored in the GND file and, as far as I can see, is consistent across all files. The implication is a constant scale factor of ``1/5`` that can safely be applied to the ground mesh's proportions.
+Each entity in the game world is assigned a "zoom" factor that is used to calculate its rendered size on the screen. For objects of type "Ground", this is always initialized with the value ``10``. Starting at version 1.6, it is overwritten with whatever value is stored in the map's GND file.
+
+Since I haven't seen any map that used a different "zoom level" for its terrain, I have to assume they just kept the default value.
 
 The actual calculation appears to be as follows:
 
     normalizingScaleFactor = GND.mapDimensions / GAT.mapDimensions * GND.geometryScaleFactor
 
-Since each GND surface appears to always be two GAT tiles large, and the scale factor is seemingly always set to ten, this nets us:
+Since each GND surface normally measures two GAT tiles, and the scale factor is seemingly always set to ten, this nets:
 
     normalizingScaleFactor = 1/2 * 10 = 1/5
 
+ Therefore a constant scale factor of ``1/5`` should be correct for every map. Applying this factor scales the heights given by the height vectors of the GND file back to the standard coordinate system, with one tile being one world unit large.
 ## Lightmaps
 
 A lightmap is used to add static light and shadow detail to each map, without requiring the client to calculate lighting in real time.
