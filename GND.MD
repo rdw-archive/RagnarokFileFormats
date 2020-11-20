@@ -56,7 +56,7 @@ Now, the reason the cube metaphor doesn't work perfectly is that each chunk is o
 
 [This visualization](Images/GND_SurfacesVisualization.png) might help understand the implications. In the picture, surfaces are colored as follows:
 
-* Green if they're the TOP tile for a given cube
+* Green if they're the TOP surface for a given cube
 * Blue if they're NORTH
 * Red if they're EAST
 
@@ -66,7 +66,7 @@ What this means is that, counter to intuition, the blue parts to the south of ea
 
 In the GND files, you will merely find each corner's height and the overall scale factor, which is enough to render the geometry. You could do this by translating the positions to world coordinates and normalize the heights so they refer to a cube of width and height 1 (as in, "one unit in world coordinates"), or just make the cubes bigger to account for the scale factor and then "zoom out" farther to get the same perspective.
 
-The geometry is then rendered by simply glueing all the tiles together, and walls are implicitly formed by two tiles that aren't on the same height: If there's a height difference there'll be a plane in between the two tiles; this essentially becomes a "wall" if assigning it a texture. However, this is only done if the neighbouring "cube" is higher or lower and has a textured surface of its own.
+The geometry is then rendered by simply glueing all the surfaces together, and walls are implicitly formed by two tiles that aren't on the same height: If there's a height difference there'll be a plane in between the two tiles; this essentially becomes a "wall" if assigning it a texture. However, this is only done if the neighbouring "cube" is higher or lower and has a textured surface of its own.
 
 ### The Normalizing Scale Factor
 
