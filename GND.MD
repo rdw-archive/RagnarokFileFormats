@@ -60,9 +60,11 @@ Now, the reason the cube metaphor doesn't work perfectly is that each chunk is o
 * Blue if they're NORTH
 * Red if they're EAST
 
-What this means is that, counter to intuition, the blue parts to the south of each chunks aren't really the south surface of the respective ground cube, but rather the north one of the neighbouring cube to the south. The "walls" are implicitly defined by the difference in both cubes' height vector and the client renders them according to which of the top tiles is higher, or not at all if the surface's aren't textured.
+What this means is that, counter to intuition, the blue parts to the south of each chunk aren't really the south surface of the respective ground cube, but rather the north one of the neighbouring cube to the south. The "walls" are implicitly defined by the difference in both cubes' height vector and the client renders them according to which of the top surface is higher, or not at all if the surface's aren't textured.
 
- A side effect is that the northernmost "cubes" of each map can't have a "northern" wall, nor can the westernmost "cubes" have a wall to the west. This is why every single map has a specially-crafted "border" beyond the actual visible "walls" (if there are any), which are black impassable tiles that are just sitting there and can't usually be seen in the game, as they blend in with the background.
+I believe the textures are mirrored to the opposing sides (TOP and BOTTOM, NORTH AND SOUTH, EAST and WEST), but only rendered if the adjacent cube to that side also requires rendering a "wall" due to being of a different height.
+
+A side effect is that the northernmost "cubes" of each map can't have a "northern" wall, nor can the westernmost "cubes" have a wall to the west. This is why every single map has a specially-crafted "border" beyond the actual visible "walls" (if there are any), which are black impassable surface that are just sitting there and can't usually be seen in the game, as they blend in with the background.
 
 In the GND files, you will merely find each corner's height and the overall scale factor, which is enough to render the geometry. You could do this by translating the positions to world coordinates and normalize the heights so they refer to a cube of width and height 1 (as in, "one unit in world coordinates"), or just make the cubes bigger to account for the scale factor and then "zoom out" farther to get the same perspective.
 
