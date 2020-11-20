@@ -2,24 +2,25 @@
 
 ## Documentation (sort of)
 
-Obviously, there's no proper documentation to be found anywhere, which is why this repository exists. But some people have written about at least some of their findings.
+Obviously, there's no proper documentation to be found anywhere, which is why this repository exists.
 
-* [Rick Sarvas' essay on early-day map editing problems](http://www.neatocool.com/Projects/Ragnarok/Map_Editors_Text/): Defunct, use wayback machine
+But some people have written about at least some of their findings:
+
+* [Rick Sarvas' essay on early-day map editing problems](http://web.archive.org/web/20071015031008/http://www.neatocool.com/Projects/Ragnarok/Map_Editors_Text/): Screenshots weren't archived and I don't have them either, but it's the only "intuitive" explanation of the high-level concepts I've found.
 * [RagnarokJS thread @ rathena](https://rathena.org/board/topic/104827-wip-native-ragnarok-client/): Some research was shared here.
 * [RoBrowser thread @ rathena](https://rathena.org/board/topic/53323-robrowser-ragnar%C3%B6k-online-in-browser/): Some research was shared here.
 * [Shinryo's native client thread @ rathena](https://rathena.org/board/topic/57955-custom-ragnarok-online-client/): Some research was shared here.
 * [Fimbulwinter client thread @ rathena](https://rathena.org/board/topic/74415-fimbulwinter-client/): Some research was shared here.
 
-
 ## Specifications
 
-Most of them are incomplete, outdated, or plain wrong, but they were a good starting point.
+Most of them are incomplete, outdated, or plain wrong, but they were a good starting point to kick off this project.
 
-* [Ximosoft's Ragnarok Online Laboratory](http://rolaboratory.ximosoft.com): Link is now defunct, but can be accessed via Wayback Machine. Seems outdated and possibly wrong in many parts.
-* [Gratia Huang's website](http://mist.in/gratia/ro/): ACT/SPR details, requires Google Translate and manual conversion to Unicode. Surprisingly detailed, if a bit unclear at times.
+* [Ximosoft's Ragnarok Online Laboratory](https://web.archive.org/web/20100224134600/http://rolaboratory.ximosoft.com/): Seems outdated and possibly wrong/incomplete in many parts.
+* [Gratia Huang's website](http://mist.in/gratia/ro/): ACT/SPR details, requires Google Translate and manual conversion to Unicode unless you speak Chinese. Surprisingly detailed, if a bit contradictory at times.
 * [FlavioJS's notes](https://github.com/flaviojs/eathena-devel-FlavioJS/tree/master/client/file_formats), which were very helpful to understand the various differences introduced in later versions of many file types. I think there are some errors, but it's a start.
-* https://web.archive.org/web/20090911093940/http://www.open-ragnarok.org/cms/file-formats
-* [VCS's OpenKore wiki entry on field types](http://openkore.com/index.php/Field_file_format): Some more details on GAT terrain types, although sorely lacking in detail.
+* [OpenRagnarok file formats specification](https://web.archive.org/web/20090911093940/http://www.open-ragnarok.org/cms/file-formats): Nothing new here, but should be fairly accurate for the original file formats.
+* [VCS's notes on field files](http://openkore.com/index.php/Field_file_format): Some more details on GAT terrain types, although sorely lacking in detail.
 
 ## Third-party client projects
 
