@@ -1,110 +1,86 @@
-# Gound Altitude Data
+# GAT Format Specification
 
-GAT files contain two types of information primarily: The altitude data for each tile of a map, and the block type. The latter is used to determine whether or not a given tile is walkable or can be sniped through by actors in the game world, which is only somewhat related to its altitude  (too high = can't snipe nor walk over it, I guess?).
+## Overview
 
-All numbers are stored as [little-endian](https://en.wikipedia.org/wiki/Endianness), which means that the individual bytes have to be reversed before interpreting the binary data as a number.
+GAT files contain two types of information primarily: The altitude data for each tile of a map, and the terrain type that represents the terrain on a given tile.
+
+The contents can be interpreted as a collision map that is used by both client and server to determine the legality of paths or line of sight (for ranged combat/spellcasting).
+
+## Prerequisites
+
+GAT files are inherently simple and do not require much in the way of previous knowledge, or at least none that would be specific to them.
+
+## Tiles
+
+Tiles are the elementary building block of RO terrain. In the GAT files, each tile for the map is defined by the following properties:
+
+* Four height vectors defining the height at each of the four corners
+* A flag indicating the terrain type, used to determine terrain attributes
+
+Tiles are arranged from bottom-left to top-right.
+
+### Height Vectors
+
+Thei corners of each tiles are adjusted via the altitude parameters (height vectors) to realise many different slope variations.
+
+#### Interpreting Height Vectors
+
+It should be noted that the height vectors in both GND and GAT files are given in the client's (very much unintuitive) coordinate system; this means the values are actually negative and scaled. They should be interpreted as "value on the negative Y axis multiplied by the global GAT zoom level" (see next section).
+
+The distance between each corner defined by the height vector is defined by the geometry's scale factor. The heights themselves also have to be interpreted to account for this fact, lest you get very odd results indeed:
+
+![](Images/interpretingHeightVectors.png)
+
+In this screenshot, we can see that the creator of GNDEdit correctly calculated the positions of tiles and cubes, but somehow forgot to normalize the height vectors, resulting in terrain that appears visibly "stretched".
+
+You'd have to either do what Gravity did and use a consistent scale factor for everything to keep things in proportion, or do what any sane person would do and normalize all coordinates to a basis of one world unit (sigh).
+
+#### Texture Mapping and Geometry Scaling
+
+Similar to the geometry scale factor stored in the map's GND file, interpreting GAT files also requires a "zoom" level (scale factor), which can be used to convert from map to world coordinates (and vice versa). See [GND specification](GND.MD) for more details on this.
+
+However, this value is hardcoded in the client rather than included in the GAT file itself, and set to be ``5`` for all maps, meaning that each tile is five world units large. Since GND cubes are usually 10 world units large, this merely means that the ratio of tiles to cubes is fixed, i.e. "each cube contains exactly two tiles".
+
+As far as I know, the textures used are always 256 x 256 pixels wide, from which a 64x64px slice is mapped to each cube and consequently, a 32x32px slice is mapped to each tile. Comparing this to the tile selector image seems to confirm this fact, and we find it is exactly 32x32 pixels large.
+
+### Terrain Types
+
+Each tile comes with a "tile flag" that determines the type of terrain that the tile is intended to represent. These flags are used to create a simplistic simulation of the different terrains that can be found in the game world, and should be interpreted as follows:
+
+| Value | Walkable |             Interpretation             |
+| :---: | :------: | :------------------------------------: |
+|   0   |   YES    |            Walkable terrain            |
+|   1   |    NO    |    Obstructed (impassable) terrain     |
+|   5   |    NO    | Impassable snipeable terrain ("cliff") |
+
+There are other flags, as detailed in numerous online sources, but these don't seem to have any relevance to the client's interpretation. They are most certainly used by the zone server to determine illegal game states and therefore must be supplied as a "map cache" file in the Hercules/athena emulators, but I haven't looked into them more.
+
+From what I've seen, the client seemingly ignores the terrain type itself and instead only cares about whether or not the tile is "walkable" or "obstructed" (impassable or cliff). Consequently, the only types that the server can inform the client about are ``0``, ``1`` and ``5`` (or walkable, obstructed and snipeable/cliff, respectively).
+
+This is also reflected in the client's pathfinding routines, where the latter two types are considered impassable, though no heed is paid to whether or not a tile counts as "water" or not. More research is needed as to what is the exact behaviour on the serverside, presumably.
 
 ## Layout
 
-This is the structure of each GAT file as far as I was able to determine:
+### Version 1.2
 
-| Field | Offset | Size | Type | Description and notes |
-|:---:|:---:|:---:|:---:|:---:|
-| Header | 0 | 4 Bytes | int | "GRAT" as an ASCII-encoded string |
-| Version | 4 | 2 Bytes | binary | Versioning information (needs to be investigated further) |
-| Width | 6 | 4 Bytes | int | The horizontal dimensions of the map (maximum X coordinates) |
-| Height | 10 | 4 Bytes | int | The vertical dimensions of the map (maximum Y coordinates) |
-| Tiles | 14+ | 20 Bytes | struct | The given size is per tile (see below for details about the layout) |
+Just one version (1.2) is used in the modern RO client and there appears to be no support for any other version either.
 
-The version is most likely two numbers (major, minor) stored directly as binary data. The version ``\001\002`` would indicate something like ``1.2``, which is an inofficial notation I've seen some very old third-party tools use.
+|  Field  | Offset |   Size   |  Type  |                        Description and notes                        |
+| :-----: | :----: | :------: | :----: | :-----------------------------------------------------------------: |
+| Header  |   0    | 4 Bytes  |  int   |                  "GRAT" as an ASCII-encoded string                  |
+| Version |   4    | 2 Bytes  | binary |                Versioning information (Major.Minor)                 |
+|  Width  |   6    | 4 Bytes  |  int   |     The horizontal dimensions of the map (maximum X coordinate)     |
+| Height  |   10   | 4 Bytes  |  int   |      The vertical dimensions of the map (maximum Z coordinate)      |
+|  Tiles  |  14+   | 20 Bytes | struct | The given size is per tile (see below for details about the layout) |
 
-For now, I can't say whether the GAT file type has multiple versions and if there are different field definitions for them. I'll update this when I know more, but for the time being it appears as though just one version (1.2) is used in the modern RO client.
+Each entry in the ``Tiles`` section represents a block (tile) of the given map, and is structured as follows:
 
-## Tile Data
+|   Field    | Offset | Size  |  Type  |                           Description and notes                           |
+| :--------: | :----: | :---: | :----: | :-----------------------------------------------------------------------: |
+|  Altitude  |   0    |   4   | float  | Altitude at the bottom left corner, i.e., at (0, 0) relative coordinates  |
+|  Altitude  |   4    |   4   | float  | Altitude at the bottom right corner, i.e., at (X, 0) relative coordinates |
+|  Altitude  |   8    |   4   | float  |   Altitude at the top left corner, i.e., at (0, Z) relative coordinates   |
+|  Altitude  |   12   |   4   | float  |  Altitude at the top right corner, i.e., at (X, Z) relative coordinates   |
+| Terrain Type |   16   |   4   | uint32 | Used to determine walkable/snipable properties |
 
-Each entry represents a block (tile) of the given map, and is structured as follows:
-
-| Field | Offset | Size | Type | Description and notes |
-|:---:|:---:|:---:|:---:|:---:|
-| Altitude | 0 | 4 | float | Altitude at the bottom left corner, i.e., at (0, 0) relative coordinates |
-| Altitude | 4 | 4 | float | Altitude at the bottom right corner, i.e., at (X, 0) relative coordinates |
-| Altitude | 8 | 4 | float | Altitude at the top left corner, i.e., at (0, Y) relative coordinates |
-| Altitude | 12 | 4 | float | Altitude at the top right corner, i.e., at (X, Y) relative coordinates |
-| Block Type | 16 | 1 | byte | Used to determine walkable/snipable properties (see explanation below) |
-| Unknown | 17 | 3 | int | This might either be unused or part of the previous entry, which would make it int instead of byte |
-
-The corners of each tile are adjusted via the altitude parameters to realise many different slope variations.
-
-I believe zero represents the engine's minimum height value (and not necessarily the ground level as perceived ingame). There may also be some issues if setting them to negative values, or values that are too high for the client to render, but this needs further testing.
-
-The last field might just be a part of the previous block, which means the Block Type would be stored as a regular int (4 bytes). I haven't yet compared all the map data to see if there is any actual data stored here, so for now this theory is mere conjecture.
-
-## Block Types
-
-There are several types that determine whether units can walk over the tile, or snipe through it using ranged attacks and spells. Unfortunately the interpretation of the type isn't straight-forward, as it differs depending on whether or not the tile is considered "underwater".
-
-	Assumption: A tile is considered "underwater" if the (entire?) block is below the water level that was defined in the RSW file referring to the same map. I'd expect that the highest corner altitude must be below this level for the tile to count as being below water level, but I haven't confirmed this (yet).
-
-**Edit: According to the OpenKore wiki, the AVERAGE depth must be HIGHER than the water level in order for a tile to be considered underwater. This seems highly counter-intuitive, but wouldn't surprise me really...**
-
-This is the code snippet they gave to determine what I'd call the ``isUnderwaterTile`` property:
-
-	float averageDepth = (gat_block.upperLeftHeight + gat_block.upperRightHeight
-	+ gat_block.lowerLeftHeight + gat_block.lowerRightHeight) / 4;
-	float waterLevel = readWaterLevelFromRSWFile();
-
-	// The '>' is NOT a typo!
-	if (averageDepth > waterLevel)
-	// Block is below water level
-	else
-	// Block is above water level
-
-The main difference between both types is that the default value of zero will cause ground tiles to be walkable, while underwater tiles are not usually considered walkable. This appears logical since actors can only cross very shallow water and the game doesn't support any notion of "swimming" or "diving".
-
-### Ground-level tiles
-
-The interpretation for ground tiles is mostly known:
-
-| Value | Walkable | Snipable | Interpretation |
-|:---:|:---:|:---:|:---:|
-| 0 | YES | ? | Regular walkable block |
-| 1 | NO | ? | Regular non-walkable block |
-| 2 | NO | NO | Non-walkable water (not snipable) |
-| 3 | YES | ? | Shallow (walkable) water |
-| 4 | NO | YES | Non-walkable water (snipable) |
-| 5 | NO | YES | Cliff (snipable) |
-| 6 | NO | NO | Cliff (not snipable) |
-| 7 | ? | ? | Unknown  |
-
-I'd assume that walkable tiles are always considered snipable, and non-walkable tiles can are only snipable if explicitly defined as such, but again this would need more testing to confirm.
-
-### Underwater tiles
-
-Interpreting underwater tiles is a bit less obvious, but also mostly understood:
-
-| Value | Walkable | Snipable | Interpretation |
-|:---:|:---:|:---:|:---:|
-| 0 | NO | ? | Not walkable |
-| 1 | YES | ? | Walkable |
-| 2 | NO | NO | Not walkable (and not snipable) |
-| 3 | YES | ? | Walkable |
-| 4 | ? | ? | Unknown |
-| 5 | NO | YES | 5 - Not walkable (but snipable) |
-| 6 | NO | NO | 6 - Not walkable (and not snipable) |
-| 7 | ? | ? | Unknown |
-
-## Notes
-
-All offsets for the header are given in bytes from the start of the file. The offset for the tile data is relative to the beginning of the Tile Data entry in the GAT file.
-
-Since the header size is fixed but the tile data is not, only the first tile will start at the basic offset. When calculating offsets for subsequent tiles, one needs to account for the size of all previous tile data that came before it and add it to the fixed offset
-
-The header itself must be an ASCII-encoded representation of the string ``GRAT`` followed by a binary version number such as ``\001\002`` (meaning the hexadecimal bytes ``47 52 41 54`` and then `` 01 02``) in order to be considered valid by the client. This information is otherwise useless and can safely be discarded when working with the files outside of the game, but must be re-added if the goal is to create a map file that the client will read.
-
-## TODO
-
-* What about the different versions?
-* Any way to determine what the unknown fields are used for?
-* Tile order? Presumably they start at (0,0) and proceed in direction of the x axis? (linearised to improve cache locality)
-* What is the unit of the altitude? RoBrowser multiplies the float value by 0.2, but I've no idea why
-* Why is the process to determine the isUnderwater property so weird?
+Only the low word of the terrain type field is actually used, so the rest appears to be irrelevant garbage data. The "32-bit unsigned integer" is therefore misleading, because there's really only a few terrain types (tile flags) that the client actually supports.
