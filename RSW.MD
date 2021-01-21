@@ -23,7 +23,52 @@ In order to understand the RSW file format, some familiarity with the following 
 
 ## The Water Plane
 
-Water animation seems to have become more complex. Also, Renewal changes?
+**TODO: RSW 2.2 - Water animation seems to have become more complex? Unknown field, no one seems to have studied it yet**
+
+I'm not 100% on this part as I haven't yet implemented the wave effect myself. It looks like there are a few factors to consider, however.
+
+### Water Types
+
+Each map has exactly one assigned "water type". These simply define what texture to use and provide the prefix to the water texture's file name, which is appended with the cycling ID to determine which of the individual frames to display.
+
+Not all of them are obviously water; there's also some "mud" and "lava" textures that use the same mechanism (described below) to be animated.
+
+### Texture Cycling
+
+A moving water surface is simulated by increasing a cycling counter each frame and updating the water mesh's texture when a cutoff point (**TODO: Which one?**) is reached, with textures cycling from 0 to 31.
+
+Each water type has these 32 textures and they can be found in the ``textures/effects/water`` (in Korean?) folder as separate images.
+
+A full cycle then takes ``3 * 32 = 96 frames / (60 frames / second) = 1.6 seconds`` at the default cycling speed of ``3``, which is also set in the map's RSW file, assuming a fixed framerate of 60 FPS (which is clearly what they were counting on).
+
+### Ground Tiles and the Water Plane
+
+The water plane itself appears to not cover the entire map area, as one would expect from a naive approach. Instead, each visible ground tile (GND cube's TOP surface) is assigned a "water vertex", which is the position of the water plane for this corner of the tile.
+
+The X and Z coordinates are always pinned to the tile's X and Z coordinates, while the Y coordinate is used to define the water level at this corner of the tile.
+
+If the water is still, all four corners will be at the same height, which is exactly the water level as defined in the map's RSW file.
+
+### Wave Cycles
+
+If there is a wave effect, the various wave parameters will be used to simulate physical waves in the following manner:
+
+* The "wind" is thought to always blow in direction (1,1), meaning from bottom left to top right (from southwest to northeast)
+* This means that the wave will hit the ground tile in this same direction, which is "faked" by setting the top left and bottom right corners to the same height and the bottom left and top right to a different one, each corresponding to the wave height at the respective time in the wave cycle
+* Calculate the height of the wave [crest and trough](https://en.wikipedia.org/wiki/Crest_and_trough) for each part by the sine wave formula given above
+* As the frames iterate through the wave cycle, the heights are modified to display the water mesh's vertices in a "wavy" pattern
+
+**TODO Exact formula**
+
+**TODO Add screenshots?**
+
+This simulation updates every frame (so ideally, 60 times per second?). It is not triggered via a timer, so variances in frame rate should affect the speed of wave animations greatly.
+
+Each update will increase the "time" of the wave cycle by a small, fixed amount, until the full cycle has ran its course and is reset. Subsequently, the "water vertices" are updated, altering their height at each visible tile only (to save on unnecessary calculations).
+
+What tiles are visible appears to be determined by the ground mesh's bounding box/scene graph, as defined in the GND file?
+
+**TODO: Verify**
 
 ## Global Illumination and Dynamic Lighting
 
