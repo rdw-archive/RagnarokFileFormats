@@ -108,7 +108,7 @@ Only 256 colours are supported and the first palette index is use as transparent
 
 ## Tools
 
-See [Tools.md](Tools.md) for a list of tools that may be worth using.
+See [Tools.md](Tools/Tools.md) for a list of tools that may be worth using.
 
 ## Notes
 
