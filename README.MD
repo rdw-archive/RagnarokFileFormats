@@ -114,8 +114,6 @@ See [Tools.md](Tools/Tools.md) for a list of tools that may be worth using.
 
 All numbers found in RO's binary formats are stored as [little-endian](https://en.wikipedia.org/wiki/Endianness), which means that the individual bytes have to be "reversed" before interpreting the binary data as a number.
 
-The coordinate axes for most (all?) vectors found in the game files appear to be "upside down", i.e., the Y-axis (height) is *negative* when referring to *positive* values, as if rotated by 180 degree. See [Concepts/WorldSpace](Concepts/WorldSpace.md) for more details.
-
 ## Sources
 
 See [Sources.md](Sources.md) for a list of the various sources I've consulted.
