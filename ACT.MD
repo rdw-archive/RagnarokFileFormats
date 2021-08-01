@@ -158,9 +158,14 @@ The character selection screen appears to be even weirder; it's not really on th
 
 This is probably an artifact of some weird design remnant of the early alpha/Arcturus times, so I wouldn't worry about replicating or even fixing this.
 
+
 ## SpriteTypes
 
-Apparently, there are only two sprite types defined in each ACT, and they seemingly refer to the type of the spritesheet image (SPR file): Indexed palette/BMP (type 0) and RGBA/TGA (type 1)? (**TODO: Needs more research**)
+So far, there are two sprite types being used in an ACT which correspond to the type of the spritesheet image (SPR file): Indexed palette/BMP (type 0) and RGBA/TGA (type 1).
+
+Each spriteType uses their own sprite numbering. Means if you wish to use the third palette sprite of a SPR you would set the spriteType to 0 and the sprite number to 2. Respectively if you wish to use the third RGBA sprite you would set the spriteType to 1 and the sprite number to 2.
+
+Technically the spriteType is not a true/false flag indicating whether the image is of indexed palette or RGBA nature. But instead is used as an index to refer to the underlying images of a SPR. It would be possible to simply add another type and give it the value 3 (the official client would obviously either crash or ignore it).
 
 ## Attachments
 
