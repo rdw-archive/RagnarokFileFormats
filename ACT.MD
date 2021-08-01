@@ -105,6 +105,10 @@ They are usually static, though there's at least one (unused?) Kafra NPC that al
 
 They are completely static, and their "standing" animation is an image that never changes. Some appear to have copy/pasted their standing animation into other actions, but clearly they weren't intended to actually be animated.
 
+### Shadow
+
+As item and spell icons the shadow underneath the players/npcs/monsters and whatnot consists of just one action and frame.
+
 ## Frames
 
 Each animatable action consists of frames. A frame defines the actual animation, and consists of a number of *layers* as well as the animation delay and optionally a sound effect.
