@@ -179,18 +179,38 @@ How the client stitches these together is very much akin to Frankenstein's monst
 
 ### Draw Layers
 
-The weapon sprites, for example, must be drawn behind or before the body based on the character's direction. The draw order should be something like this (WIP):
+The weapon sprites, for example, must be drawn behind or before the body based on the character's direction.
 
-	RENDERER_SHADOW_SPRITE_DRAW_LAYER = 0
-	RENDERER_BODY_SPRITE_DRAW_LAYER = 1
-	RENDERER_HEAD_SPRITE_DRAW_LAYER = 2
-	RENDERER_HEADGEAR_BOTTOM_SPRITE_DRAW_LAYER = 3
-	RENDERER_HEADGEAR_MID_SPRITE_DRAW_LAYER = 4
-	RENDERER_HEADGEAR_TOP_SPRITE_DRAW_LAYER = 5
+Depending on the type of sprite (players, monsters, npc, etc.) different draw layers will be used. The most complex one being the players sprite. It uses the following layers:
 
-In this example, higher draw layers will be drawn over lower ones, just as you'd expect. I've verified this for body, head and shadow sprites only but I presume it to be mostly correct.
+`Shadow`, `Body`, `Head`, `Lower Headgear`, `Middle Headgear`, `Top Headgear`, `Weapon`, `Weapon Slash`, `Shield` and `Garment`.
 
-**TODO: Verify that these work for equipment, also**
+The draw order mostly depends on the current direction of the player which can be divided into two parts. Either the player is facing "top left" depicted as an 'x' or "bottom right" depicted as an 'o':
+```
+x  x  x  
+ \ | /       
+x -¤- o
+ / | \
+o  o  o
+```
+The draw order might look like this then:
+
+| Order | Top Left        | Bottom Right    |
+|-------|-----------------|-----------------|
+| 0     | Shadow          | Shadow          |
+| *x*   | *Garment*       | *Garment*       |
+| 1     | Shield          | Body            |
+| 2     | Body            | Head            |
+| 3     | Head            | Lower Headgear  |
+| 4     | Lower Headgear  | Middle Headgear |
+| 5     | Middle Headgear | Upper Headgear  |
+| 6     | Upper Headgear  | Weapon Slash    |
+| 7     | Weapon Slash    | Weapon          |
+| 8     | Weapon          | Shield          |
+| *x*   | *Garment*       | *Garment*       |
+
+In this example, higher draw layers will be drawn over lower ones.
+The body and head sprites might be reversed depending on the actual direction (not just the two divided parts). That value is read from the associated IMF file. The Garment layer takes a special place because its order might change on a per frame basis. It is either drawn as the first sprite directly after the shadow (beneath everything) or as the last sprite (on top of everything). The order for the garment is read from the lua file `_New_2DLayerDir_F.lub` or `2dlayerdir_f.lub`.
 
 **TODO: What about 2D and 3D effects, the combat log (text plane)?**
 
