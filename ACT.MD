@@ -52,6 +52,64 @@ The following versions are said to exist:
 * 0x204 (to be confirmed)
 * 0x205 (confirmed)
 
+### Version 0x205
+
+| Field | Bytes | Type | Description |
+| ---- | ---- | ---- | ---- |
+| Header | 2 | char | 'AC' |
+| Version | 2 | uint | 0x205, 0x204, 0x203, 0x202, 0x201, 0x200 |
+| nActions | 2 | uint | The number of [Actions](#action-layout) in this ACT file. |
+| Reserved | 10 | 10*byte | Reserved, unused bytes. |
+| <actions\> | variable | [Action](#action-layout) | times * nActions read [Action](#action-layout) part below. |
+| nEvents | 4 | uint | The number of [Events](#event-layout) (e.g. sounds) this ACT file has. |
+| <events\> | variable | [Event](#event-layout) | times * nEvents read [Event](#event-layout) part below. |
+| Intervals | 4 * nActions | float | Interval for each [Action](#action-layout). First float corresponds to the first action, second float to the second action, etc. |
+
+### Action layout
+| Field | Bytes | Type | Description |
+| --- | --- | --- | --- |
+| nFrames | 4 | uint | The number of [Frames](#frame-layout) in this Action. |
+| <frames\> | variable | [Frame](#frame-layout) | times * nFrames read the [Frame](#frame-layout) part below. |
+
+### Frame layout
+| Field | Bytes | Type | Description |
+| --- | --- | --- | --- |
+| Range1 | 16 | 4*uint | Left, top, right, bottom. In that order. Seems to be unused. Commented with "Attack range". |
+| Range2 | 16 | 4*uint | Left, top, right, bottom. In that order. Seems to be unused. Commented with "Fit range". |
+| nLayers | 4 | uint | The number of [Layers](#layer-layout) used in this Frame. |
+| <layers\> | variable | [Layer](#layer-layout) | times * nLayers read [Layer](#layer-layout) part below. |
+| EventId | 4 | int | Id of the [Event](#event-layout) that this frame fires. |
+| nAnchorPoints | 4 | uint | The number of [AnchorPoints](#anchorpoint-layout) this Sprite uses. |
+| <anchorpoints\> | variable | [AnchorPoint](#anchorpoint-layout) | times * nAnchorPoints read [AnchorPoint](#anchorpoint-layout) part below. |
+
+### Layer layout
+| Field | Bytes | Type | Description |
+| --- | --- | --- | --- |
+| X | 4 | int | The x coordinate of the layer.  |
+| Y | 4 | int | The y coordinate of the layer. |
+| SprNo | 4 | int | The sprite number used (this references the sprite inside a SPR file). |
+| Flags | 4 | uint | Bitflags. So far only first bit is used to indicate whether the layer should be mirrored on the y-Axis. |
+| Color | 4 | 4*ubyte | In the order: red, green, blue, alpha. Each color is one byte. This is the tint of this layer. |
+| XScale | 4 | float | The scale factor for the width of the layer. Below version 0x204 this is also the scale factor for the height (yScale). |
+| YScale | 4 | float | The scale factor for the height of the layer. |
+| Rotation | 4 | float | The rotation of the layer around its center in angle degrees. |
+| SprType | 4 | int | The type of the sprite used from SPR. 0 == Palette sprite, 1 == RGBA sprite. | 
+| Width | 4 | int | The width of the layer. Assumingly always the same as the referenced sprite width in the SPR file. |
+| Height | 4 | int | The height of the layer. Assumingly always the same as the referenced sprite height in the SPR file. |
+
+### AnchorPoint layout
+| Field | Bytes | Type | Description |
+| --- | --- | --- | --- |
+| Unknown | 4 | 4*byte | Unknown bytes. When parsing the ACT file 16 bytes will be read from the buffer directly into a *class* (not struct) that holds the three members x, y and attr. Funny that this actually works. |
+| X | 4 | int | Offset x coordinate of this anchor point. |
+| Y | 4 | int | Offset y coordinate of this anchor point. |
+| Attr | 4 | int | Apparently this value is used to compare against another anchor point when stitching together the separate sprites (e.g. body and head). However, only the first anchor point of each sprite is used for the comparison. For that to work it implies that this value is always the same (in this case 0). |
+
+### Event layout
+| Field | Bytes | Type | Description |
+| --- | --- | --- | --- |
+| Name | 40 | 40*char | The null-terminated string name of the event (e.g. "atk" or some sound file). |
+
 **TODO: Add file layouts for the different versions.**
 
 I have yet to find any version other than just 2.5 to research them.
