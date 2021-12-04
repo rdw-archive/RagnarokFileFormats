@@ -98,6 +98,8 @@ I have verified that all 21 GR2 files in the RO client use version 6 of the Gran
 <!-- | TBD | TBD | 4 Bytes | TBD | TBD |
 | TBD | TBD | 4 Bytes | TBD | TBD | -->
 
+The decompressed sections need to be relocated; it looks as though they are simply appended at the end of the header section:  The ``relocationOffset`` is always ``352``, which is the length of the header structure.
+
 ### Granny Header Structure
 
 While the header clearly allows for flexible structures, in Ragnarok's GR2 files the size is fixed:
