@@ -133,6 +133,54 @@ Objects reference the decompressed section buffer area using this simple format:
 | Index | 0 | 4 Bytes | uint32 | The index of the section containing this object |
 | Offset | 4 | 4 Bytes | uint32 | Where the object is located inside the section |
 
+This serves as a "pointer" to the buffer area and can be used to read data without having to re-arrange the entire file in memory (after the decompression and demarshalling steps).
+
+### Section Headers Structure
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Compression Mode | 0 | 4 Bytes | uint32 | ``0`` if uncompressed, ``1`` for Oodle0 |
+| Section Offset | 4 | 4 Bytes | uint32 | After how many bytes in the file the section starts |
+| Compressed Size | 8 | 4 Bytes | uint32 | After how many bytes the section ends (when compressed) |
+| Decompressed Size | 12 | 4 Bytes | uint32 | How large the section is after decompressing it |
+| Alignment Size | 16 | 4 Bytes | uint32 | Used for packing the data on hardware-aligned boundaries (?) |
+| Stop 0 | 20 | 4 Bytes | uint32 | "Compressor stop 0" - Oodle0 parameter (?) |
+| Stop 1 | 24 | 4 Bytes | uint32 | "Compressor stop 1"  - Oodle0 parameter (?) |
+| Relocation Header | 28 | 8 Bytes | struct | Used to restore virtual pointers to an intermediate, hardware-dependant form (?) |
+| Marshalling Header | 32 | 8 Bytes | struct | Used to restore the fixed pointers to their final, hardware-dependant form (?) |
+
+It looks like the section metadata covers the layout and size of the buffer area, as well as the configuration data for all preprocessing steps needed to restore the data in its original form.
+
+### Relocation Headers
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Relocation Offset | 0 | 4 Bytes | uint32 | Where the relocation data is stored in the section |
+| Relocation Count | 4 | 4 Bytes | uint32 | How many relocation data sets (?) are stored at this location |
+
+If I understand this correctly, it's used to "relocate" references  (pointers) to the stored data. This would mean "virtual" pointers are being stored, possibly to save space or to abstract away hardware architecture details. They would then need to be "resolved" in a separate step (the "demarshalling step") before the data can actually be used?
+
+More research is needed on this topic.
+
+### Marshalling Headers Structure
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Marshalling Data Offset | 36 | 4 Bytes | uint32 | Where the marshalling data is stored in the section |
+| Marshalling Block Count | 40 | 4 Bytes | uint32 | How many marshalling data sets (?) are stored at this location |
+
+After the virtual references have been resolved, the hardware-dependant pointer layout would have to be restored? After this step, the final representation should be available.
+
+More research is needed to confirm that this is what the preprocessing steps actually do.
+
+### Compressed Section Buffer Structure
+
+The size is given by the ``compressedSize`` value of the respective section header. Sections are concatenated one after the other and can be accessed using the Section Reference directly.
+
+### Decompressed Section Buffer Structure
+
+Once all sections are decompressed, their data can be read by following the Root Node Object offset stored in the Granny file header. What you'll find inside depends on the file and format used, which could be entirely arbitrary data. What's present in RO files is listed below.
+
 ## Contents
 
 While the above dealt with the Granny file format, the *actually* interesting parts are the contents of the individual data sections: The actual 3D models used for WOE Guardians, etc.
