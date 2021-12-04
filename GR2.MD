@@ -174,9 +174,56 @@ While the above dealt with the Granny file format, the *actually* interesting pa
 
 The following deals with their structure and is assuming you've used one of the available tools to get at them in the first place, as you won't be able to see what's inside the compressed buffer areas otherwise.
 
-### Decompressed File Structure
+## Decompressed File Structure
 
-**TODO: Needs more information/validation of preliminary results**
+### Contents of the Data Tree
+
+The processed buffer area contains a hierarchy of objects used to represent the 3D model actor. In RO, each of the Granny files contains exactly **one** of the following:
+
+* An abstract 3D model object that acts as a container (root node)
+* A single skeleton, which is linked to the model, and consists of multiple bones
+* A single animation container that describes the motion of the bones for this skeleton
+
+The *base model* (as defined above) **additionally** contains shared assets for the model:
+
+* Several meshes that contain the geometry of the 3D model's "skin"
+* Compressed textures that are mapped to those meshes
+
+The secondary models don't contain all the data required to render the model. As such, I suspect they are loaded separately and combined to form a cohesive whole with all of the relevant poses for the given model actor, which can then be animated by swapping the "active" skeleton to the one assigned to its current pose. Geometry and textures are shared.
+
+All files also contain *material* data, which describes the material (shader) settings used by the exporter (3DS Max) that the artist used to create the model. Some of the materials refer to textures (if present), but otherwise they're just shader properties that probably might not be useful unless you want to import them in a modelling tool and replicate the exact rendition.
+
+### Models
+
+All models are assigned exactly one skeleton, and a transformation matrix that (I think) may describe its offset position in the object's local coordinate system.
+
+### Skeletons
+
+Each skeleton contains (usually) 32 bones and a unique identifier. That's it.
+
+Due to the extremely low bone count, they look pretty... *bare-bones* (ha...ha..):
+
+![Images/GR2_BaseSkeleton.png](Images/GR2_BaseSkeleton.png)
+
+*Pictured: The actual skeleton of a [Sword Guardian](https://file5s.ratemyserver.net/mobs/1829.gif) unit*
+
+### Bones
+
+Bones have a similarly unique (for the skeleton, not across models) identifier.
+
+They're parented to another bone (or none if they're the root bone), and offset with a set of transformation matrices that describe the bone's position in object-local space. These are decomposed and stored as a separate matrix for translation, rotation and scaling.
+
+The scale matrix seems to only support mirroring the Y component (mirror alongside X axis) and no other scaling seems to be used, i.e. it's mostly an identity matrix except for a few cases where bones are mirrored and the ``1`` in the 2nd row becomes a ``-1``  instead (?).
+
+### Spline Animation
+
+Animations are stored as curve data, represented by base splines (b-splines).
+
+This means they are given as a set of points (usually called *knots* or *knot values*) which represent time as points on the temporal axis, and multi-dimensional vectors called *control points* or *controls* that approximately describe the curve at a given point.
+
+Curves might also be multidimensional, with the degree referring to the dimension of the vectors used to represent its data. The animation vectors are again separated into the three base types of translation, rotation, and scale expressed as 3D vector to be added, 4D rotation quaternion, and a 3x3 scale/shear matrix, respectively.
+
+This can be translated into a "keyframe"-style representation by simply taking the knot values as "frames" and control points as "target value" (I think, anyway). From this one might linearly interpolate (see [LERPing](https://en.wikipedia.org/wiki/Linear_interpolation), which is not to be confused with [LARPing](https://en.wikipedia.org/wiki/Live_action_role-playing_game)) the intermediate values, which is a fairly standard way of animating arbitrary properties.
 
 ## See also
 
