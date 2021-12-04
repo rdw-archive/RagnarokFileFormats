@@ -76,19 +76,6 @@ I'm guessing that they are also grouped by their intended use case, since this d
 
 Once all sections have been decompressed, the result is a representation of the actual 3D model, which can be accessed to retrieve the stored geometry, textures, and animations.
 
-### Other Features (TODO: Determine which are used)
-
-Not sure yet, but there are many features that need to be checked:
-
-* Material data
-* Texture compression (Bink video?)
-* Mip levels (are they even used? RO doesn't know any modern LOD AFAIK)
-* LOD culling (unused?)
-* Spline Animations
-* Root Bone Motion?
-* Combining skeletons from two different files (since they split idle/combat poses)
-* Screenshot of Zombie Dragon? (not really important)
-
 ## Layout
 
 I have verified that all 21 GR2 files in the RO client use version 6 of the Granny file format.
