@@ -170,7 +170,7 @@ Once all sections are decompressed, their data can be read by following the Root
 
 ## Contents
 
-While the above dealt with the Granny file format, the *actually* interesting parts are the contents of the individual data sections: The actual 3D models used for WOE Guardians, etc.
+While the above dealt with the Granny file format, the *actually* interesting parts are the contents of the individual data sections, i.e., the 3D models used for WOE Guardians, etc.
 
 The following deals with their structure and is assuming you've used one of the available tools to get at them in the first place, as you won't be able to see what's inside the compressed buffer areas otherwise.
 
