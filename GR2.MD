@@ -29,7 +29,7 @@ There are ways to get at the data, of course, but they generally rely on specifi
 
 ## Features
 
-Granny files can store arbitrary data, but in the case of RO they alway seem to follow the standard granny format. This means only standard Granny3D features are used, though the complexity and closed-source nature of RAD's library makes it difficult to learn how it works.
+Granny files can store arbitrary data, but in the case of RO they alway seem to follow a relatively primitive "standard" format. In particular, they don't appear to extend the basic Granny file format with custom data types. This means only some of the vast Granny3D feature set is used, the relevant portions of which should be described here.
 
 ### Mixed Marshalling
 
