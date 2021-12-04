@@ -21,6 +21,8 @@ GR2 files are used very sparsely in RO, and appear to be a (failed) experiment t
 
 There are two "types" of Granny3D files used in RO: The model and idle pose of each 3D actor and can be found in files located in the ``data/model/3dmob`` directory, while the others store multiple skeletons for the remaining poses and are found in ``data/model/3dmob_bone``.
 
+**TBD: Multiple skeletons? One skeleton, multiple poses**
+
 Unlike the custom formats used in RO, Granny3D files cannot as easily be deserialized. This is because they use a proprietary compression algorithm called [Oodle](http://www.radgametools.com/oodle.htm), which comes in many different versions and is (unfortunately) not widely supported by existing open-source tools.
 
 There are ways around this, of course, but they generally rely on specific format conversion (such as a GR2-to-DAE converter that I've seen) or may not be fully compatible with all possible GR2 variations (various open source projects for other games). Reverse-enginering the decompression is another approach that should work, albeit a rather challenging one.
@@ -62,9 +64,11 @@ Granny files consist of multiple buffer areas that the decompression needs to be
 
 Once all sections have been decompressed and re-arranged, the resulting struct still requires further processing in order to retrieve the stored skeletons, meshes, and textures.
 
+** TODO: Rearrangement not needed, section references suffice?**
+
 Textures (and animation curves?) are also compressed, though I'm unsure whether they use the same Oodle0 compression as the sections themselves or some other, related algorithm (Bink video?).
 
-**TBD:** Why is the data split this way? Perhaps to differentiate between persistent and temporary resources (vertex data -> goes to CPU, then can be freed. What parts do you want to keep? Animations and skeletons?)
+**TBD:** Why is the data split this way? Perhaps to differentiate between persistent and temporary resources (vertex data -> goes to GPU, then can be freed. What parts do you want to keep? Animations and skeletons?)
 
 **TODO: Research texture compression and the compression of animation curves**
 
