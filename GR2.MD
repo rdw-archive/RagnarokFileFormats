@@ -35,11 +35,7 @@ Granny files can store arbitrary data, but in the case of RO they alway seem to 
 
 Going by what's been implemented in various open-source decompressor tools, the format allows storing data in an architecture-dependent form. This may necessitate a preprocessing step where it's updated for the current computer architecture (to restore the endianness).
 
-Since Gravity created their files on the same platform the game runs on (Windows/x86), I'm guessing that this feature isn't used, but I haven't researched it further.
-
-This hypothesis is, however, corroborated by the fact we can find the exact signature bytes (``B8 67 B0 CA F8 6D B1 0F 84 72 8C 7E 5E 19 00 1E``) inside ``granny2.dll``, but none of the byte-reversed permutations I tried were present in the version that's shipped with the client.
-
-I'd guess that it might be used for other platforms, but I haven't found any reliable information about it (and I think it doesn't *really* matter as far as this project is concerned).
+It seems that this feature is indeed used by some of the files (e.g., ``aguardian90_8.gr2`` features 4 mixed marshalling blocks). I haven't looked into the specifics as OSS tools exist that will handle the de-marshalling process and I therefore consider it a "solved problem".
 
 ### Compression
 
