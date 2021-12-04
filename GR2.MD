@@ -39,20 +39,19 @@ It seems that this feature is indeed used by some of the files (e.g., ``aguardia
 
 ### Compression
 
-Variant: Oodle 0 (Granny compression mode 1; 0 is uncompressed - so it must be the oldest?)
+The compression algorithm used for the compressed data sections is called Oodle0 and (from what I can tell) is an ancient, and almost certainly inferior, version of the same suite of compression algorithms still in use today.
 
-Some sections are uncompressed (only the final one for each file?)
-**TODO: Verify this by decoding all 21 files and checking the last section**
-
-**TLDR:** LZMA-style compression scheme, probabilistic, stateful. TBD: Is this a modified variant? Sounds like it (described by authors as ``lzhuff``).
-
-**TBD**: Outdated version of the algorithm? There's a string in ``granny2.dll`` that says this:
-
-**TBD:** How is it different from the other (newer) Oodle implementations? Does it matter? (The current ones are available as open source/on GitHub, but Oodle0/1 aren't?)
+In the compiled ``granny2.dll`` we find this string message that indicates it's now deprecated:
 
 ![A message that seems to indicate Oodle0 is no longer supported](Images/GR2_OodleString.png)
 
-**TODO: Check RAD changelog for details about the various versions**
+As far as the algorithm itself goes, the people at RAD have published many articles about their work on compression algorithms. Since I'm not an expert in data compression that, alongside some independent research, is the only source providing details about the design:
+
+From what I can gather Oodle(0) uses [arithmetic coding]( https://en.wikipedia.org/wiki/Arithmetic_coding) with an [adaptive probabilistic model](https://en.wikipedia.org/wiki/Adaptive_coding) to predict the input stream while encoding, with the symbols being stored in a [Huffman-encoded](https://en.wikipedia.org/wiki/Huffman_coding) table. This means it's a variation on on the standard [Lempel-Ziv](https://en.wikipedia.org/wiki/LZ77_and_LZ78) class of algorithms.
+
+Some of the section data seems to consist of compressed data using different schemes, which (I think) are stored in separate sections without section compression, which does make sense. Examples for these are textures using the Bink texture format, and animation curves.
+
+Since there are converter tools that will transparently deal with all of this, I haven't spent more time on researching the implementation details of the algorithm (beyond the basics).
 
 ### Sections
 
