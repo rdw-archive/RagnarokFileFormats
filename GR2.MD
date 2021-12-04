@@ -113,15 +113,18 @@ While the header clearly allows for flexible structures, in Ragnarok's GR2 files
 | Compression Flag | 20 | 4 Bytes | uint32 | Always ``0`` (no compression) |
 | Unknown | 24 | 4 Bytes | ? | Unused (probably) since it's always zero |
 | Unknown | 28 | 4 Bytes | ? | Unused (probably) since it's always zero |
-| Version | TBD | 4 Bytes | uint32 | The Granny File version (always ``6``) |
-| File Size | TBD | 4 Bytes | uint32 | The total file size in bytes |
-| Checksum | TBD | 4 Bytes | uint32 | A CRC checksum over the file contents |
-| Section Offset | TBD | 4 Bytes | uint32 | Where the sections begin (always ``56``) |
-| Section Count | TBD | 4 Bytes | uint32 | Number of sections (always ``6``) |
-| Root Node Type | TBD | 8 Bytes | struct | Points to a definition of the top-level node object's type |
-| Root Node Object | TBD | 8 Bytes | struct | Points to the top-level node object in the data tree |
-| User Tag | TBD | 4 Bytes | uint32 | Always ``0F 00 00 80`` |
-| User Data | TBD | 16 Bytes | ? | Unused (probably) since it's always zero |
+| Version | 32 | 4 Bytes | uint32 | The Granny File version (always ``6``) |
+| File Size | 36 | 4 Bytes | uint32 | The total file size in bytes |
+| Checksum | 40 | 4 Bytes | uint32 | A CRC checksum over the file contents |
+| Section Offset | 44 | 4 Bytes | uint32 | Where the sections begin (always ``56``) |
+| Section Count | 48 | 4 Bytes | uint32 | Number of sections (always ``6``) |
+| Root Node Type | 56 | 8 Bytes | struct | Points to a definition of the top-level node object's type |
+| Root Node Object | 64 | 8 Bytes | struct | Points to the top-level node object in the data tree |
+| User Tag | 68 | 4 Bytes | uint32 | Always ``0F 00 00 80`` |
+| User Data | 72 | 16 Bytes | ? | Unused (probably) since it's always zero |
+| Section Headers | 88 | 264 Bytes | struct | ``44`` Bytes per section (here: ``6 * 28 = 264``)|
+
+It should be noted that the "header size" includes the section metadata, which I've listed separately here to make it easier to survey at a glance. That is to say, ``352`` bytes is the length from the beginning of the file to the actual section data and *not* just to the section headers.
 
 ### Section Reference Structure
 
