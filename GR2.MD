@@ -128,7 +128,7 @@ It should be noted that the "header size" includes the section metadata, which I
 
 ### Section Reference Structure
 
-Objects referenc the decompressed section buffer area using this simple format:
+Objects reference the decompressed section buffer area using this simple format:
 
 | Field | Offset | Size | Type | Description and notes |
 | :-----: | :------: | :----: | :-----: | :---------------------------: |
