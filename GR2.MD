@@ -119,6 +119,12 @@ Objects referenc the decompressed section buffer area using this simple format:
 | Index | 0 | 4 Bytes | uint32 | The index of the section containing this object |
 | Offset | 4 | 4 Bytes | uint32 | Where the object is located inside the section |
 
+## Contents
+
+While the above dealt with the Granny file format, the *actually* interesting parts are the contents of the individual data sections: The actual 3D models used for WOE Guardians, etc.
+
+The following deals with their structure and is assuming you've used one of the available tools to get at them in the first place, as you won't be able to see what's inside the compressed buffer areas otherwise (though you can read the uncompressed sections easily).
+
 ### Decompressed File Structure
 
 **TODO: Needs more information/validation of preliminary results**
