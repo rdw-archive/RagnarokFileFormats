@@ -116,7 +116,7 @@ While the header clearly allows for flexible structures, in Ragnarok's GR2 files
 | Section Count | TBD | 4 Bytes | uint32 | Number of sections (always ``6``) |
 | Root Node Type | TBD | 8 Bytes | struct | Points to a definition of the top-level node object's type |
 | Root Node Object | TBD | 8 Bytes | struct | Points to the top-level node object in the data tree |
-| User Tag | TBD | 4 Bytes | uint32 | Always ``80 00 00 0F`` |
+| User Tag | TBD | 4 Bytes | uint32 | Always ``0F 00 00 80`` |
 | User Data | TBD | 16 Bytes | ? | Unused (probably) since it's always zero |
 
 ### Section Reference Structure
