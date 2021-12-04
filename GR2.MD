@@ -27,6 +27,19 @@ Each Granny file encodes a hierarchy of objects and some metadata, with all data
 
 There are ways to get at the data, of course, but they generally rely on specific format conversion (such as a GR2-to-DAE converter that I've seen) or may not be fully compatible with all possible GR2 versions (various open source projects for other games come to mind).
 
+Due to this logical separation of data and representation, which makes the format highly flexible, a number of pre-processing steps are needed before the data itself can be accessed.
+
+## Pre-Processing Phases
+
+It appears there are multiple phases involved in restoring the structure of a Granny file:
+
+1. Parsing of the headers and section metadata that describes the physical layout
+2. Decompressing any compressed section buffer areas based on the section metadata
+3. Resolving virtual pointers present in the data (educated guess; this needs confirmation)
+4. Restoring hardware-dependant pointers based on the machine's architecture
+5. Loading of the restored sections to create a "tree" of nodes as in-memory structure
+6. Navigating this tree, starting from the root node, to access the actual data
+
 ## Features
 
 Granny files can store arbitrary data, but in the case of RO they alway seem to follow a relatively primitive "standard" format. In particular, they don't appear to extend the basic Granny file format with custom data types. This means only some of the vast Granny3D feature set is used, the relevant portions of which should be described here.
