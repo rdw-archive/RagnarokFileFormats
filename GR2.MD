@@ -57,17 +57,11 @@ Since there are converter tools that will transparently deal with all of this, I
 
 Granny files consist of multiple buffer areas that the decompression needs to be applied to individually before a proper and more useful Granny File structure can be obtained.
 
-Once all sections have been decompressed and re-arranged, the resulting struct still requires further processing in order to retrieve the stored skeletons, meshes, and textures.
+Not all of these are using compression; it seems like the assets are categorized, so some classes of assets that are already compressed (e.g., textures) don't require it and are stored in an uncompressed section that can be read directly using the offsets from the header.
 
-** TODO: Rearrangement not needed, section references suffice?**
+I'm guessing that they are also grouped by their intended use case, since this design allows for loading only certain sections and reduce memory usage if the others aren't needed.
 
-Textures (and animation curves?) are also compressed, though I'm unsure whether they use the same Oodle0 compression as the sections themselves or some other, related algorithm (Bink video?).
-
-**TBD:** Why is the data split this way? Perhaps to differentiate between persistent and temporary resources (vertex data -> goes to GPU, then can be freed. What parts do you want to keep? Animations and skeletons?)
-
-**TODO: Research texture compression and the compression of animation curves**
-
-**TODO: Is anything else compressed or was that it?**
+Once all sections have been decompressed, the result is a representation of the actual 3D model, which can be accessed to retrieve the stored geometry, textures, and animations.
 
 ### Other Features (TODO: Determine which are used)
 
