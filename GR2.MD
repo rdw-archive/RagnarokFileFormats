@@ -223,7 +223,6 @@ This means they are given as a set of points (usually called *knots* or *knot va
 
 Curves might also be multidimensional, with the degree referring to the dimension of the vectors used to represent its data. The animation vectors are again separated into the three base types of translation, rotation, and scale expressed as 3D vector to be added, 4D rotation quaternion, and a 3x3 scale/shear matrix, respectively.
 
-This can be translated into a "keyframe"-style representation by simply taking the knot values as "frames" and control points as "target value" (I think, anyway). From this one might linearly interpolate (see [LERPing](https://en.wikipedia.org/wiki/Linear_interpolation), which is not to be confused with [LARPing](https://en.wikipedia.org/wiki/Live_action_role-playing_game)) the intermediate values, which is a fairly standard way of animating arbitrary properties.
 
 ## See also
 
