@@ -1,6 +1,241 @@
+# GR2 Format Specification
 
-### GR2
+GR2 files contain 3D models and skeletons stored in the proprietary [Granny3D](http://www.radgametools.com/granny.html) format.
 
-Status: Ignored (for now)
+This article only covers the files used in Gravity's RO client and does not aim to be a comprehensive resource for all possible variants and versions of Granny3D files.
 
-These files may be better documented online than the custom file formats Gravity created, but either way I haven't prioritized rendering 3D models and therefore I don't know any specifics about the Granny library.
+## Prerequisites
+
+Before learning about Granny3D files (as used in RO), you'll probably want to read this first:
+
+* The (much simpler) [RSM](RSM.MD) format description, which uses keyframe 3D animations directly
+* [Skeletal animation](https://en.wikipedia.org/wiki/Skeletal_animation), a technique for animating 3D models via "bones" and "weights"
+* [B-Splines](https://en.wikipedia.org/wiki/B-spline#Computer-aided_design_and_computer_graphics), a way of compactly storing animation data as mathematical curves
+* [Endianness](https://en.wikipedia.org/wiki/Endianness), a term that describes the architecture-dependant byte order of data
+* [Marshalling](https://en.wikipedia.org/wiki/Marshalling_(computer_science)) can be employed to store data in an architecture-independent fashion
+* [The Wikipedia article on Data Compression](https://en.wikipedia.org/wiki/Data_compression), for an intro to compression algoritms
+
+## Overview
+
+GR2 files are used very sparsely in RO, and appear to be a (failed) experiment that took place late in the game's development (2003): They are only used to represent WOE Guardians, the Emperium as seen during WOE, castle flags, and treasure boxes. They also contain an unfinished version of what looks to be a 3D player model (skeleton and textures only).
+
+There are two "types" of Granny3D files used in RO: The model and idle pose of each 3D actor and can be found in files located in the ``data/model/3dmob`` directory, while the others each store a skeleton for another pose and are found in ``data/model/3dmob_bone``.
+
+Unlike the custom formats used in RO, Granny3D files cannot as easily be deserialized. This is because they use a proprietary compression algorithm called [Oodle](http://www.radgametools.com/oodle.htm), which comes in many different versions and is (unfortunately) not widely supported by existing open-source tools.
+
+Each Granny file encodes a hierarchy of objects and some metadata, with all data being stored in containers called sections. The compression is applied to (some of) the data sections, while the data stored inside, like textures and animations, can also be compressed (potentially using a different algorithm). This makes processing them somewhat difficult.
+
+There are ways to get at the data, of course, but they generally rely on specific format conversion (such as a GR2-to-DAE converter that I've seen) or may not be fully compatible with all possible GR2 versions (various open source projects for other games come to mind).
+
+Due to this logical separation of data and representation, which makes the format highly flexible, a number of pre-processing steps are needed before the data itself can be accessed.
+
+## Pre-Processing Phases
+
+It appears there are multiple phases involved in restoring the structure of a Granny file:
+
+1. Parsing of the headers and section metadata that describes the physical layout
+2. Decompressing any compressed section buffer areas based on the section metadata
+3. Resolving virtual pointers present in the data (educated guess; this needs confirmation)
+4. Restoring hardware-dependant pointers based on the machine's architecture
+5. Loading of the restored sections to create a "tree" of nodes as in-memory structure
+6. Navigating this tree, starting from the root node, to access the actual data
+
+## Features
+
+Granny files can store arbitrary data, but in the case of RO they alway seem to follow a relatively primitive "standard" format. In particular, they don't appear to extend the basic Granny file format with custom data types. This means only some of the vast Granny3D feature set is used, the relevant portions of which should be described here.
+
+### Mixed Marshalling
+
+Going by what's been implemented in various open-source decompressor tools, the format allows storing data in an architecture-dependent form. This may necessitate a preprocessing step where it's updated for the current computer architecture (to restore the endianness).
+
+It seems that this feature is indeed used by some of the files (e.g., ``aguardian90_8.gr2`` features 4 mixed marshalling blocks). I haven't looked into the specifics as OSS tools exist that will handle the de-marshalling process and I therefore consider it a "solved problem".
+
+### Compression
+
+The compression algorithm used for the compressed data sections is called Oodle0 and (from what I can tell) is an ancient, and almost certainly inferior, version of the same suite of compression algorithms still in use today.
+
+In the compiled ``granny2.dll`` we find this string message that indicates it's now deprecated:
+
+![A message that seems to indicate Oodle0 is no longer supported](Images/GR2_OodleString.png)
+
+As far as the algorithm itself goes, the people at RAD have published many articles about their work on compression algorithms. Since I'm not an expert in data compression that, alongside some independent research, is the only source providing details about the design:
+
+From what I can gather Oodle(0) uses [arithmetic coding]( https://en.wikipedia.org/wiki/Arithmetic_coding) with an [adaptive probabilistic model](https://en.wikipedia.org/wiki/Adaptive_coding) to predict the input stream while encoding, with the symbols being stored in a [Huffman-encoded](https://en.wikipedia.org/wiki/Huffman_coding) table. This means it's a variation on the standard [Lempel-Ziv](https://en.wikipedia.org/wiki/LZ77_and_LZ78) class of algorithms.
+
+Some of the section data seems to consist of compressed data using different schemes, which (I think) are stored in separate sections without section compression, which does make sense. Examples for these are textures using the Bink texture format, and animation curves.
+
+Since there are converter tools that will transparently deal with all of this, I haven't spent more time on researching the implementation details of the algorithm (beyond the basics).
+
+### Sections
+
+Granny files consist of multiple buffer areas that the decompression needs to be applied to individually before a proper and more useful Granny File structure can be obtained.
+
+Not all of these are using compression; it seems like the assets are categorized, so some classes of assets that are already compressed (e.g., textures) don't require it and are stored in an uncompressed section that can be read directly using the offsets from the header.
+
+I'm guessing that they are also grouped by their intended use case, since this design allows for loading only certain sections and reduce memory usage if the others aren't needed.
+
+Once all sections have been decompressed, the result is a representation of the actual 3D model, which can be accessed to retrieve the stored geometry, textures, and animations.
+
+## Layout
+
+I have verified that all 21 GR2 files in the RO client use version 6 of the Granny file format.
+
+| Field | Offset | Size | Type | Description and notes              |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Header | 0 | 352 bytes | struct | The Granny File header structure (see below) |
+| Sections | 352 | variable | binary | Compressed Granny File data, split into multiple parts |
+
+The decompressed sections need to be relocated; it looks as though they are simply appended at the end of the header section:  The ``relocationOffset`` is always ``352``, which is the length of the header structure.
+
+### Granny Header Structure
+
+While the header clearly allows for flexible structures, in Ragnarok's GR2 files the size is fixed:
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Signature  |   0    | 16 Bytes | binary | Always ``B8 67 B0 CA F8 6D B1 0F 84 72 8C 7E 5E 19 00 1E``               |
+| Header Size | 16 | 4 Bytes | uint32 | Always ``352`` (decimal) |
+| Compression Flag | 20 | 4 Bytes | uint32 | Always ``0`` (no compression) |
+| Unknown | 24 | 4 Bytes | ? | Unused (probably) since it's always zero |
+| Unknown | 28 | 4 Bytes | ? | Unused (probably) since it's always zero |
+| Version | 32 | 4 Bytes | uint32 | The Granny File version (always ``6``) |
+| File Size | 36 | 4 Bytes | uint32 | The total file size in bytes |
+| Checksum | 40 | 4 Bytes | uint32 | A CRC checksum over the file contents |
+| Section Offset | 44 | 4 Bytes | uint32 | Where the sections begin (always ``56``) |
+| Section Count | 48 | 4 Bytes | uint32 | Number of sections (always ``6``) |
+| Root Node Type | 56 | 8 Bytes | struct | Points to a definition of the top-level node object's type |
+| Root Node Object | 64 | 8 Bytes | struct | Points to the top-level node object in the data tree |
+| User Tag | 68 | 4 Bytes | uint32 | Always ``0F 00 00 80`` |
+| User Data | 72 | 16 Bytes | ? | Unused (probably) since it's always zero |
+| Section Headers | 88 | 264 Bytes | struct | ``44`` Bytes per section (here: ``6 * 28 = 264``)|
+
+It should be noted that the "header size" includes the section metadata, which I've listed separately here to make it easier to survey at a glance. That is to say, ``352`` bytes is the length from the beginning of the file to the actual section data and *not* just to the section headers.
+
+### Section Reference Structure
+
+Objects reference the decompressed section buffer area using this simple format:
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Index | 0 | 4 Bytes | uint32 | The index of the section containing this object |
+| Offset | 4 | 4 Bytes | uint32 | Where the object is located inside the section |
+
+This serves as a "pointer" to the buffer area and can be used to read data without having to re-arrange the entire file in memory (after the decompression and demarshalling steps).
+
+### Section Headers Structure
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Compression Mode | 0 | 4 Bytes | uint32 | ``0`` if uncompressed, ``1`` for Oodle0 |
+| Section Offset | 4 | 4 Bytes | uint32 | After how many bytes in the file the section starts |
+| Compressed Size | 8 | 4 Bytes | uint32 | After how many bytes the section ends (when compressed) |
+| Decompressed Size | 12 | 4 Bytes | uint32 | How large the section is after decompressing it |
+| Alignment Size | 16 | 4 Bytes | uint32 | Used for packing the data on hardware-aligned boundaries (?) |
+| Stop 0 | 20 | 4 Bytes | uint32 | "Compressor stop 0" - Oodle0 parameter (?) |
+| Stop 1 | 24 | 4 Bytes | uint32 | "Compressor stop 1"  - Oodle0 parameter (?) |
+| Relocation Header | 28 | 8 Bytes | struct | Used to restore virtual pointers to an intermediate, hardware-dependant form (?) |
+| Marshalling Header | 32 | 8 Bytes | struct | Used to restore the fixed pointers to their final, hardware-dependant form (?) |
+
+It looks like the section metadata covers the layout and size of the buffer area, as well as the configuration data for all preprocessing steps needed to restore the data in its original form.
+
+### Relocation Headers
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Relocation Offset | 0 | 4 Bytes | uint32 | Where the relocation data is stored in the section |
+| Relocation Count | 4 | 4 Bytes | uint32 | How many relocation data sets (?) are stored at this location |
+
+If I understand this correctly, it's used to "relocate" references  (pointers) to the stored data. This would mean "virtual" pointers are being stored, possibly to save space or to abstract away hardware architecture details. They would then need to be "resolved" in a separate step (the "demarshalling step") before the data can actually be used?
+
+More research is needed on this topic.
+
+### Marshalling Headers Structure
+
+| Field | Offset | Size | Type | Description and notes |
+| :-----: | :------: | :----: | :-----: | :---------------------------: |
+| Marshalling Data Offset | 36 | 4 Bytes | uint32 | Where the marshalling data is stored in the section |
+| Marshalling Block Count | 40 | 4 Bytes | uint32 | How many marshalling data sets (?) are stored at this location |
+
+After the virtual references have been resolved, the hardware-dependant pointer layout would have to be restored? After this step, the final representation should be available.
+
+More research is needed to confirm that this is what the preprocessing steps actually do.
+
+### Compressed Section Buffer Structure
+
+The size is given by the ``compressedSize`` value of the respective section header. Sections are concatenated one after the other and can be accessed using the Section Reference directly.
+
+### Decompressed Section Buffer Structure
+
+Once all sections are decompressed, their data can be read by following the Root Node Object offset stored in the Granny file header. What you'll find inside depends on the file and format used, which could be entirely arbitrary data. What's present in RO files is listed below.
+
+## Contents
+
+While the above dealt with the Granny file format, the *actually* interesting parts are the contents of the individual data sections, i.e., the 3D models used for WOE Guardians, etc.
+
+The following deals with their structure and is assuming you've used one of the available tools to get at them in the first place, as you won't be able to see what's inside the compressed buffer areas otherwise.
+
+## Decompressed File Structure
+
+### Contents of the Data Tree
+
+The processed buffer area contains a hierarchy of objects used to represent the 3D model actor. In RO, each of the Granny files contains exactly **one** of the following:
+
+* An abstract 3D model object that acts as a container (root node)
+* A single skeleton, which is linked to the model, and consists of multiple bones
+* A single animation container that describes the motion of the bones for this skeleton
+
+The *base model* (as defined above) **additionally** contains shared assets for the model:
+
+* Several meshes that contain the geometry of the 3D model's "skin"
+* Compressed textures that are mapped to those meshes
+
+The secondary models don't contain all the data required to render the model. As such, I suspect they are loaded separately and combined to form a cohesive whole with all of the relevant poses for the given model actor, which can then be animated by swapping the "active" skeleton to the one assigned to its current pose. Geometry and textures are shared.
+
+All files also contain *material* data, which describes the material (shader) settings used by the exporter (3DS Max) that the artist used to create the model. Some of the materials refer to textures (if present), but otherwise they're just shader properties that probably might not be useful unless you want to import them in a modelling tool and replicate the exact rendition.
+
+### Models
+
+All models are assigned exactly one skeleton, and a transformation matrix that (I think) may describe its offset position in the object's local coordinate system.
+
+### Skeletons
+
+Each skeleton contains (usually) 32 bones and a unique identifier. That's it.
+
+Due to the extremely low bone count, they look pretty... *bare-bones* (ha...ha..):
+
+![Images/GR2_BaseSkeleton.png](Images/GR2_BaseSkeleton.png)
+
+*Pictured: The actual skeleton of a [Sword Guardian](https://file5s.ratemyserver.net/mobs/1829.gif) unit*
+
+### Bones
+
+Bones have a similarly unique (for the skeleton, not across models) identifier.
+
+They're parented to another bone (or none if they're the root bone), and offset with a set of transformation matrices that describe the bone's position in object-local space. These are decomposed and stored as a separate matrix for translation, rotation and scaling.
+
+The scale matrix seems to only support mirroring the Y component (mirror alongside X axis) and no other scaling seems to be used, i.e. it's mostly an identity matrix except for a few cases where bones are mirrored and the ``1`` in the 2nd row becomes a ``-1``  instead (?).
+
+### Spline Animation
+
+Animations are stored as curve data, represented by base splines (b-splines).
+
+This means they are given as a set of points (usually called *knots* or *knot values*) which represent time as points on the temporal axis, and multi-dimensional vectors called *control points* or *controls* that approximately describe the curve at a given point.
+
+Curves might also be multidimensional, with the degree referring to the dimension of the vectors used to represent its data. The animation vectors are again separated into the three base types of translation, rotation, and scale expressed as 3D vector to be added, 4D rotation quaternion, and a 3x3 scale/shear matrix, respectively.
+
+
+## See also
+
+There are various open source projects providing info on Granny files:
+
+* [https://github.com/arves100/Granny2-research/wiki/File-Format-Documentation](https://github.com/arves100/Granny2-research/wiki/File-Format-Documentation)
+* [https://github.com/Karbust/gr2decode](https://github.com/Karbust/gr2decode)
+* https://github.com/herenow/gr2-web
+* https://github.com/Norbyte/lslib/
+
+
+Some information about Oodle0 (from the people at RAD) can be found here:
+
+* [http://www.radgametools.com/oodle.htm](http://www.radgametools.com/oodle.htm)
+* [http://www.radgametools.com/oodlecompressors.htm](http://www.radgametools.com/oodlecompressors.htm
+)
