@@ -197,6 +197,14 @@ All files also contain *material* data, which describes the material (shader) se
 
 All models are assigned exactly one skeleton, and a transformation matrix that (I think) may describe its offset position in the object's local coordinate system.
 
+#### Guild Flags
+
+The guild flag model features a special "placeholder guild emblem" texture that is never displayed in the game. From the looks of it, this texture is simply replaced by the guild emblem assigned to it. If no emblem needs to be rendered, the placeholder remains hidden.
+
+Interestingly, the placeholder texture is only 16 pixels in size (both width and height), which makes it even smaller than the regular guild emblems (24 pixels in size).
+
+Compatible guild emblem textures can, for example, be created by decompressing [EBM](EBM.md) files.
+
 ### Skeletons
 
 Each skeleton contains (usually) 32 bones and a unique identifier. That's it.
