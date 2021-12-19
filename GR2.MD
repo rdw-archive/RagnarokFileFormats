@@ -1,19 +1,24 @@
 # GR2 Format Specification
 
-GR2 files contain 3D models and skeletons stored in the proprietary [Granny3D](http://www.radgametools.com/granny.html) format.
+GR2 files contain 3D models and skeletons stored in the proprietary [Granny3D](http://www.radgametools.com/granny.html) format. They consist of a physical (data storage) and logical (animated 3D model resources) layer.
 
 This article only covers the files used in Gravity's RO client and does not aim to be a comprehensive resource for all possible variants and versions of Granny3D files.
 
 ## Prerequisites
 
-Before learning about Granny3D files (as used in RO), you'll probably want to read this first:
+Before learning about Granny3D files (as used in RO), you'll probably want to read up on a few things first.
 
-* The (much simpler) [RSM](RSM.MD) format description, which uses keyframe 3D animations directly
-* [Skeletal animation](https://en.wikipedia.org/wiki/Skeletal_animation), a technique for animating 3D models via "bones" and "weights"
-* [B-Splines](https://en.wikipedia.org/wiki/B-spline#Computer-aided_design_and_computer_graphics), a way of compactly storing animation data as mathematical curves
+For the data storage layer, a basic idea of the following is recommended:
+
 * [Endianness](https://en.wikipedia.org/wiki/Endianness), a term that describes the architecture-dependant byte order of data
 * [Marshalling](https://en.wikipedia.org/wiki/Marshalling_(computer_science)) can be employed to store data in an architecture-independent fashion
 * [The Wikipedia article on Data Compression](https://en.wikipedia.org/wiki/Data_compression), for an intro to compression algorithms
+
+If your interest lies with the 3D models they contain, give these a read first:
+
+* The simpler [RSM](RSM.MD) format description, which uses keyframed animations directly
+* [Skeletal animation](https://en.wikipedia.org/wiki/Skeletal_animation), a technique for animating 3D models via "bones" and "weights"
+* [B-Splines](https://en.wikipedia.org/wiki/B-spline#Computer-aided_design_and_computer_graphics), a way of compactly storing animation data as mathematical curves
 
 ## Overview
 
