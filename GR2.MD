@@ -203,7 +203,7 @@ The guild flag model features a special "placeholder guild emblem" texture that 
 
 Interestingly, the placeholder texture is only 16 pixels in size (both width and height), which makes it even smaller than the regular guild emblems (24 pixels in size).
 
-Compatible guild emblem textures can, for example, be created by decompressing [EBM](EBM.md) files.
+Compatible guild emblem textures can, for example, be created by decompressing [EBM](EBM.MD) files.
 
 ### Skeletons
 

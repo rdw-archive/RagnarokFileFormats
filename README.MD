@@ -106,7 +106,7 @@ Only 256 colours are supported and the first palette index is use as transparent
 
 > It's safe to clear anything with red and blue > 0xf0 and green < 0x10
 
-Guild emblems are stored as compressed bitmaps, in the [EBM](EBM.md) format.
+Guild emblems are stored as compressed bitmaps, in the [EBM](EBM.MD) format.
 
 ## Tools
 
