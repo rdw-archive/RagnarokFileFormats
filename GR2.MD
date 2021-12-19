@@ -220,13 +220,26 @@ Due to the extremely low bone count, they look pretty... *bare-bones* (ha...ha..
 
 *Pictured: The actual skeleton of a [Sword Guardian](https://file5s.ratemyserver.net/mobs/1829.gif) unit*
 
+Skeletons aren't really a physical object that needs rendering; they mostly serve as a container for the hierarchy of transformation matrices represented by the bones.
+
 ### Bones
 
-Bones have a similarly unique (for the skeleton, not across models) identifier.
+Bones are another "virtual" object, serving solely as an abstraction for the transformations used to animate the visible geometry. The "skeleton" represented by them, defines a set of points ("bones") that move independently when animated, and by "linking" (binding) a mesh to these points it follows these movements, by applying the same transformations.
 
-They're parented to another bone (or none if they're the root bone), and offset with a set of transformation matrices that describe the bone's position in object-local space. These are decomposed and stored as a separate matrix for translation, rotation and scaling.
+The standard approach to skeletal animation is to "bind" the meshes on a per-vertex basis to any number of "bones", so that it's matrix describes how all connected vertices need to be transformed (for a given animation keyframe). There are usually multiple "influences" for each vertex, but in the case of RO each vertex is only influenced by exactly one bone.
+
+All bones have a similarly unique (for the skeleton, not across models) identifier. They're parented to another bone (or none if they're the root bone), and offset with a set of transformation matrices that describe the bone's position in object-local space. These are decomposed and stored as a separate matrix for translation, rotation and scaling.
 
 The scale matrix seems to only support mirroring the Y component (mirror alongside X axis) and no other scaling seems to be used, i.e. it's mostly an identity matrix except for a few cases where bones are mirrored and the ``1`` in the 2nd row becomes a ``-1``  instead (?).
+
+From what I can tell, this reflection alongside the Y axis has no visible impact, but since I'm unsure how the bones are supposed to be scaled that might just be my mistaken interpretation. Either way, it can't have much of an effect even if I did get it wrong.
+
+One last thing about the root bone... There's actually two of them:
+
+* A "synthetic" root bone is used to steer the model actor's movement and orientation
+* A "natural" root bone is parented to this and controls the actual hierarchy of bones
+
+In practice, this only means that one can move the entire model by changing the synthetic root bone, and separate the animation of the character's pose from this world-space movement. Since the existing animations are already designed in this manner, both bones can be treated just like any other part of the skeleton to compose the final transform.
 
 ### Spline Animation
 
@@ -234,8 +247,11 @@ Animations are stored as curve data, represented by base splines (b-splines).
 
 This means they are given as a set of points (usually called *knots* or *knot values*) which represent time as points on the temporal axis, and multi-dimensional vectors called *control points* or *controls* that approximately describe the curve at a given point.
 
+In order to compute the transformation of each individual bone at a given point in time, the curve must be evaluated ("sampled"), which means setting the knot value to the desired time offset and computing the resulting control point. This is all handled by the Granny3D library in the RO client (or so I would assume), but it can be replicated via a keyframed animation that simply stores a sufficiently fine-grained sample as its keyframe and target value.
+
 Curves might also be multidimensional, with the degree referring to the dimension of the vectors used to represent its data. The animation vectors are again separated into the three base types of translation, rotation, and scale expressed as 3D vector to be added, 4D rotation quaternion, and a 3x3 scale/shear matrix, respectively.
 
+Any animated value overrides the bone's rest pose, i.e., the animation is not additive.
 
 ## See also
 
@@ -252,3 +268,8 @@ Some information about Oodle0 (from the people at RAD) can be found here:
 * [http://www.radgametools.com/oodle.htm](http://www.radgametools.com/oodle.htm)
 * [http://www.radgametools.com/oodlecompressors.htm](http://www.radgametools.com/oodlecompressors.htm
 )
+
+Lastly, here's a description of the synthetic root bone concept and how it's used:
+
+* [http://hewiki.heroengine.com/wiki/Synthetic_Root_Bone](http://hewiki.heroengine.com/wiki/Synthetic_Root_Bone)
+* [http://hewiki.heroengine.com/wiki/Character_Animation_Movement](http://hewiki.heroengine.com/wiki/Character_Animation_Movement)
