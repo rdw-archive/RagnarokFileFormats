@@ -253,6 +253,12 @@ Curves might also be multidimensional, with the degree referring to the dimensio
 
 Any animated value overrides the bone's rest pose, i.e., the animation is not additive.
 
+### Textures
+
+Each base model contains one diffuse texture per mesh. There's some other material data, added by 3DS Max (modeling tool that the authors used), but I don't think it's actually used in the game. Trying to make use of it didn't seem to have any visible effect in my testing.
+
+Auxiliary pose models have no textures, as they are combined with the base model in order to generate the final rendition and the base model already includes all of the geometry.
+
 ## See also
 
 There are various open source projects providing info on Granny files:
