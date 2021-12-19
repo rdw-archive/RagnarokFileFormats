@@ -198,6 +198,21 @@ The secondary models don't contain all the data required to render the model. As
 
 All files also contain *material* data, which describes the material (shader) settings used by the exporter (3DS Max) that the artist used to create the model. Some of the materials refer to textures (if present), but otherwise they're just shader properties that probably might not be useful unless you want to import them in a modelling tool and replicate the exact rendition.
 
+The following table gives an overview of all the base and auxiliary pose models:
+
+| Model ID | Creature | Base Model (Idle Pose) | Attack Pose | Flinch Pose | Death Pose | Walk Pose |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | Emperium | ``empelium90_0.gr2`` | --- | --- | --- | --- |
+| 1 | Guild Standard | ``guildflag90_1.gr2`` | ``1_attack.gr2`` (see below) | --- | --- | --- |
+| 2 | Treasure Box | ``treasurebox_2`` | --- | ``2_damage.gr2`` | ``2_dead.gr2`` | --- |
+| 7 | Knight Guardian | ``kguardian90_7.gr2`` | ``7_attack.gr2`` | ``7_damage.gr2`` | ``7_dead.gr2`` | ``7_move.gr2`` |
+| 8 | Bow Guardian  |``aguardian90_8.gr2`` | ``8_attack.gr2`` | ``8_damage.gr2`` | ``8_dead.gr2`` | ``8_move.gr2`` |
+| 9 | Sword Guardian | ``sguardian90_9.gr2`` | ``9_attack.gr2`` | ``9_damage.gr2`` | ``9_dead.gr2`` | ``9_move.gr2`` |
+
+The astute observer will notice that the guild flag appears to have an attack pose. While that sounds hilarious in theory, the skeleton contained in it is clearly not compatible with the guild flag's model: It uses different bones and even includes textures, but no geometry.
+
+Going by the animation and texture names, it rather looks like a prototype of a player character (novice) remade as 3D model, though why it was left in the game files isn't clear.
+
 ### Models
 
 All models are assigned exactly one skeleton, and a transformation matrix that (I think) may describe its offset position in the object's local coordinate system.
