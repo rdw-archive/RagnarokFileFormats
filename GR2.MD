@@ -262,8 +262,7 @@ There are various open source projects providing info on Granny files:
 * https://github.com/herenow/gr2-web
 * https://github.com/Norbyte/lslib/
 
-
-Some information about Oodle0 (from the people at RAD) can be found here:
+Some information about Oodle (from the people at RAD) can be found here:
 
 * [http://www.radgametools.com/oodle.htm](http://www.radgametools.com/oodle.htm)
 * [http://www.radgametools.com/oodlecompressors.htm](http://www.radgametools.com/oodlecompressors.htm
