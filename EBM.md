@@ -41,4 +41,4 @@ fs.writeFileSync(SOME_EBM_PATH + ".bmp", bitmap);
 
 ## See also
 
-* The [GR2 specification](GR2.md) includes information about displaying emblems on guild flags
+* The [GR2 specification](GR2.MD) includes information about displaying emblems on guild flags
