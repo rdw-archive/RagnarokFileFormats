@@ -172,4 +172,10 @@ Dynamic lighting also goes here?
 
 **TODO: Table for the different versions**
 
-**TODO: Version byte order**
+#### Version 1.6
+
+Used in iRO alpha (circa 2003). More research is needed.
+
+#### Version 2.1
+
+Widely used in RO (Classic). Later (Renewal) superceded by slightly modified versions?
