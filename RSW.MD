@@ -174,7 +174,7 @@ Dynamic lighting also goes here?
 
 #### Version 1.6
 
-Used in iRO alpha (circa 2003). More research is needed.
+Used in iRO alpha (circa 2003), as well as in Gravity's previous game, Arcturus. More research is needed.
 
 #### Version 2.1
 
