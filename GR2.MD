@@ -194,9 +194,9 @@ The *base model* (as defined above) **additionally** contains shared assets for 
 * Several meshes that contain the geometry of the 3D model's "skin"
 * Compressed textures that are mapped to those meshes
 
-The secondary models don't contain all the data required to render the model. As such, I suspect they are loaded separately and combined to form a cohesive whole with all of the relevant poses for the given model actor, which can then be animated by swapping the "active" skeleton to the one assigned to its current pose. Geometry and textures are shared.
+The secondary models don't contain all the data required to render the model. As such, I suspect they are loaded separately and combined to form a cohesive whole with all of the relevant poses for the given model actor, which can then be animated by setting the "active" skeleton to the one assigned to its current pose. Geometry and textures are shared.
 
-All files also contain *material* data, which describes the material (shader) settings used by the exporter (3DS Max) that the artist used to create the model. Some of the materials refer to textures (if present), but otherwise they're just shader properties that probably might not be useful unless you want to import them in a modelling tool and replicate the exact rendition.
+All files also contain *material* data, which describes the material (shader) settings used by the exporter (3DS Max) that the artist used to create the model. Some of the materials refer to textures (if present), but otherwise they're just shader properties that probably won't be useful... unless you want to import them in a modelling tool and replicate the exact rendition.
 
 The following table gives an overview of all the base and auxiliary pose models:
 
