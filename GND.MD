@@ -9,8 +9,6 @@ GND files contain the entirety of a map's static geometry (i.e., the ground/terr
 In order to understand the GND file format, some familiarity with the following concepts is required:
 
 * [Polygon meshes](https://en.wikipedia.org/wiki/Polygon_mesh), used to represent objects in 3D space
-* The [Flyweight Design Pattern](https://gameprogrammingpatterns.com/flyweight.html) can help to reduce space usage by avoiding redundancy
-* [Geometry Instancing](https://en.wikipedia.org/wiki/Geometry_instancing), a related concept that similarly helps to avoid redundancy
 * [Lightmaps](https://en.wikipedia.org/wiki/Lightmap), a standard way to use precomputed lighting and improve rendering performance
 * [Posterization](https://en.wikipedia.org/wiki/Posterization), an effect of reducing the number of colors which is applied to the lightmap texture
 
