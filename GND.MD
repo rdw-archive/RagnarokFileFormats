@@ -154,6 +154,24 @@ In [this basic rendition of pay_dun00](https://i.imgur.com/HWrzkEE.png) you can 
 >
 ## Layout
 
-**TODO: Are there multiple versions? I've only ever seen one**
+### Alpha / Arcturus
+
+At least one version exists that doesn't feature the typical GND header.
+
+It seems to otherwise be largely identical to the later version 1.7, but I think it may use a different (simpler) lightmap format.
+
+This is only an educated guess based on comparing the converted legacy GND files (author unknown) published on the athena forums.
+
+### Version 1.7
+
+This is the only version used in the modern RO client.
+
+It contains all the basic information about the map's surface geometry, as well as texturing information.
+
+### Version 1.8
+
+In this version, it appears as though the water plane configuration that was previously part of the [RSW](RSW.MD) file is now contained in the GND file instead. It's appended after the regular GND 1.7 data, which seems to be unchanged.
+
+Additionally, some (three) extra bytes are present. The purpose of them isn't quite clear, with no way to test hypotheses until the few maps that use the format are seen online.
 
 **TODO: Tables**
