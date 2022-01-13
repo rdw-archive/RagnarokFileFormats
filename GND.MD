@@ -46,6 +46,28 @@ Surfaces are the visible areas containing tiles. The entirety of the map's geome
 
 This is mostly of relevance for texturing, since texture slices usually are 64 pixels wide, so larger surfaces that appear seamless in the game are frequently pieced together by individual surfaces to give the appearance of a continuous textured plane (and they're indeed rendered similarly). Unfortunately this can cause problems if texture coordinates aren't applied correctly (and sometimes even if they are), which is why there are visible "gaps" in the terrain that can be seen at the right camera angle and distance.
 
+The vertices forming the terrain's surface geometry must be connected from bottom-right to top-left for each textured surface. If done the other way around some slopes will look very wrong.
+
+This beautiful part of early 2000s wall geometry can be found at approximately ``pay_dun00 (40, 35)``:
+
+![Images/GND_VertexConnections_ORIGINAL.png](Images/GND_VertexConnections_ORIGINAL.png)
+
+Connecting the vertices the wrong way (bottom-left to top-right) results in a horrible disfigurement:
+
+![Images/GND_VertexConnections_WRONG.png](Images/GND_VertexConnections_WRONG.png)
+
+Clearly, the makers of this cave did not intend for things to go so horribly wrong!
+
+Luckily, connecting them the other way around immediately eliminates the problem:
+
+![Images/GND_VertexConnections_RIGHT.png](Images/GND_VertexConnections_RIGHT.png)
+
+For comparison, here's the original rendition once more:
+
+![Images/GND_VertexConnections_ORIGINAL.png](Images/GND_VertexConnections_ORIGINAL.png)
+
+So remember kids, always draw your triangles the right way... or someone will be very sad when they see the result.
+
 ##### Cubes
 
 Generally speaking, the terrain is defined by a heightmap indicating the positions of all four corners for any given tile. Each chunk of the heightmap (2x2 tiles) is sometimes called cube, which implies the presence of up to 6 surfaces: Two for the top and bottom of the cube, two to either side, and two to the front and back, where of course any number of them could be missing.
