@@ -2,9 +2,9 @@
 
 ## Overview
 
-GAT files contain two types of information primarily: The altitude data for each tile of a map, and the terrain type that represents the terrain on a given tile.
+GAT files contain two pieces of information: The altitude data (as height vectors) for each tile of a map, and the terrain type that represents the terrain on a given tile.
 
-The contents can be interpreted as a collision map that is used by both client and server to determine the legality of paths or line of sight (for ranged combat/spellcasting).
+The contents can be interpreted as a navigation map that is used by both client and server in pathfinding algorithms, to determine the legality of movements, and line of sight checks.
 
 ## Prerequisites
 
