@@ -26,9 +26,11 @@ To this end, we must first understand the three components that form the basic b
 
 RO uses tiles as the basic unit of measurement for game logic, but its world actually consists of surfaces larger than that, which are part of what you could call "cubes" (boxes). These boxes are combined like a jigsaw puzzle to form the actual terrain.
 
-Each surface of a cube is 2x2 tiles large (**TODO: Are there any exceptions to this rule?**) and may be textured or not. There's no direct reference to the tiles as defined in the world coordinate system, but rather surfaces/cubes are combined in a predefined order (bottom/left to top/right).
+Cubes are defined by only three surfaces (TOP, NORTH, EAST), which can be one of the two types mentioned below. In order to realize the BOTTOM, SOUTH and WEST sides, the adjacent cube's TOP, NORTH and EAST surface are used, respectively. The only two types of surfaces are GROUND and WALL, where GROUND is essentially the square defined by connecting the four height vectors stored in the GND file, and WALLS are the implied surfaces formed by connecting the GROUND surface of one cube to the GROUND surface of the neighboring cube, forming what a wall if they differ in height.
 
-Cubes are defined by only three surfaces (TOP, NORTH, EAST). In order to realize the BOTTOM, SOUTH and WEST sides, the adjacent cube's TOP, NORTH and EAST surface are used, respectively.
+Each surface of a cube is 2x2 GAT tiles large and may be textured or not. Surfaces without textures (i.e., texture ID is ``-1``) aren't rendered, nor can they be used to attach "wall" surfaces to from their adjacent cube. This is relevant, because in at least two instances, namely ``c_tower4`` and ``juperos_01``, ground surfaces on the map boundaries are erroneously assigned EAST and NORTH surfaces, but you can't render walls on map boundaries since there's no vertices that you could connect with.
+
+There's no direct reference to the tiles as defined in the world coordinate system, but rather surfaces/cubes are combined in a predefined order (bottom/left to top/right, with new rows starting whenever the "map width" has been exceeded - very much like pixels in a bitmap image).
 
 Since this process is somewhat convoluted, more details are given below.
 
