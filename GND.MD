@@ -202,4 +202,4 @@ Additionally, some (three) extra bytes are present. The purpose of them isn't qu
 
 ## See also
 
-* [This online demo](https://playground.babylonjs.com/#J48BT5#1) showing GND-style cube geometry defined in a standardized vertex data format
+* [This online demo](https://playground.babylonjs.com/#J48BT5#1) showing GND-style cube geometry defined in a standardized vertex data format (*Note: The triangles are formed bottom-right to top-left in the actual GND ground mesh and not bottom-left to top-right, as displayed here*)
