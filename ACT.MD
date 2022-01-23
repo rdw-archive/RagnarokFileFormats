@@ -191,7 +191,16 @@ Example: [ACT_EmptyLayersExample.png](Images/ACT_EmptyLayersExample.png)
 
 In the head sprite for male characters, the first layer appears to be an invisible copy of the second. I've not found any information as to the purpose of this, but it doesn't appear to be relevant to rendering the sprites correctly.
 
-## Sound Effects
+## Animation Events
+
+ACT files also contain information about special events that can take place whenever the respective animation frame is rendered. There are at least the following types of animation events:
+
+* Audio playback (indicated by the name of a sound effect file)
+* Display damage numbers (indicated by a virtual ``atk`` event)
+
+If the damage numbers aren't explicitly triggered during any animation frame, they're displayed at the very end of the animation sequence. This seems like an error state/fallback, and can be seen in the attack animation of Dark Illusion, which is clearly somewhat broken.
+
+### Sound Effects
 
 As mentioned above, playing multiple sound effects in a row will cut off those already playing. This means that idle frames are needed to play sounds without animations if a longer sound is desired and there aren't enough frames otherwise.
 
