@@ -49,6 +49,13 @@ Will have to see, so far I've only rendered the terrain (GND/ground mesh). The b
 
 * Information about the bounding boxes, used for collision detection
 
+
+> Looking at your issue, you might want to take a look at the code here: https://github.com/Doddler/RagnarokRebuild/blob/master/RebuildClient/Assets/Scripts/MapEditor/Editor/RagnarokModelLoader.cs
+
+> Around line 340 is where it's centered. The short of it is that you have to recalculate the bounds for the model and it's children and recenter it on load. I do it myself by calculating the bounds of the full model and then, from it's local position, subtracting the min of the bounds y axis and the center of the bounds x and z axis (assuming y is up).
+> 
+*Source: Doddler*
+
 ## Duplicate faces
 
 > Some RSM files apparently have duplicate faces
