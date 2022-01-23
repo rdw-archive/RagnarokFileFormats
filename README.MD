@@ -102,7 +102,7 @@ Finally, something easy! These are just regular WAV or MP3 files, respectively, 
 
 They are regular images (bitmaps). Nothing to be said about them, other than that the Korean/Unicode filenames don't normally translate properly on non-Korean Windows systems and therefore can end up as gibberish.
 
-Only 256 colours are supported and the first palette index is use as transparent background colour. Usually this is the oldschool "pink" with RGB code (``#FF00FF``), though similar colours can also be occur:
+Only 256 colours are supported and the first palette index is used as transparent background colour. Usually this is the oldschool "pink" with RGB code (``#FF00FF``), though similar colours can also be occur:
 
 > It's safe to clear anything with red and blue > 0xf0 and green < 0x10
 
