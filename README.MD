@@ -48,12 +48,12 @@ Which direction should be used is determined by the client based on the camera p
 
 The information on how to display a given unit's ingame actions is embedded in special collection files that contain additional information, such as sound effects to be played as part of the animation.
 
-Animations are composed of simple image files that will be played as individual frames, consisting of one or several layers that can be stacked to display multiple sprites together, in a predefined order, and with various visual changes applied to them, like rotation, scaling, transparency, and coloring.
+Animations are composed of simple image files that will be played as individual frames, consisting of one or several layers that can be arranged to display multiple sprites together, in a predefined order, and with various visual changes applied to them (such as rotation, scaling, transparency, and color shading).
 
 | Extension | Interpretation       | Contents                                                              |
 | --------- | -------------------- | --------------------------------------------------------------------- |
 | SPR       | Spritesheet          | Sprite images as bitmaps or TGA, metadata and, optionally, an RGB palette     |
-| ACT       | Animation Collection | Keyframes, animation details, and, optionally, sound effects to be played |
+| ACT       | Animation Collection | Keyframes, animation details, and, optionally, a list of sound effects to be played |
 | IMF       | Interface Management File | Information used to render sprites on the UI (2D) layer (seems obsolete?)|
 
 ### Models (3D Objects and Actors)
