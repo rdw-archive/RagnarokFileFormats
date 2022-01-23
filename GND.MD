@@ -17,6 +17,16 @@ In order to understand the GND file format, some familiarity with the following 
 
 The ground mesh is a static object that represents the ground (or terrain) of each map. It is the defining part of the GND file and consists chiefly of geometry to which diffuse textures, color highlights and lightmap textures are applied.
 
+## Relationship between GAT and GND
+
+Both files are defining different parts of a map's geometry. See also the following quote:
+
+> What you can take away from the RO method, is that they actually use two heightmaps: one invisible heightmap used for collision detection, and a visible one used to draw the map. That way, they can extend the "invisible wall or platforms" around various objects (eg those boats or docks placed in the scene that are not part of the heightmap
+
+*Source: [Game Development @ StackExchange](https://gamedev.stackexchange.com/questions/25823/how-to-create-a-3d-world-with-2d-sprites-similar-to-ragnorak-online)*
+
+The "collision map" is basically the contents of the GAT file (terrain types and "walkable" flags), while the "height map" is chiefly equivalent to the ground mesh as defined by its height vectors. The server needs to have the GAT information but doesn't care about GND, while the client uses the GAT to place units at their correct height and the GND to render the terrain geometry itself.
+
 ### Reconstruction
 
 Recreating the terrain involves a complex set of operations; It is stored in a memory-efficient format and therefore not directly compatible with how modern rendering hardware expects 3D objects to be described (see [Face-Vertex Mesh](https://en.wikipedia.org/wiki/Polygon_mesh#Face-vertex_meshes)).
