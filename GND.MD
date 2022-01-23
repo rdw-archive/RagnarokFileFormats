@@ -18,9 +18,11 @@ The ground mesh is a static object that represents the ground (or terrain) of ea
 
 ### Reconstruction
 
-Recreating the terrain involves a complex set of operations; It is stored in a memory-efficient format and therefore not directly compatible with how modern rendering hardware expects 3D objects to be described.
+Recreating the terrain involves a complex set of operations; It is stored in a memory-efficient format and therefore not directly compatible with how modern rendering hardware expects 3D objects to be described (see [Face-Vertex Mesh](https://en.wikipedia.org/wiki/Polygon_mesh#Face-vertex_meshes)).
 
-To this end, we must first understand the three components that form the basic building blocks of the game world.
+Instead of storing the vertex data directly, individual chunks of terrain ("cubes") are implicitly defined by the "height values" that are effectively defining the upwards-facing surface geometry by giving the relative position of its corners, offset by the surface cube's position in an imaginary "grid" of cubes.
+
+To better explain how the geometry can be reconstructed, it might be helpful to view it as a combination of different (simpler) primitive shapes that are  "stitched together" to form the ground mesh.
 
 #### Tiles, Cubes, and Surfaces (Oh my!)
 
