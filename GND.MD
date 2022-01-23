@@ -199,3 +199,7 @@ In this version, it appears as though the water plane configuration that was pre
 Additionally, some (three) extra bytes are present. The purpose of them isn't quite clear, with no way to test hypotheses until the few maps that use the format are seen online.
 
 **TODO: Tables**
+
+## See also
+
+* [This online demo](https://playground.babylonjs.com/#J48BT5#1) showing GND-style cube geometry defined in a standardized vertex data format
