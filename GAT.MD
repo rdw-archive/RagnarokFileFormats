@@ -84,3 +84,11 @@ Each entry in the ``Tiles`` section represents a block (tile) of the given map, 
 | Terrain Type |   16   |   4   | uint32 | Used to determine walkable/snipable properties |
 
 Only the low word of the terrain type field is actually used, so the rest appears to be irrelevant garbage data. The "32-bit unsigned integer" is therefore misleading, because there's really only a few terrain types (tile flags) that the client actually supports.
+
+### Version 1.3
+
+This version is almost identical to the previous one, but it changes the terrain type field of each tile: Whenever the high byte of the value is ``0x0080`` (``128`` if interpreted as an unsigned 8-byte integer), the tile is marked as a "water tile". The low byte is still the same as before and defines obstructed tiles.
+
+What exactly the effect of this is in the client isn't quite clear, but it looks like it simply marks the intersection area of the ground mesh and the water plane(s)?
+
+More research is needed since this format was recently introduced in kRO and isn't available to me (for proper testing) at this time, as the emulators don't appear to support the latest client versions yet.
