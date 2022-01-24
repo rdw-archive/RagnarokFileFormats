@@ -271,11 +271,33 @@ Please note that the dimensions are implied by the "width" and "height" given at
 
 ### Version 1.8
 
-In this version, it appears as though the water plane configuration that was previously part of the [RSW](RSW.MD) file is now contained in the GND file instead. It's appended after the regular GND 1.7 data, which seems to be unchanged.
+The water plane configuration that was previously part of the [RSW](RSW.MD) file has been removed from the RSW files and is now stored in the map's GND file instead.
 
-Additionally, some (three) extra bytes are present. The purpose of them isn't quite clear, with no way to test hypotheses until the few maps that use the format are seen online.
+All the information stored in version 1.7 is still present, plus the water plane configuration (appended).
 
-**TODO: Tables**
+#### Water Plane Configuration
+
+In theory, the new GND format should support multiple water planes. In reality, all the maps that use it only feature one and are therefore indistinguishable from those using the old RSW format.
+
+The reason is that a new version was introduced quickly afterwards, replacing 1.8 with a more elaborate version 1.9 that also supports this feature.
+
+| Field | Offset | Size | Type | Description and notes |
+| :---: | :---: | :---: | :---: | :---: |
+| Water Level | 0 | 4 Bytes | float | Height of the default water plane (there's always at least one)
+| Water Type | 4 | 4 Bytes | int | Texture ID applied to the water plane (tiled)
+| Wave Height | 8 | 4 Bytes | float | Amplitude of the water plane's animation curve
+| Wave Speed | 12 | 4 Bytes | float | Phase of the water plane's animation curve
+| Wave Pitch | 16 | 4 Bytes | float | Surface curvature level (origin of the curve?)
+| Texture Cycling Interval | 20 | 4 Bytes | int | After how many frames (or ms?) the next texture should be swapped in?
+
+This is the basic water configuration, as present in both RSW (pre-2.6) and the next GND version. The configuration for the other planes follows after the above, and is (in this version) always of the following form:
+
+1. ``numWaterPlanesU`` (int32): How many water planes there are in the horizontal dimension (always 1)
+2. ``numWaterPlanesV`` (int32): How many water planes there are in the vertical dimension (always 1)
+3. A float32 defining the ``waterLevel`` (altitude) of this plane. It's always identical to the water level above, since there is only one.
+
+If there were multiple values here, it would likely be the water level of each plane (assuming the presence of ``u * v`` planes), but since that doesn't happen and there is already a new version it seems unlikely to ever occur in practice.
+
 
 ## See also
 
