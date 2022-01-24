@@ -199,9 +199,75 @@ This is only an educated guess based on comparing the converted legacy GND files
 
 ### Version 1.7
 
-This is the only version used in the modern RO client.
+This is the original version used in the modern RO client.
 
-It contains all the basic information about the map's surface geometry, as well as texturing information.
+It contains all the basic information about the map's surface geometry, as well as information about the diffuse textures and lightmap/ambient occlusion textures.
+
+| Field | Offset | Size | Type | Description and notes |
+| :---: | :---: | :---: | :---: | :---: |
+| Header | 0 | 4 Bytes | int | "GRGN" as an ASCII-encoded string
+| Version | 4 | 2 Bytes | binary | Versioning information (Major.Minor)
+| Width | 6 | 4 Bytes | int | Width of the cube grid
+| Height | 8 | 4 Bytes | int | Height of the cube grid
+| Scale | 12 | 4 Bytes | float | Geometry scale factor
+| Texture Count | 16 | 4 Bytes | int | Number of diffuse texture paths
+| Texture Path Length | 20 | 4 Bytes | int | Byte-length of each texture path string (always 80)
+| Texture Paths | 24+ | 80 Bytes | string | Null-terminated (discard garbage bytes at the end)
+| Lightmap Slices | variable | 268 Bytes | struct | Ambient occlusion and lightmap texture bitmaps (alternating)
+| Surface Count | variable | 4 Bytes | int | Number of textured surface blueprints
+| Surface Definitions | variable | 56 Bytes | struct | Shared texturing information (copy to each cube vertex)
+| Ground Mesh Cubes | variable | TODO Bytes | struct | Width * Height entries
+
+#### Lightmap Slices
+
+There are two textures encoded in the files, one is a prebaked lightmap and the other a "shadowmap" (ambient occlusion map). They are read in that same order, based on the lightmap pixel format.
+
+| Field | Offset | Size | Type | Description and notes |
+| :---: | :---: | :---: | :---: | :---: |
+| Lightmap Slice Count | 0 | 4 Bytes | int | Number of lightmap (and ambient occlusion) texture slices
+| Pixel Format | 4 | 4 Bytes | struct | Encoding of the lightmap and ambient occlusion texture bitmaps (always 1 = 8-bit RGBA, stored as ARGB)
+| Width | 8 | 4 Bytes | int | Width of each texture bitmap (always 8)
+| Height | 12 | 4 Bytes | int | Height of teach texture bitmap (always 8)
+| Shadowmap Pixels | 16 | 64 Bytes | bytes (array) | Width * Height ambient occlusion texture pixels (intensity values)
+| Lightmap Pixels | 16 | 192 Bytes | bytes (array) | Width * Height lightmap texture pixels (specularity values)
+
+#### Textured Surfaces
+
+These are just the blueprints for creating the terrain geometry, and have to be applied (by copying over the texturing information) to the actual vertices implied by the ground mesh cubes.
+
+| Field | Offset | Size | Type | Description and notes |
+| :---: | :---: | :---: | :---: | :---: |
+| Texture Coordinates | 0 | 32 Bytes | float | Diffuse texture UVs
+| Texture ID | 32 | 4 Bytes | int | Index of the diffuse texture (``-1`` means "none")
+| Lightmap Slice ID | 36 | 4 Bytes | int | Which lightmap (and ambient occlusion) texture bitmap to apply to the surface
+| Vertex Color | 40 | 16 Bytes | byte | ARGB vertex color (stored as BGRA) for the surface's bottom left vertex
+
+The texture coordinates are stored in order
+
+1. ``bottomLeftU``
+2. ``bottomRightU``
+3. ``topLeftU``
+4. ``topRightU``
+5. ``bottomLeftV``
+6. ``bottomRightV``
+7. ``topLeftV``
+8. ``topRightV``
+
+where the direction is always relative to the cube that the surface belongs to.
+
+#### Cube Grid
+
+Please note that the dimensions are implied by the "width" and "height" given at the start of the file, and that they are different (half as big) as the actual map width and height given in GAT tiles. This is because each GND cube surface is 2 GAT tiles large, as described above.
+
+| Field | Offset | Size | Type | Description and notes |
+| :---: | :---: | :---: | :---: | :---: |
+| Bottom left height | 0 | 4 Bytes | float | Altitude of the bottom left corner
+| Bottom right height | 4 | 4 Bytes | float | Altitude of the bottom right corner
+| Top left height | 8 | 4 Bytes | float | Altitude of the top left corner
+| Top right height | 12 | 4 Bytes | float | Altitude of the top right corner
+| Surface ID (TOP) | 16 | 4 Bytes | int | Upwards-facing surface ID
+| Surface ID (NORTH) | 20 | 4 Bytes | int | Surface ID of the northwards-facing wall
+| Surface ID (EAST) | 24 | 4 Bytes | int |Surface ID of the eastwards-facing wall
 
 ### Version 1.8
 
