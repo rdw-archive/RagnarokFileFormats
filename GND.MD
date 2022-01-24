@@ -298,6 +298,17 @@ This is the basic water configuration, as present in both RSW (pre-2.6) and the 
 
 If there were multiple values here, it would likely be the water level of each plane (assuming the presence of ``u * v`` planes), but since that doesn't happen and there is already a new version it seems unlikely to ever occur in practice.
 
+### Version 1.9
+
+All the information stored in version 1.7, plus the water plane configuration (appended). The latter consists of the same information as is present in 1.8, but the format for defining multiple water planes has changed (and they are in fact used in some of the episode 19 maps I've seen, such as ``icecastle.gnd``):
+
+1. ``numWaterPlanesU`` (int32): How many water planes there are in the horizontal dimension (*not* always 1)
+2. ``numWaterPlanesV`` (int32): How many water planes there are in the vertical dimension (*not* always 1)
+3. The same structure as defined for the original water plane (see table above), repeated ``u * v`` times
+
+I'm not quite sure what the original configuration is still used for, but I'm guessing it would serve as a fallback in case the numbers (u, v) are both zero, i.e. there aren't any water planes defined in this section.
+
+The individual water planes are placed in a grid of ``u * v`` cells, ordered just like the ground mesh cubes from bottom-left to top-right (in map coordinates). Each plane is exactly ``mapWidth / u`` wide and ``mapHeight / v`` high (all given in GAT coordinates), in combination covering the entire map. This is different from the situation where there's just a single plane, which would instead cover the entire map on its own.
 
 ## See also
 
