@@ -89,6 +89,10 @@ Only the low word of the terrain type field is actually used, so the rest appear
 
 This version is almost identical to the previous one, but it changes the terrain type field of each tile: Whenever the high byte of the value is ``0x0080`` (``128`` if interpreted as an unsigned 8-byte integer), the tile is marked as a "water tile". The low byte is still the same as before and defines obstructed tiles.
 
-What exactly the effect of this is in the client isn't quite clear, but it looks like it simply marks the intersection area of the ground mesh and the water plane(s)?
+What exactly the effect of this is in the client isn't quite clear, but it looks like it simply marks the intersection area of the ground mesh and the water plane(s)? At least this is what appears to be the result, here illustrated by visualizing the GAT properties of ``clock_01``:
+
+![](Images/GAT_WaterTileFlags.png)
+
+It's unclear whether this special "water tile" flag (here rendered blue) has any gameplay implications or UI interactions on the client-side. It looks like every water surface tile in GAT 1.3 files is marked by the above terrain type, while those maps using 1.2 don't differentiate between land and water tiles with the same terrain type.
 
 More research is needed since this format was recently introduced in kRO and isn't available to me (for proper testing) at this time, as the emulators don't appear to support the latest client versions yet.
