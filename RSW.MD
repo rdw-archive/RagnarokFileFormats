@@ -169,3 +169,24 @@ If there was indeed no such influence, the texture should be as bright as the te
 Therefore I'm (again, guessing here) that the ambient color of the scene light might be factored into the water plane's diffuse color, though more testing needs to be done to verify (or disprove) this.
 
 It's quite possible this is just another artifact of them applying some sort of filter. As the colors of all third-party-renditions I've seen look noticeably off, it has been postulated that there's some magnifying (or dampening) of the lighting, e.g. a bloom filter or some other post-processing effects.
+
+## Bounding Areas and Culling
+
+All scene objects are rendered (and culled) based on their position in the world. In order to speed up the computations required to determine whether an object is visible and must be rendered, a quad tree is used to store the bounding boxes for the given region.
+
+You can find an explanation [here](https://herc.ws/board/topic/9409-high-level-mappings-question-quadtree/#comment-55523). I believe this is already sufficient detail, so I won't repeat it all in this document. The only thing worth mentioning is that the four regions of the quad tree correspond to the quarters of the contained area in the usual order:
+
+1. Bottom-left (southwest) region
+2. Bottom-right (southeast) region
+3. Top-left (northwest) region
+4. Top-right (northeast) region
+
+To round it off, here's the bounding boxes (contained in the quad tree) of ``niflheim.rsw`` visualized:
+
+![Assets/Images/RSW_QuadTreeVisualization.png](Assets/Images/RSW_QuadTreeVisualization.png)
+
+As you can see, all the scene objects (most importantly, the models) fit neatly into those areas. In this screenshot, only the leaf nodes (smallest regions) are rendered since it would otherwise quickly become impossible to see what's going on.
+
+Just keep in mind there are more regions than that in each quad tree, starting from the root node (encompasses the entire map) with the next level splitting the map into four areas, then sixteen, etcetera.
+
+This information is still of practical relevance in modern engines: There are some maps, like ``amatsu.rsw`` or ``gef_fild07.rsw``, where models have been placed outside of the boundaries of the top-level region. These have to be removed from the scene, because they look completely out of place.
