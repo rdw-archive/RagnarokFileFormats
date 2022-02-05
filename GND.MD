@@ -55,12 +55,9 @@ Also, here's an amazing elementary-school-level illustration of the above concep
 
 These then have to be turned into an equivalent representation of the actual geometry:
 
-<figure>
-  <img src="Assets/Images/GND_SurfacesAndCubes.png"/>
-  <figcaption>
-    The surfaces and cubes that are implicitly defined by the height vectors can easily be reconstructed.
-  </figcaption>
-</figure>
+![Assets/Images/GND_SurfacesAndCubes.png](Assets/Images/GND_SurfacesAndCubes.png)
+
+*Any surfaces and cubes that are implicitly defined by the height vectors can easily be reconstructed.*
 
 The green tile selector cursor here serves as a comparison for the dimensions; as mentioned above, each surface takes up the space of two GAT tiles. Wall surfaces may often appear bigger, but from what I can tell they're still mapped just the same and appear stretched if they happen to be larger.
 
