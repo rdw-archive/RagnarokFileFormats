@@ -233,7 +233,7 @@ It contains all the basic information about the map's surface geometry, as well 
 | Lightmap Slices | variable | 268 Bytes | struct | Ambient occlusion and lightmap texture bitmaps (alternating)
 | Surface Count | variable | 4 Bytes | int | Number of textured surface blueprints
 | Surface Definitions | variable | 56 Bytes | struct | Shared texturing information (copy to each cube vertex)
-| Ground Mesh Cubes | variable | TODO Bytes | struct | Width * Height entries
+| Ground Mesh Cubes | variable | 28 Bytes | struct | Width * Height entries
 
 #### Lightmap Slices
 
