@@ -47,6 +47,23 @@ There's no direct reference to the tiles as defined in the world coordinate syst
 
 Since this process is somewhat convoluted, more details are given below.
 
+Also, here's an amazing elementary-school-level illustration of the above concepts:
+
+![Assets/Images/GND_HeightVectors.png](Assets/Images/GND_HeightVectors.png)
+
+*Pictured: The height values from the GND file's cube grid define a set of height vectors for each cube.*
+
+These then have to be turned into an equivalent representation of the actual geometry:
+
+<figure>
+  <img src="Assets/Images/GND_SurfacesAndCubes.png"/>
+  <figcaption>
+    The surfaces and cubes that are implicitly defined by the height vectors can easily be reconstructed.
+  </figcaption>
+</figure>
+
+The green tile selector cursor here serves as a comparison for the dimensions; as mentioned above, each surface takes up the space of two GAT tiles. Wall surfaces may often appear bigger, but from what I can tell they're still mapped just the same and appear stretched if they happen to be larger.
+
 ##### Tiles
 
 As previously mentioned, [tiles](https://en.wikipedia.org/wiki/Tile) are the basic building block for the terrain, so in a way RO could be described as a [tile-based game](https://en.wikipedia.org/wiki/Tile-based_game). It's not technically accurate, but that's definitely how the end result is perceived. Characters are positioned (at the center) on a tile, map coordinates refer to the tile and everything that requires thinking about positions usually works with the tile as the smallest unit... except when it comes to rendering.
