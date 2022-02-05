@@ -109,8 +109,8 @@ Now, the reason the cube metaphor doesn't work perfectly is that each chunk is o
 [This visualization](Images/GND_SurfacesVisualization.png) might help understand the implications. In the picture, surfaces are colored as follows:
 
 * Green if they're the TOP surface for a given cube
-* Blue if they're NORTH
-* Red if they're EAST
+* Blue if they're NORTH (wall surfaces)
+* Red if they're EAST (wall surfaces)
 
 What this means is that, counter to intuition, the blue parts to the south of each chunk aren't really the south surface of the respective ground cube, but rather the north one of the neighbouring cube to the south. The "walls" are implicitly defined by the difference in both cubes' height vector and the client renders them according to which of the top surface is higher, or not at all if the surface's aren't textured.
 
