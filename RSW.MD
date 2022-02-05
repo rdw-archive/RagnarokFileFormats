@@ -2,13 +2,15 @@
 
 ## Overview
 
-RSW files essentially represent a collection of visible and invisible game objects used to fill the 3D world with life. They include information about:
+RSW files essentially define the rendered scene for a given map. They include information about:
 
-* The map's water plane
+* The map's water plane (in older versions)
 * Light sources and global illumination
 * Environmental audio sources
 * 3D models (architecture)
 * Particle effect emitters
+* The boundaries of the map's coordinate system (?)
+* A scene graph-like representation of the object hierarchy (tree of bounding boxes)
 
 ## Prerequisites
 
