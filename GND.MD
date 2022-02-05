@@ -2,7 +2,7 @@
 
 ## Overview
 
-GND files contain the entirety of a map's static geometry (i.e., the ground/terrain). It doesn't include objects and the water plane, which are stored as part of the RSW file instead.
+GND files contain the entirety of a map's static geometry (i.e., the ground/terrain). In the latest version they also include the configuration of the water surfaces, which were previously stored in the RSW file.
 
 ## Prerequisites
 
