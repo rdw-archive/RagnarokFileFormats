@@ -279,9 +279,13 @@ Auxiliary pose models have no textures, as they are combined with the base model
 There are various open source projects providing info on Granny files:
 
 * [https://github.com/arves100/Granny2-research/wiki/File-Format-Documentation](https://github.com/arves100/Granny2-research/wiki/File-Format-Documentation)
+* [https://github.com/arves100/opengr2](https://github.com/arves100/opengr2)
 * [https://github.com/Karbust/gr2decode](https://github.com/Karbust/gr2decode)
 * https://github.com/herenow/gr2-web
 * https://github.com/Norbyte/lslib/
+* [https://github.com/SWTOR-Slicers/Granny2-Plug-In-Blender-2.8x](https://github.com/SWTOR-Slicers/Granny2-Plug-In-Blender-2.8x)
+* [https://github.com/Helia01/GrannyMeshDumper](https://github.com/Helia01/GrannyMeshDumper)
+* [https://github.com/SiENcE/Iris1_DeveloperTools/tree/master/GrannyViewer](https://github.com/SiENcE/Iris1_DeveloperTools/tree/master/GrannyViewer)
 
 Some information about Oodle (from the people at RAD) can be found here:
 
