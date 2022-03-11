@@ -24,9 +24,9 @@ It also appears that the older versions have been (repeatedly) altered, without 
 
 ## Nodes
 
-Each model contains (at least) one root node, and an arbitrary number of child nodes. The latter can be nested multiple times, and usually define smaller parts of a larger mesh. For example, the root node of a "windmill" model could be the base of the building, while the individual wheels would be defined in child nodes.
+Each model contains (at least) one root node, and an arbitrary number of child nodes. The latter can be nested multiple times, and usually define smaller parts of a larger model. For example, the root node of a "windmill" model could be the base of the building, while the individual wheels would be defined in separate child nodes.
 
-Often, these will be smaller moving parts that are animated independently and need to be transformed correctly to form a cohesive whole. In the original version, only one such construction could be stored in the RSM file, defined by its root node, but it seems RSM2 files also support storing several independent root nodes.
+Often, these will be smaller moving parts that are animated independently and need to be transformed correctly to form a cohesive whole. In the original version, only one such construction could be stored in the RSM file, defined by its root node, but it seems RSM2 files also support storing several independent root nodes at once.
 
 ---
 
