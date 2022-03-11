@@ -83,34 +83,46 @@ Do they, now? What a surprise (...not). How are they treated by the client?
 
 **TODO: Add tables for the different versions**
 
-**TODO: Version byte order**
+
 
 ### Version 1.1
 
+This is [claimed to exist](https://github.com/flaviojs/eathena-devel-FlavioJS/blob/master/client/file_formats/rsm.txt), though I've never seen it.
+
 ### Version 1.2
 
-* Vertex color? Texture color? Smoothing group?
+This is claimed to:
+
+* Add the color parameter to texture vertices
+* Add the smoothing group property to triangle faces
+
+Since there are no earlier versions to compare this one to, this can't be verified.
 
 ### Version 1.3
 
-* Bounding box flag?
+This is said to alter the format of the bounding boxes, adding an unknown boolean flag. It's sensible to assume that this would affect the collision detection somehow, most likely either simplifying it (for performance reasons) or making it more accurate.
 
 ### Version 1.4
 
-* Alpha
+This is said to add transparency (flavioJS), but Tokei writes that it isn't used ingame.
 
 ### Version 1.5
 
-See Aesir?
+Adds scale keyframes to each node (appears to be unused)
 
-> From version 1.5 and above each node may have individual key frames for its animation.
+### Version 2.2
 
-### Version 2.0
+* Animation duration is now given in frames per second
+* Each model can have multipe root nodes
+* Adds translation key frames to each node
+* Strings are stored with their length instead of fixed-length with a null terminator
+* The initial placement is stored as a transformation matrix and baked into the animation keyframes, instead of being computed from the individual transformation components
 
-See GRF Editor?
+### Version 2.3
 
-### Bounding Boxes
+* Textures are referrenced for each mesh, not globally
+* Adds texture animations to each node
 
-**TODO:  Are the bounding boxes actually used? If so, how?**
+## See also
 
-RJS got some of them wrong, but it doesn't appear to cause visible glitches. See the mushrooms in the bottom left corner of pay_dun00, for example
+* [Tokei's explanation of the RSM2 changes](https://rathena.org/board/topic/127587-rsm2-file-format/)
