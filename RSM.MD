@@ -1,23 +1,36 @@
 # RSM Format Specification
 
-## Overview
-
-RSM files contain data used to render 3D objects in the game world. They are mostly reserved for architecture, trees, etc. and aren't normally used for units, with the exception of WOE Guardians and the Emperium.
+RSM files contain data used to render 3D objects in the game world. They are mostly reserved for things like buildings, trees, and even hunter traps.
 
 ## Prerequisites
 
 In order to understand the RSM file format, some familiarity with the following concepts is required:
 
 * [Polygon meshes](https://en.wikipedia.org/wiki/Polygon_mesh), used to represent objects in 3D space
-* [Bone animation](https://en.wikipedia.org/wiki/Skeletal_animation), which is (presumably?) the technique used to animate 3D meshes
+* [Smoothing groups](https://en.wikipedia.org/wiki/Smoothing_group), a way to implicitly define surface normals
+* 3D keyframe animation, where animation keyframes are stored as matrices
+
+## Overview
+
+The RSM format seems to be the standard format for 3D models used by Gravity, and it supports most of the features one would expect from a 3D format: Geometry, texturing information, and even a keyframe-based animation system.
+
+Meshes are defined as a hierarchy of nodes, with transformations being applied to the tree in a cascading fashion in order to compute the final position of each contained object (in local space). These meshes are then positioned according to the instancing properties defined in the RSW file for a given map (in world space).
+
+It should be noted that, while models can be animated, they aren't used to represent moving agents in the game world, like players or enemies, i.e., they can't "move". Their use lies exclusively in representing decorative scene objects ("props" or "doodads").
+
+Nowadays, there are two versions of RSM files, with major differences and incompatibilities between them. The newer models all use the ``.rsm2`` file extension, while the original versions always use ``.rsm``.
+
+It also appears that the older versions have been (repeatedly) altered, without updating the version number. This leads to conflicting information and a general sense of confusion when it comes to the exact details of the various properties; a situation that, unfortunately, I've not managed to completely untangle so far.
 
 ## Nodes
 
-* Position and nodes? What about the coordinate system? Left/bottom corner = origin?
+Each model contains (at least) one root node, and an arbitrary number of child nodes. The latter can be nested multiple times, and usually define smaller parts of a larger mesh. For example, the root node of a "windmill" model could be the base of the building, while the individual wheels would be defined in child nodes.
 
-## Hierarchy
+Often, these will be smaller moving parts that are animated independently and need to be transformed correctly to form a cohesive whole. In the original version, only one such construction could be stored in the RSM file, defined by its root node, but it seems RSM2 files also support storing several independent root nodes.
 
-* A hierarchy of nodes, parent/children?
+---
+
+The rest of this article is unfinished :( Proceed at your own peril.
 
 ## Animations
 
