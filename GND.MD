@@ -144,15 +144,13 @@ The process is otherwise similar to how the actual terrain is formed: Each surfa
 
 The visible white borders in that screenshot bring us to another phenomenon: Texture bleeding. If all the tiny slices were to be combined seamlessly, there could be visible artifacts from texture bleeding.
 
-To avoid this problem, there's a one-pixel area to the north and east of each texture slice that isn't used directly. It serves to provide a buffer between the adjacent slices and removes or at least reduces the effect when texture filtering is applied.
+To avoid this problem, there's a one-pixel area at the outside of each texture slice that isn't used directly. It serves to provide a buffer between the adjacent slices and removes or at least reduces the effect when texture filtering is applied.
 
-In [this example](Images/GND_AntiBleedingBufferArea.bmp) I have manually merged two adjacent slices. The green squares mark the borders of the visible portion of each slice, with the areas outside being the "buffer".
+In this image I've manually merged two adjacent slices:
 
-> Some devs are still wondering why their shadowmaps look a bit weird. The reason is plain simple:
-A lightmap consists (most of the time) of 8x8 tiles, where only the 7x7 pixels in the center are used. Nothing new. However, the tiles are combined into
-a large texture. If texture filtering is being applied, then the borders of the different textures interpolate into each other, fatal for colormaps when they
-have different colors. This is called texture bleeding. Because of this, Gravity added a padding of 1 pixel to each tile (resulting in 8x8, instead of 7x7)
-and filled them with colors that still look nice when they are interpolated.
+![Images/GND_AntiBleedingBufferArea.bmp](Images/GND_AntiBleedingBufferArea.bmp)
+
+The green area marks the visible portion of each slice that is contained within the area defined by the texture coordinates, with the area outside being the "buffer" that is blended with its adjacent texels when texture bleeding occurs.
 
 ### Light and Shadow
 
