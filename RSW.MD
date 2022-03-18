@@ -158,7 +158,7 @@ Since the terrain beneath the water plane is always shining through, I'm guessin
 
 *Pictured: Overlaying water textures with zero and 50% transparency, respectively*
 
-More testing needs to be done to verify this, particularly in combination with the wave animations.
+While this seems like a "good enough" estimate, it's been claimed the actual transparency value used is `` 144 / 255 = 0.564705882`` (Source: Borf).
 
 ### Environmental Light Influences
 
