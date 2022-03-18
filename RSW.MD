@@ -170,6 +170,12 @@ Therefore I'm (again, guessing here) that the ambient color of the scene light m
 
 It's quite possible this is just another artifact of them applying some sort of filter. As the colors of all third-party-renditions I've seen look noticeably off, it has been postulated that there's some magnifying (or dampening) of the lighting, e.g. a bloom filter or some other post-processing effects.
 
+### Texture Dimensions
+
+Another piece of evidence that suggests there is special handling for the "lava"-type water textures is the fact they are the only textures that are larger than the standard size of 128x128 pixels.
+
+While the regular water textures are mapped to a single GND surface (4x4 world units, at 32px each, for a total water segment size of 128x128 pixels), water of type 4 and 6 uses textures of size 256x256 pixels that are seemingly mapped to four GND surfaces (16x16 world units, at 32px each).
+
 ## Bounding Areas and Culling
 
 All scene objects are rendered (and culled) based on their position in the world. In order to speed up the computations required to determine whether an object is visible and must be rendered, a quad tree is used to store the bounding boxes for the given region.
