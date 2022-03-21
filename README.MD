@@ -108,14 +108,10 @@ Only 256 colours are supported and the first palette index is used as transparen
 
 Guild emblems are stored as compressed bitmaps, in the [EBM](EBM.MD) format.
 
-## Tools
+## Community Resources
 
-See [Tools.md](Tools/Tools.md) for a list of tools that may be worth using.
+See [here](CommunityProjects.md) for a list of editing tools and client reimplementation projects that may help with understanding the file formats described in this documentation.
 
-## Notes
+## Endianness
 
 All numbers found in RO's binary formats are stored as [little-endian](https://en.wikipedia.org/wiki/Endianness), which means that the individual bytes have to be "reversed" before interpreting the binary data as a number.
-
-## Sources
-
-See [Sources.md](Sources.md) for a list of the various sources I've consulted.

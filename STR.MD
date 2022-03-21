@@ -39,4 +39,3 @@ There are only a few tools available to parse STR files, as far as I know:
 
 * [RO STR Viewer](https://herc.ws/board/topic/17268-rostrviewer-reupload): Looks a bit dated, but contains all the information as far as I can tell
 * https://github.com/skardach/ro-str-viewer: I actually didn't care enough to make it run, but an open-source reference implementation is always nice to have
-* RoBrowser (see [Tools.md](Tools.md)) has an Effect viewer that appears to be fully functional
