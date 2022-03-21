@@ -323,3 +323,4 @@ The individual water planes are placed in a grid of ``u * v`` cells, ordered jus
 ## See also
 
 * [This online demo](https://playground.babylonjs.com/#J48BT5#1) showing GND-style cube geometry defined in a standardized vertex data format (*Note: The triangles are formed bottom-right to top-left in the actual GND ground mesh and not bottom-left to top-right, as displayed here*)
+* [An intuitive explanation of the terrain in RO (archived; all screenshots are missing)](http://web.archive.org/web/20071015031008/http://www.neatocool.com/Projects/Ragnarok/Map_Editors_Text/)
