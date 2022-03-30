@@ -6,6 +6,7 @@ RSM files contain data used to render 3D objects in the game world. They are mos
 
 In order to understand the RSM file format, some familiarity with the following concepts is required:
 
+* Basic [string representations](https://www.cs.yale.edu/homes/aspnes/pinewiki/C(2f)Strings.html) (both counted and delimited strings are used)
 * [Polygon meshes](https://en.wikipedia.org/wiki/Polygon_mesh), used to represent objects in 3D space
 * [Smoothing groups](https://en.wikipedia.org/wiki/Smoothing_group), a way to implicitly define surface normals
 * 3D keyframe animation, where animation keyframes are stored as matrices
