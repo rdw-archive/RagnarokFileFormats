@@ -81,13 +81,13 @@ This beautiful part of early 2000s wall geometry can be found at approximately `
 
 ![Images/GND_VertexConnections_ORIGINAL.png](Images/GND_VertexConnections_ORIGINAL.png)
 
-Connecting the vertices the wrong way (bottom-left to top-right) results in a horrible disfigurement:
+Connecting the vertices the wrong way (bottom-left to top-right) results in a visible glitch:
 
 ![Images/GND_VertexConnections_WRONG.png](Images/GND_VertexConnections_WRONG.png)
 
 Clearly, the makers of this cave did not intend for things to go so horribly wrong!
 
-Luckily, connecting them the other way around immediately eliminates the problem:
+Luckily, connecting them the other way around eliminates the problem:
 
 ![Images/GND_VertexConnections_RIGHT.png](Images/GND_VertexConnections_RIGHT.png)
 
@@ -308,7 +308,7 @@ This is the basic water configuration, as present in both RSW (pre-2.6) and the 
 2. ``numWaterPlanesV`` (int32): How many water planes there are in the vertical dimension (always 1)
 3. A float32 defining the ``waterLevel`` (altitude) of this plane. It's always identical to the water level above, since there is only one.
 
-If there were multiple values here, it would likely be the water level of each plane (assuming the presence of ``u * v`` planes), but since that doesn't happen and there is already a new version it seems unlikely to ever occur in practice.
+If there were multiple values here, it would likely be the water level of each plane (assuming the presence of ``u * v`` planes), but since that doesn't happen and there is already a new version it seems unlikely that this would ever be used.
 
 ### Version 1.9
 
