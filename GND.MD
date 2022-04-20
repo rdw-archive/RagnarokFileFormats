@@ -154,7 +154,7 @@ The green area marks the visible portion of each slice that is contained within 
 
 ### Light and Shadow
 
-Lastly, there isn't a single lightmap texture, but rather two: A "color map" that contains static lighting, and a "shadow map" that contains only greyscale data and is used to render shadows.
+Lastly, there isn't a single lightmap texture, but rather two: A "color map" that contains static lighting, and a "shadow map" that contains only greyscale data and is used to render shadows. The latter effectively stores the [ambient occlusion](https://en.wikipedia.org/wiki/Ambient_occlusion) percentage for each pixel.
 
 Example: [Color map](Images/GND_UnwrappedColorMap.png) vs [Shadow map](Images/GND_UnwrappedShadowMap.png)
 
