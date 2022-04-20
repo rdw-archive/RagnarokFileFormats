@@ -142,7 +142,7 @@ The process is otherwise similar to how the actual terrain is formed: Each surfa
 
 ### Buffer Areas and Texture Bleeding
 
-The visible white borders in that screenshot bring us to another phenomenon: Texture bleeding. If all the tiny slices were to be combined seamlessly, there could be visible artifacts from texture bleeding.
+The visible white borders in that screenshot bring us to another phenomenon: Texture bleeding. If all the tiny slices were to be combined seamlessly, there could be visible artifacts from texture bleeding as soon as linear filtering is enabled.
 
 To avoid this problem, there's a one-pixel area at the outside of each texture slice that isn't used directly. It serves to provide a buffer between the adjacent slices and removes or at least reduces the effect when texture filtering is applied.
 
