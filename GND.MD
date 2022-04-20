@@ -136,9 +136,35 @@ Since each GND surface normally measures two GAT tiles, and the scale factor is 
 
 A lightmap is used to add static light and shadow detail to each map, without requiring the client to calculate lighting in real time.
 
-Similarly to the terrain's surface itself, the lightmap texture is sliced into unique parts, and each part must be mapped to the right surface on the assembled ground mesh. [This screenshot](Images/GND_LightmapSlices.png) might give you an idea of what to expect.
+Similarly to the terrain's surface itself, the lightmap texture is sliced into unique parts, and each part must be mapped to the right surface on the assembled ground mesh. Here's an example:
 
-The process is otherwise similar to how the actual terrain is formed: Each surface references a slice of the lightmap texture, as well as a part of the regular (diffuse) texture, while each cube references up to three surfaces.
+![Assets/Images/GND_LightmapTextureSlices.png](Assets/Images/GND_LightmapTextureSlices.png)
+
+*One possible rendition of the lightmap for ``c_tower2.gnd``*
+
+Here, you can clearly see the individual slices that are mapped to each surface. The visible borders constitute the buffer areas intended to minimize artifacts from texture bleeding.
+
+The ambient occlusion values are stored in the same format, with "white" pixels representing areas where no ambient occlusion (i.e., no "shadows") should be rendered. In this example, the buffer areas are even more starkly visible:
+
+![Assets/Images/GND_ShadowmapTextureSlices.png](Assets/Images/GND_ShadowmapTextureSlices.png)
+
+*One possible rendition of the ambient occlusion map for ``c_tower2.gnd``*
+
+The process for mapping slices to surfaces is otherwise similar to how the actual terrain is formed: Each surface references a slice of the lightmap texture, as well as a part of the regular (diffuse) texture, while each cube references up to three surfaces.
+
+With [GNDedit](https://dotalux.com/ro/GNDedit/), it's trivial to export a human-readable form of the same textures:
+
+![Assets/Images/GND_LightmapVisualization.png](Assets/Images/GND_LightmapVisualization.png)
+
+*Surface-mapped lightmap texture for ``c_tower2.gnd``*
+
+The ambient occlusion map is derived by separating the alpha channel:
+
+![Assets/Images/GND_ShadowmapVisualization.png](Assets/Images/GND_ShadowmapVisualization.png)
+
+*Surface-mapped ambient occlusion texture for ``c_tower2.gnd``*
+
+These images only include the GROUND surfaces (walkable area). The process for mapping lightmap slices to WALL surfaces is identical, although it's slightly more difficult to visualize in this form.
 
 ### Buffer Areas and Texture Bleeding
 
