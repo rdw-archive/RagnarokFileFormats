@@ -183,6 +183,8 @@ The effect is achieved by applying the following operation to the RGB values:
     For javascript it would be c = floor(c / LEVEL_COUNT) * LEVEL_COUNT;
     where c is each color component
 
+*Source: greenboxal*
+
 This effectively casts the color value from float to int, reducing the amount of visible colors and thereby introducing the "jagged" transitions in the color gradient.
 
 ## Diffuse Colors (AKA Vertex Colors)
