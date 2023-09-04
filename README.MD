@@ -1,3 +1,9 @@
+**This repository will no longer see updates.** My work continues here: [Ragnarok Research Lab](https://github.com/RagnarokResearchLab/)
+
+To see the latest results of my research into Ragnarok Online's file formats, visit [the new documentation website](https://ragnarokresearchlab.github.io/file-formats/).
+
+---
+
 # Ragnarok Online File Formats Manifest
 
 Gravity Co has used some fairly arcane file formats in creating their first MMORPG client, presumably supported by custom (in-house) or now-obsolete software.
