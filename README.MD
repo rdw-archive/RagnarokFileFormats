@@ -2,6 +2,8 @@
 
 To see the latest results of my research into Ragnarok Online's file formats, visit [the new documentation website](https://ragnarokresearchlab.github.io/file-formats/).
 
+Note: I'll archive the repo after the migration of all relevant contents has been completed.
+
 ---
 
 # Ragnarok Online File Formats Manifest
